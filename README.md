@@ -1,6 +1,6 @@
 # Learn To Fly
 
-Copyright (C) 2023 Frank Abelbeck <frank@abelbeck.ingo>
+Copyright (C) 2023 Frank Abelbeck <frank@abelbeck.info>
 
 Lizenz: GLP 3
 
