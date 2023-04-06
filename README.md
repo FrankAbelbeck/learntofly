@@ -41,7 +41,7 @@ zu Fragen darzustellen sind (hier: Meldepunkte).
  * **2023-03-26** enhanced version
     * better GUI
     * support for question-related images
-    * disclaimer for Copyright Frank Abelbeck/Bundesnetz>
+    * disclaimer for Copyright Frank Abelbeck/Bundesnetzagentur
     * fixed shuffling algo
  * **2023-03-27** optimised version
     * simplified shuffle algo
