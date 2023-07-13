@@ -27,6 +27,19 @@ Ein Fortschrittsbalken im Kopfbereich zeigt den Anteil
 bearbeiteter Fragen. Sind alle Fragen abgerufen,
 beginnt das Programm mit neu gemischten Fragen von vorn.
 
+## PartFLC-Übersicht
+
+Der Themenkatalog der Easy Access Rules for Flight Crew Licencing (Part-FCL),
+Subpart PPL ist in einzeln anklick-/ausklappbarer Form als für sich stehende
+HTML5-Datei abrufbar.
+
+Quelle: https://www.easa.europa.eu/en/easy-access-rules-flight-crew-licencing-part-fcl
+
+## PFCLAug20_make_html.py
+
+Die Datei `PFCLAug20_make_html.py` enthält Python-Code, um aus einer
+Markdown-Version des Part-FCL die o.a. alleinstehende HTML5-Datei zu erzeugen.
+
 ## Base64-Encoder
 
 Dieses ist ein kleines Hilfsprogramm, um den Inhalt
@@ -50,4 +63,6 @@ zu Fragen darzustellen sind (hier: Meldepunkte).
       QA catalogue
     * removed official questions until permission
       is granted 
- * **2023-07-13** added updated QA catalogue (no answer yet from BNetzA :shrugs:)
+ * **2023-07-13**
+    * added updated QA catalogue (no answer yet from BNetzA :shrugs:)
+    * added PartFCL files

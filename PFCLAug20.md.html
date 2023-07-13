@@ -1,0 +1,1193 @@
+<!DOCTYPE html>
+<html lang=en>
+<!--
+2023 (C) Frank Abelbeck <frank@abelbeck.info>
+
+    Dieses Programm ist Freie Software: Sie können es unter den Bedingungen
+    der GNU General Public License, wie von der Free Software Foundation,
+    Version 3 der Lizenz oder (nach Ihrer Wahl) jeder neueren
+    veröffentlichten Version, weiter verteilen und/oder modifizieren.
+
+    Dieses Programm wird in der Hoffnung bereitgestellt, dass es nützlich sein wird, jedoch
+    OHNE JEDE GEWÄHR,; sogar ohne die implizite
+    Gewähr der MARKTFÄHIGKEIT oder EIGNUNG FÜR EINEN BESTIMMTEN ZWECK.
+    Siehe die GNU General Public License für weitere Einzelheiten.
+
+    Sie sollten eine Kopie der GNU General Public License zusammen mit diesem
+    Programm erhalten haben. Wenn nicht, siehe <https://www.gnu.org/licenses/>.
+
+Erstellt aus dem EASA-Part-FCL-Dokument vom August 2020
+-->
+<head>
+	<meta charset=utf8>
+	<meta name=viewport content="width=device-width, initial-scale=1.0">
+<!--	<link rel="shortcut icon" type=image/svg+xml href=favicon.svg> -->
+	<title>Part-FCL Syllabus</title>
+	<script>
+
+function funOnLoad() {
+	document.querySelectorAll("h1,h2,h3,h4,h5,h6").forEach(
+		element => element.onclick = funToggle
+	);
+}
+
+function funToggle() {
+	if (this.nextElementSibling.style.display != "block") {
+		this.nextElementSibling.style.display = "block";
+	}
+	else {
+		this.nextElementSibling.style.display = "none";
+	}
+}
+	</script>
+	<style>
+body {
+	counter-reset: h1;
+}
+h1 {
+	counter-reset: h2;
+	font-size: 125%;
+}
+h2 {
+	counter-reset: h3;
+	font-size: 120%;
+}
+h3 {
+	counter-reset: h3;
+	font-size: 115%;
+}
+h4 {
+	counter-reset: h3;
+	font-size: 110%;
+}
+h5 {
+	counter-reset: h3;
+	font-size: 105%;
+}
+h6 {
+	counter-reset: h3;
+	font-size: 100%;
+}
+
+h1:before {
+	counter-increment: h1;
+	content: counter(h1) ") ";
+}
+h2:before {
+	counter-increment: h2;
+	content: counter(h1) "." counter(h2) ") ";
+}
+h3:before {
+	counter-increment: h3;
+	content: counter(h1) "." counter(h2) "." counter(h3) ") ";
+}
+h4:before {
+	counter-increment: h4;
+	content: counter(h1) "." counter(h2) "." counter(h3) "." counter(h4) ") ";
+}
+h5:before {
+	counter-increment: h5;
+	content: counter(h1) "." counter(h2) "." counter(h3) "." counter(h4) "." counter(h5) ") ";
+}
+h6:before {
+	counter-increment: h6;
+	content: counter(h1) "." counter(h2) "." counter(h3) "." counter(h4) "." counter(h5) "." counter(h6) ") ";
+}
+
+.container {
+	display : none;
+}
+	</style>
+</head>
+
+<body onload="funOnLoad()">
+<main>
+<article>
+<p>Easy Access Rules for Flight Crew
+Licencing (Part-FCL)
+ANNEX I (Part-FCL)
+SUBPART C – PRIVATE PILOT LICENCE (PPL)
+Powered by EASA eRules Pages 140ff of 1300| Aug 2020</p>
+<h1 id="air-law-and-atc-procedures">AIR LAW AND ATC PROCEDURES</h1><div class=container>
+<h2 id="international-law-conventions-agreements-and-organisations">International law: conventions, agreements and organisations</h2><div class=container>
+<p>The Convention on international civil aviation (Chicago) Doc. 7300/6</p>
+<p>Part I Air Navigation: relevant parts of the following chapters:</p>
+<ol>
+<li>general principles and application of the convention;</li>
+<li>flight over territory of Contracting States;</li>
+<li>nationality of aircraft;</li>
+<li>measures to facilitate air navigation;</li>
+<li>conditions to be fulfilled on aircraft;</li>
+<li>international standards and recommended practices;</li>
+<li>validity of endorsed certificates and licences;</li>
+<li>notification of differences.</li>
+</ol>
+<p>Part II The International Civil Aviation Organisation (ICAO): objectives and composition</p>
+</div><h2 id="annex-8-airworthiness-of-aircraft">Annex 8: Airworthiness of aircraft</h2><div class=container>
+<p>Foreword and definitions</p>
+<p>Certificate of airworthiness</p>
+</div><h2 id="annex-7-aircraft-nationality-and-registration-marks">Annex 7: Aircraft nationality and registration marks</h2><div class=container>
+<p>Foreword and definitions</p>
+<p>Common- and registration marks</p>
+<p>Certificate of registration and aircraft nationality</p>
+</div><h2 id="annex-1-personnel-licensing">Annex 1: Personnel licensing</h2><div class=container>
+<p>Definitions</p>
+<p>Relevant parts of Annex 1 connected to Part-FCL and Part-Medical</p>
+</div><h2 id="annex-2-rules-of-the-air">Annex 2: Rules of the air</h2><div class=container>
+<p>Essential definitions, applicability of the rules of the air, general rules (except water operations), visual flight rules, signals and interception of civil aircraft</p>
+</div><h2 id="procedures-for-air-navigation-aircraft-operations-doc-8168-ops611-volume-1">Procedures for air navigation: aircraft operations doc. 8168-ops/611, volume 1</h2><div class=container>
+<p>Altimeter setting procedures (including IACO doc. 7030 – regional supplementary procedures)</p>
+<ol>
+<li>Basic requirements (except tables)</li>
+<li>procedures applicable to operators and pilots (except tables)</li>
+</ol>
+<p>Secondary surveillance radar transponder operating procedures (including ICAO Doc. 7030 – regional supplementary procedures)</p>
+<ol>
+<li>Operation of transponders</li>
+<li>Phraseology</li>
+</ol>
+</div><h2 id="annex-11-doc-4444-air-traffic-management">Annex 11: Doc. 4444 air traffic management</h2><div class=container>
+<p>Definitions</p>
+<p>General provisions for air traffic services</p>
+<p>Visual separation in the vicinity of aerodromes</p>
+<p>Procedures for aerodrome control services</p>
+<p>Radar services</p>
+<p>Flight information service and alerting service</p>
+<p>Phraseologies</p>
+<p>Procedures related to emergencies, communication failure and contingencies</p>
+</div><h2 id="annex-15-aeronautical-information-service">Annex 15: Aeronautical information service</h2><div class=container>
+<p>Introduction, essential definitions</p>
+<p>AIP, NOTAM, AIRAC and AIC</p>
+</div><h2 id="annex-14-volume-1-and-2-aerodromes">Annex 14, volume 1 and 2: Aerodromes</h2><div class=container>
+<p>Definitions</p>
+<p>Aerodrome data: conditions of the movement area and related facilities</p>
+<p>Visual aids for navigation:</p>
+<ol>
+<li>indicators and signalling devices;</li>
+<li>markings;</li>
+<li>lights;</li>
+<li>signs;</li>
+<li>markers.</li>
+</ol>
+<p>Visual aids for denoting obstacles:</p>
+<ol>
+<li>marking of objects;</li>
+<li>lighting of objects.</li>
+</ol>
+<p>Visual aids for denoting restricted use of areas</p>
+<p>Emergency and other services:</p>
+<ol>
+<li>rescue and fire fighting;</li>
+<li>apron management service.</li>
+</ol>
+</div><h2 id="annex-12-search-and-rescue">Annex 12: Search and rescue</h2><div class=container>
+<p>Essential definitions</p>
+<p>Operating procedures:</p>
+<ol>
+<li>procedures for PIC at the scene of an accident;</li>
+<li>procedures for PIC intercepting a distress transmission;</li>
+<li>search and rescue signals.</li>
+</ol>
+<p>Search and rescue signals:</p>
+<ol>
+<li>signals with surface craft;</li>
+<li>ground or air visual signal code;</li>
+<li>air or ground signals.</li>
+</ol>
+</div><h2 id="annex-17-security">Annex 17: Security</h2><div class=container>
+<p>General: aims and objectives</p>
+</div><h2 id="annex-13-aircraft-accident-investigation">Annex 13: Aircraft accident investigation</h2><div class=container>
+<p>Essential definitions</p>
+<p>Applicability</p>
+</div><h2 id="national-law">National law</h2><div class=container>
+<p>National law and differences to relevant ICAO Annexes and relevant EU regulations.</p>
+</div></div><h1 id="human-performance">HUMAN PERFORMANCE</h1><div class=container>
+<h2 id="human-factors-basic-concepts">Human factors: basic concepts</h2><div class=container>
+<h3 id="human-factors-in-aviation">Human factors in aviation</h3><div class=container>
+<p>Becoming a competent pilot</p>
+</div><h3 id="basic-aviation-physiology-and-health-maintenance">Basic aviation physiology and health maintenance</h3><div class=container>
+<p>The atmosphere:</p>
+<ol>
+<li>composition;</li>
+<li>gas laws.</li>
+</ol>
+<p>Respiratory and circulatory systems:</p>
+<ol>
+<li>oxygen requirement of tissues;</li>
+<li>functional anatomy;</li>
+<li>main forms of hypoxia (hypoxic and anaemic):<ol>
+<li>sources, effects and countermeasures of carbon monoxide;</li>
+<li>counter measures and hypoxia;</li>
+<li>symptoms of hypoxia.</li>
+</ol>
+</li>
+<li>hyperventilation;</li>
+<li>the effects of accelerations on the circulatory system;</li>
+<li>hypertension and coronary heart disease.</li>
+</ol>
+</div><h3 id="man-and-environment">Man and environment</h3><div class=container>
+<p>Central, peripheral and autonomic nervous systems</p>
+<p>Vision:</p>
+<ol>
+<li>functional anatomy;</li>
+<li>visual field, foveal and peripheral vision;</li>
+<li>binocular and monocular vision;</li>
+<li>monocular vision cues;</li>
+<li>night vision;</li>
+<li>visual scanning and detection techniques and importance of ‘look-out’;</li>
+<li>defective vision.</li>
+</ol>
+<p>Hearing:</p>
+<ol>
+<li>descriptive and functional anatomy;</li>
+<li>flight related hazards to hearing;</li>
+<li>hearing loss.</li>
+</ol>
+<p>Equilibrium:</p>
+<ol>
+<li>functional anatomy;</li>
+<li>motion and acceleration;</li>
+<li>motion sickness.</li>
+</ol>
+<p>Integration of sensory inputs:</p>
+<ol>
+<li>spatial disorientation: forms, recognition and avoidance;</li>
+<li>illusions: forms, recognition and avoidance:<ol>
+<li>physical origin;</li>
+<li>physiological origin;</li>
+<li>psychological origin.</li>
+</ol>
+</li>
+<li>approach and landing problems.</li>
+</ol>
+</div><h3 id="health-and-hygiene">Health and hygiene</h3><div class=container>
+<p>Personal hygiene: personal fitness</p>
+<p>Body rhythm and sleep:</p>
+<ol>
+<li>rhythm disturbances;</li>
+<li>symptoms, effects and management.</li>
+</ol>
+<p>Problem areas for pilots:</p>
+<ol>
+<li>common minor ailments including cold, influenza and gastro-intestinal upset;</li>
+<li>entrapped gases and barotrauma, (scuba diving);</li>
+<li>obesity;</li>
+<li>food hygiene;</li>
+<li>infectious diseases;</li>
+<li>nutrition;</li>
+<li>various toxic gases and materials.</li>
+</ol>
+<p>Intoxication:</p>
+<ol>
+<li>prescribed medication;</li>
+<li>tobacco;</li>
+<li>alcohol and drugs;</li>
+<li>caffeine;</li>
+<li>self-medication.</li>
+</ol>
+</div></div><h2 id="basic-aviation-psychology">Basic aviation psychology</h2><div class=container>
+<h3 id="human-information-processing">Human information processing</h3><div class=container>
+<p>Attention and vigilance:</p>
+<ol>
+<li>selectivity of attention;</li>
+<li>divided attention.</li>
+</ol>
+<p>Perception:</p>
+<ol>
+<li>perceptual illusions;</li>
+<li>subjectivity of perception;</li>
+<li>processes of perception.</li>
+</ol>
+<p>Memory:</p>
+<ol>
+<li>sensory memory;</li>
+<li>working or short term memory;</li>
+<li>long term memory to include motor memory (skills).</li>
+</ol>
+</div><h3 id="human-error-and-reliability">Human error and reliability</h3><div class=container>
+<p>Reliability of human behaviour</p>
+<p>Error generation: social environment (group, organisation)</p>
+</div><h3 id="decision-making">Decision making</h3><div class=container>
+<p>Decision-making concepts:</p>
+<ol>
+<li>structure (phases);</li>
+<li>limits;</li>
+<li>risk assessment;</li>
+<li>practical application.</li>
+</ol>
+</div><h3 id="avoiding-and-managing-errors-cockpit-management">Avoiding and managing errors: cockpit management</h3><div class=container>
+<p>Safety awareness:</p>
+<ol>
+<li>risk area awareness;</li>
+<li>situational awareness.</li>
+</ol>
+<p>Communication: verbal and non-verbal communication</p>
+</div><h3 id="human-behaviour">Human behaviour</h3><div class=container>
+<p>Personality and attitudes:</p>
+<ol>
+<li>development;</li>
+<li>environmental influences.</li>
+</ol>
+<p>Identification of hazardous attitudes (error proneness)</p>
+</div><h3 id="human-overload-and-underload">Human overload and underload</h3><div class=container>
+<p>Arousal</p>
+<p>Stress:</p>
+<ol>
+<li>definition(s);</li>
+<li>anxiety and stress;</li>
+<li>effects of stress.</li>
+</ol>
+<p>Fatigue and stress management:</p>
+<ol>
+<li>types, causes and symptoms of fatigue;</li>
+<li>effects of fatigue;</li>
+<li>coping strategies;</li>
+<li>management techniques;</li>
+<li>health and fitness programmes;</li>
+</ol>
+</div></div></div><h1 id="meteorology">METEOROLOGY</h1><div class=container>
+<h2 id="the-atmosphere">The atmosphere</h2><div class=container>
+<h3 id="composition-extent-and-vertical-division">Composition, extent and vertical division</h3><div class=container>
+<p>Structure of the atmosphere</p>
+<p>Troposphere</p>
+</div><h3 id="air-temperature">Air temperature</h3><div class=container>
+<p>Definition and units</p>
+<p>Vertical distribution of temperature</p>
+<p>Transfer of heat</p>
+<p>Lapse rates, stability and instability</p>
+<p>Development of inversions and types of inversions</p>
+<p>Temperature near the earth’s surface, surface effects, diurnal and seasonal variation, effect of clouds and effect of wind</p>
+</div><h3 id="atmospheric-pressure">Atmospheric pressure</h3><div class=container>
+<p>Barometric pressure and isobars</p>
+<p>Pressure variation with height</p>
+<p>Reduction of pressure to mean sea level</p>
+<p>Relationship between surface pressure centres and pressure centres aloft</p>
+</div><h3 id="air-density">Air density</h3><div class=container>
+<p>Relationship between pressure, temperature and density</p>
+<p>ISA</p>
+</div><h3 id="icao-standard-atmosphere">ICAO standard atmosphere</h3><div class=container>
+</div><h3 id="altimetry">Altimetry</h3><div class=container>
+<p>Terminology and definitions</p>
+<p>Altimeter and altimeter settings</p>
+<p>Calculations</p>
+<p>Effect of accelerated airflow due to topography</p>
+</div></div><h2 id="wind">Wind</h2><div class=container>
+<h3 id="definition-and-measurement-of-wind">Definition and measurement of wind</h3><div class=container>
+<p>Definition and measurement</p>
+</div><h3 id="primary-cause-of-wind">Primary cause of wind</h3><div class=container>
+<p>Primary cause of wind, pressure gradient, coriolis force and gradient wind</p>
+<p>Variation of wind in the friction layer</p>
+<p>Effects of convergence and divergence</p>
+</div><h3 id="general-global-circulation">General global circulation</h3><div class=container>
+<p>General circulation around the globe</p>
+</div><h3 id="local-winds">Local winds</h3><div class=container>
+<p>Anabatic and katabatic winds, mountain and valley winds, Venturi effects, land and sea breezes</p>
+</div><h3 id="mountain-waves-standing-waves-lee-waves">Mountain waves (standing waves, lee waves)</h3><div class=container>
+<p>Origin and characteristics</p>
+<h4 id="turbulence">Turbulence</h4><div class=container>
+<p>Description and types of turbulence</p>
+<p>Formation and location of turbulence</p>
+</div></div></div><h2 id="thermodynamics">THERMODYNAMICS</h2><div class=container>
+<h3 id="humidity">Humidity</h3><div class=container>
+<p>Water vapour in the atmosphere</p>
+<p>Mixing ratio</p>
+<p>Temperature/dew point, relative humidity</p>
+</div><h3 id="change-of-state-of-aggregation">Change of state of aggregation</h3><div class=container>
+<p>Condensation, evaporation, sublimation, freezing and melting, latent heat</p>
+</div><h3 id="adiabatic-processes">Adiabatic processes</h3><div class=container>
+<p>Adiabatic processes, stability of the atmosphere</p>
+</div></div><h2 id="clouds-and-fog">CLOUDS AND FOG</h2><div class=container>
+<h3 id="cloud-formation-and-description">Cloud formation and description</h3><div class=container>
+<p>Cooling by adiabatic expansion and by advection</p>
+<p>Cloud types and cloud classification</p>
+<p>Influence of inversions on cloud development</p>
+</div><h3 id="fog-mist-haze">Fog, mist, haze</h3><div class=container>
+<p>General aspects</p>
+<p>Radiation fog</p>
+<p>Advection fog</p>
+<p>Steaming fog</p>
+<p>Frontal fog</p>
+<p>Orographic fog (hill fog)</p>
+</div></div><h2 id="precipitation">PRECIPITATION</h2><div class=container>
+<h3 id="development-of-precipitation">Development of precipitation</h3><div class=container>
+<p>Processes of development of precipitation</p>
+</div><h3 id="types-of-precipitation">Types of precipitation</h3><div class=container>
+<p>Types of precipitation, relationship with cloud types</p>
+</div></div><h2 id="air-masses-and-fronts">AIR MASSES AND FRONTS</h2><div class=container>
+<h3 id="air-masses">Air masses</h3><div class=container>
+<p>Description, classification and source regions of air masses</p>
+<p>Modifications of air masses</p>
+</div><h3 id="fronts">Fronts</h3><div class=container>
+<p>General aspects</p>
+<p>Warm front, associated clouds, and weather</p>
+<p>Cold front, associated clouds, and weather</p>
+<p>Warm sector, associated clouds, and weather</p>
+<p>Weather behind the cold front</p>
+<p>Occlusions, associated clouds, and weather</p>
+<p>Stationary front, associated clouds, and weather</p>
+<p>Movement of fronts and pressure systems, life cycle</p>
+<p>Changes of meteorological elements at a frontal wave</p>
+</div></div><h2 id="pressure-systems">PRESSURE SYSTEMS</h2><div class=container>
+<h3 id="anticyclone">Anticyclone</h3><div class=container>
+<p>Anticyclones, types, general properties, cold and warm anticyclones, ridges and wedges, subsidence</p>
+</div><h3 id="non-frontal-depressions">Non-frontal depressions</h3><div class=container>
+<p>Thermal, orographic and polar depressions, troughs</p>
+</div></div><h2 id="climatology">CLIMATOLOGY</h2><div class=container>
+<h3 id="climatic-zones">Climatic zones</h3><div class=container>
+<p>General seasonal circulation in the troposphere</p>
+</div><h3 id="typical-weather-situations-in-the-mid-latitudes">Typical weather situations in the mid-latitudes</h3><div class=container>
+<p>Westerly situation</p>
+<p>High-pressure area</p>
+<p>Flat-pressure pattern</p>
+</div><h3 id="local-winds-and-associated-weather">Local winds and associated weather</h3><div class=container>
+<p>e.g. Foehn</p>
+</div></div><h2 id="flight-hazards">FLIGHT HAZARDS</h2><div class=container>
+<h3 id="icing">Icing</h3><div class=container>
+<p>Conditions for ice accretion</p>
+<p>Types of ice accretion</p>
+<p>Hazards of ice accretion, avoidance</p>
+</div><h3 id="turbulence_1">Turbulence</h3><div class=container>
+<p>Effects on flight, avoidance</p>
+</div><h3 id="wind-shear">Wind shear</h3><div class=container>
+<p>Definition of wind shear</p>
+<p>Weather conditions for wind shear</p>
+<p>Effects on flight, avoidance</p>
+</div><h3 id="thunderstorms">Thunderstorms</h3><div class=container>
+<p>Conditions for, and process of, development, forecast, location, type specification</p>
+<p>Structure of thunderstorms, life cycle, squall lines, electricity in the atmosphere, static charges</p>
+<p>Electrical discharges</p>
+<p>Development and effects of downbursts</p>
+<p>Thunderstorm avoidance</p>
+</div><h3 id="inversions">Inversions</h3><div class=container>
+<p>Influence on aircraft performance</p>
+</div><h3 id="hazards-in-mountainous-areas">Hazards in mountainous areas</h3><div class=container>
+<p>Influence of terrain on clouds and precipitation, frontal passage</p>
+<p>Vertical movements, mountain waves, wind shear, turbulence, ice accretion</p>
+<p>Development and effect of valley inversions</p>
+</div><h3 id="visibility-reducing-phenomena">Visibility-reducing phenomena</h3><div class=container>
+<p>Reduction of visibility caused by precipitation and obscuration</p>
+<p>Reduction of visibility caused by other phenomena</p>
+</div></div><h2 id="meteorological-information">METEOROLOGICAL INFORMATION</h2><div class=container>
+<h3 id="observation">Observation</h3><div class=container>
+<p>Surface observations</p>
+<p>Radiosonde observations</p>
+<p>Satellite observations</p>
+<p>Weather radar observations</p>
+<p>Aircraft observations and reporting</p>
+</div><h3 id="weather-charts">Weather charts</h3><div class=container>
+<p>Significant weather charts</p>
+<p>Surface charts</p>
+</div><h3 id="information-for-flight-planning">Information for flight planning</h3><div class=container>
+<p>Aviation weather messages</p>
+<p>Meteorological broadcasts for aviation</p>
+<p>Use of meteorological documents</p>
+<p>Meteorological warnings</p>
+</div><h3 id="meteorological-services">Meteorological services</h3><div class=container>
+<p>World area forecast system (WAFS) and meteorological offices</p>
+</div></div></div><h1 id="communications">COMMUNICATIONS</h1><div class=container>
+<h2 id="vfr-communications">VFR COMMUNICATIONS</h2><div class=container>
+<h3 id="definitions">Definitions</h3><div class=container>
+<p>Meanings and significance of associated terms</p>
+<p>ATS abbreviations</p>
+<p>Q-code groups commonly used in RTF airground communications</p>
+<p>Categories of messages</p>
+</div><h3 id="general-operating-procedures">General operating procedures</h3><div class=container>
+<p>Transmission of letters</p>
+<p>Transmission of numbers (including level information)</p>
+<p>Transmission of time</p>
+<p>Transmission technique</p>
+<p>Standard words and phrases (relevant RTF phraseology included)</p>
+<p>R/T call signs for aeronautical stations including use of abbreviated call signs</p>
+<p>R/T call signs for aircraft including use of abbreviated call signs</p>
+<p>Transfer of communication</p>
+<p>Test procedures including readability scale</p>
+<p>Read back and acknowledgement requirements</p>
+</div><h3 id="relevant-weather-information-terms-vfr">Relevant weather information terms (VFR)</h3><div class=container>
+<p>Aerodrome weather</p>
+<p>Weather broadcast</p>
+</div><h3 id="action-required-to-be-taken-in-case-of-communication-failure">Action required to be taken in case of communication failure</h3><div class=container>
+</div><h3 id="distress-and-urgency-procedures">Distress and urgency procedures</h3><div class=container>
+<p>Distress (definition, frequencies, watch of distress frequencies, distress signal and distress message)</p>
+<p>Urgency (definition, frequencies, urgency signal and urgency message)</p>
+</div><h3 id="general-principles-of-vhf-propagation-and-allocation-of-frequencies">General principles of VHF propagation and allocation of frequencies</h3><div class=container>
+</div></div></div><h1 id="principles-of-flight-aeroplane-subsonic-aerodynamics">PRINCIPLES OF FLIGHT (AEROPLANE, Subsonic aerodynamics)</h1><div class=container>
+<h2 id="basics-concepts-laws-and-definitions">Basics concepts, laws and definitions</h2><div class=container>
+<p>Laws and definitions:</p>
+<ol>
+<li>conversion of units;</li>
+<li>Newton´s laws;</li>
+<li>Bernoulli’s equation and venture;</li>
+<li>static pressure, dynamic pressure and total pressure;</li>
+<li>density;</li>
+<li>IAS and TAS.</li>
+</ol>
+<p>Basics about airflow:</p>
+<ol>
+<li>streamline;</li>
+<li>two-dimensional airflow;</li>
+<li>three-dimensional airflow.</li>
+</ol>
+<p>Aerodynamic forces on surfaces:</p>
+<ol>
+<li>resulting airforce;</li>
+<li>lift;</li>
+<li>drag;</li>
+<li>angle of attack.</li>
+</ol>
+<p>Shape of an aerofoil section:</p>
+<ol>
+<li>thickness to chord ratio;</li>
+<li>chord line;</li>
+<li>camber line;</li>
+<li>camber;</li>
+<li>angle of attack.</li>
+</ol>
+<p>The wing shape:</p>
+<ol>
+<li>aspect ratio;</li>
+<li>root chord;</li>
+<li>tip chord;</li>
+<li>tapered wings;</li>
+<li>wing planform.</li>
+</ol>
+</div><h2 id="the-two-dimensional-airflow-about-an-aerofoil">The two-dimensional airflow about an aerofoil</h2><div class=container>
+<p>Streamline pattern</p>
+<p>Stagnation point</p>
+<p>Pressure distribution</p>
+<p>Centre of pressure</p>
+<p>Influence of angle of attack</p>
+<p>Flow separation at high angles of attack</p>
+<p>The lift – α graph</p>
+</div><h2 id="the-coefficients">The coefficients</h2><div class=container>
+<p>The lift coefficient Cl: the lift formula</p>
+<p>The drag coefficient Cd: the drag formula</p>
+</div><h2 id="the-three-dimensional-airflow-round-a-wing-and-a-fuselage">The three-dimensional airflow round a wing and a fuselage</h2><div class=container>
+<p>Streamline pattern:</p>
+<ol>
+<li>span-wise flow and causes;</li>
+<li>tip vortices and angle of attack;</li>
+<li>upwash and downwash due to tip vortices;</li>
+<li>wake turbulence behind an aeroplane (causes, distribution and duration of the phenomenon).</li>
+</ol>
+<p>Induced drag:</p>
+<ol>
+<li>influence of tip vortices on the angle of attack;</li>
+<li>the induced local α;</li>
+<li>influence of induced angle of attack on the direction of the lift vector;</li>
+<li>induced drag and angle of attack.</li>
+</ol>
+</div><h2 id="drag">Drag</h2><div class=container>
+<p>The parasite drag:</p>
+<ol>
+<li>pressure drag;</li>
+<li>interference drag;</li>
+<li>friction drag.</li>
+</ol>
+<p>The parasite drag and speed</p>
+<p>The induced drag and speed</p>
+<p>The total drag</p>
+</div><h2 id="the-ground-effect">The ground effect</h2><div class=container>
+<p>Effect on take off and landing characteristics of an aeroplane</p>
+</div><h2 id="the-stall">The stall</h2><div class=container>
+<p>Flow separation at increasing angles of attack:</p>
+<ol>
+<li>the boundary layer:<ol>
+<li>laminar layer;</li>
+<li>turbulent layer;</li>
+<li>transition.</li>
+</ol>
+</li>
+<li>separation point;</li>
+<li>influence of angle of attack;</li>
+<li>influence on:<ol>
+<li>pressure distribution;</li>
+<li>location of centre of pressure;</li>
+<li>CL;</li>
+<li>CD;</li>
+<li>pitch moments.</li>
+</ol>
+</li>
+<li>buffet;</li>
+<li>use of controls.</li>
+</ol>
+<p>The stall speed:</p>
+<ol>
+<li>in the lift formula;</li>
+<li>1g stall speed;</li>
+<li>influence of:<ol>
+<li>the centre of gravity;</li>
+<li>power setting;</li>
+<li>altitude (IAS);</li>
+<li>wing loading;</li>
+<li>load factor n:<ol>
+<li>definition;</li>
+<li>turns;</li>
+<li>forces.</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+<p>The initial stall in span-wise direction:</p>
+<ol>
+<li>influence of planform;</li>
+<li>geometric twist (wash out);</li>
+<li>use of ailerons.</li>
+</ol>
+<p>Stall warning:</p>
+<ol>
+<li>importance of stall warning;</li>
+<li>speed margin;</li>
+<li>buffet;</li>
+<li>stall strip;</li>
+<li>flapper switch;</li>
+<li>recovery from stall.</li>
+</ol>
+<p>Special phenomena of stall:</p>
+<ol>
+<li>the power-on stall;</li>
+<li>climbing and descending turns;</li>
+<li>t-tailed aeroplane;</li>
+<li>avoidance of spins:<ol>
+<li>spin development;</li>
+<li>spin recognition;</li>
+<li>spin recovery.</li>
+</ol>
+</li>
+<li>ice (in stagnation point and on surface):<ol>
+<li>absence of stall warning;</li>
+<li>abnormal behaviour of the aircraft during stall.</li>
+</ol>
+</li>
+</ol>
+</div><h2 id="cl-augmentation">CL augmentation</h2><div class=container>
+<p>Trailing edge flaps and the reasons for use in take-off and landing:</p>
+<ol>
+<li>influence on CL - α-graph;</li>
+<li>different types of flaps;</li>
+<li>flap asymmetry;</li>
+<li>influence on pitch movement.</li>
+</ol>
+<p>Leading edge devices and the reasons for use in take-off and landing</p>
+</div><h2 id="the-boundary-layer">The boundary layer</h2><div class=container>
+<p>Different types:</p>
+<ol>
+<li>laminar;</li>
+<li>turbulent.</li>
+</ol>
+</div><h2 id="special-circumstances">Special circumstances</h2><div class=container>
+<p>Ice and other contamination:</p>
+<ol>
+<li>ice in stagnation point;</li>
+<li>ice on the surface (frost, snow and clear ice);</li>
+<li>rain;</li>
+<li>contamination of the leading edge;</li>
+<li>effects on stall;</li>
+<li>effects on loss of controllability;</li>
+<li>effects on control surface moment;</li>
+<li>influence on high lift devices during takeoff, landing and low speeds.</li>
+</ol>
+</div><h2 id="stability">Stability</h2><div class=container>
+<h3 id="condition-of-equilibrium-in-steady-horizontal-flight">Condition of equilibrium in steady horizontal flight</h3><div class=container>
+<p>Precondition for static stability</p>
+<p>Equilibrium:</p>
+<ol>
+<li>lift and weight;</li>
+<li>drag and thrust.</li>
+</ol>
+</div><h3 id="methods-of-achieving-balance">Methods of achieving balance</h3><div class=container>
+<p>Wing and empennage (tail and canard)</p>
+<p>Control surfaces</p>
+<p>Ballast or weight trim</p>
+</div><h3 id="static-and-dynamic-longitudinal-stability">Static and dynamic longitudinal stability</h3><div class=container>
+<p>Basics and definitions:</p>
+<ol>
+<li>static stability, positive, neutral and negative;</li>
+<li>precondition for dynamic stability;</li>
+<li>dynamic stability, positive, neutral and negative.</li>
+</ol>
+<p>Location of centre of gravity:</p>
+<ol>
+<li>aft limit and minimum stability margin;</li>
+<li>forward position;</li>
+<li>effects on static and dynamic stability.</li>
+</ol>
+</div><h3 id="dynamic-lateral-or-directional-stability">Dynamic lateral or directional stability</h3><div class=container>
+<p>Spiral dive and corrective actions</p>
+</div></div><h2 id="control">Control</h2><div class=container>
+<h3 id="general">General</h3><div class=container>
+<p>Basics, the three planes and three axis</p>
+<p>Angle of attack change</p>
+</div><h3 id="pitch-control">Pitch control</h3><div class=container>
+<p>Elevator</p>
+<p>Downwash effects</p>
+<p>Location of centre of gravity</p>
+</div><h3 id="yaw-control">Yaw control</h3><div class=container>
+<p>Pedal or rudder</p>
+</div><h3 id="roll-control">Roll control</h3><div class=container>
+<p>Ailerons: function in different phases of flight</p>
+<p>Adverse yaw</p>
+<p>Means to avoid adverse yaw:</p>
+<ol>
+<li>frise ailerons;</li>
+<li>differential ailerons deflection.</li>
+</ol>
+</div></div><h2 id="means-to-reduce-control-forces">Means to reduce control forces</h2><div class=container>
+<p>Aerodynamic balance:</p>
+<ol>
+<li>balance tab and anti-balance tab;</li>
+<li>servo tab.</li>
+</ol>
+<h3 id="mass-balance">Mass balance</h3><div class=container>
+<p>Reasons to balance: means</p>
+</div><h3 id="trimming">Trimming</h3><div class=container>
+<p>Reasons to trim</p>
+<p>Trim tabs</p>
+</div></div><h2 id="limitations">Limitations</h2><div class=container>
+<h3 id="operating-limitations">Operating limitations</h3><div class=container>
+<p>Flutter</p>
+<p>vfe</p>
+<p>vno, vne</p>
+</div><h3 id="manoeuvring-envelope">Manoeuvring envelope</h3><div class=container>
+<p>Manoeuvring load diagram:</p>
+<ol>
+<li>load factor;</li>
+<li>accelerated stall speed;</li>
+<li>va;</li>
+<li>manoeuvring limit load factor or certification category.</li>
+</ol>
+<p>Contribution of mass</p>
+</div><h3 id="gust-envelope">Gust envelope</h3><div class=container>
+<p>Gust load diagram</p>
+<p>Factors contributing to gust loads</p>
+</div></div><h2 id="propellers">Propellers</h2><div class=container>
+<h3 id="conversion-of-engine-torque-to-thrust">Conversion of engine torque to thrust</h3><div class=container>
+<p>Meaning of pitch</p>
+<p>Blade twist</p>
+<p>Effects of ice on propeller</p>
+</div><h3 id="engine-failure-or-engine-stop">Engine failure or engine stop</h3><div class=container>
+<p>Windmilling drag</p>
+</div><h3 id="moments-due-to-propeller-operation">Moments due to propeller operation</h3><div class=container>
+<p>Torque reaction</p>
+<p>Asymmetric slipstream effect</p>
+<p>Asymmetric blade effect</p>
+</div></div><h2 id="flight-mechanics">Flight mechanics</h2><div class=container>
+<h3 id="forces-acting-on-an-aeroplane">Forces acting on an aeroplane</h3><div class=container>
+<p>Straight horizontal steady flight</p>
+<p>Straight steady climb</p>
+<p>Straight steady descent</p>
+<p>Straight steady glide</p>
+<p>Steady coordinated turn:</p>
+<ol>
+<li>bank angle;</li>
+<li>load factor;</li>
+<li>turn radius;</li>
+<li>rate one turn.</li>
+</ol>
+</div></div></div><h1 id="operational-procedures">OPERATIONAL PROCEDURES</h1><div class=container>
+<h2 id="general_1">General</h2><div class=container>
+<h3 id="operation-of-aircraft-icao-annex-6-general-requirements">Operation of aircraft: ICAO Annex 6, General requirements</h3><div class=container>
+<p>Definitions</p>
+<p>Applicability</p>
+</div></div><h2 id="special-operational-procedures-and-hazards-general-aspects">Special operational procedures and hazards (general aspects)</h2><div class=container>
+<h3 id="noise-abatement">Noise abatement</h3><div class=container>
+<p>Noise abatement procedures</p>
+<p>Influence of the flight procedure (departure, cruise and approach)</p>
+<p>Runway incursion awareness (meaning of surface markings and signals)</p>
+</div><h3 id="fire-or-smoke">Fire or smoke</h3><div class=container>
+<p>Carburettor fire</p>
+<p>Engine fire</p>
+<p>Fire in the cabin and cockpit, (choice of extinguishing agents according to fire classification and use of the extinguishers)</p>
+<p>Smoke in the cockpit and (effects and action to be taken) and smoke in the cockpit and cabin (effects and actions taken)</p>
+</div><h3 id="windshear-and-microburst">Windshear and microburst</h3><div class=container>
+<p>Effects and recognition during departure and approach</p>
+<p>Actions to avoid and actions taken during encounter</p>
+</div><h3 id="wake-turbulence">Wake turbulence</h3><div class=container>
+<p>Cause</p>
+<p>List of relevant parameters</p>
+<p>Actions taken when crossing traffic, during take-off and landing</p>
+</div><h3 id="emergency-and-precautionary-landings">Emergency and precautionary landings</h3><div class=container>
+<p>Definition</p>
+<p>Cause</p>
+<p>Passenger information</p>
+<p>Evacuation</p>
+<p>Action after landing</p>
+</div><h3 id="contaminated-runways">Contaminated runways</h3><div class=container>
+<p>Kinds of contamination</p>
+<p>Estimated surface friction and friction coefficient</p>
+</div></div></div><h1 id="flight-performance-and-planning">FLIGHT PERFORMANCE AND PLANNING</h1><div class=container>
+<h2 id="mass-and-balance-aeroplanes-or-helicopters">MASS AND BALANCE: AEROPLANES OR HELICOPTERS</h2><div class=container>
+<h3 id="purpose-of-mass-and-balance-considerations">Purpose of mass and balance considerations</h3><div class=container>
+</div><h3 id="mass-limitations">Mass limitations</h3><div class=container>
+<p>Importance in regard to structural limitations</p>
+<p>Importance in regard to performance limitations</p>
+</div><h3 id="cg-limitations">CG limitations</h3><div class=container>
+<p>Importance in regard to stability and controllability</p>
+<p>Importance in regard to performance</p>
+</div></div><h2 id="loading">Loading</h2><div class=container>
+</div><h2 id="terminology">Terminology</h2><div class=container>
+<p>Mass terms</p>
+<p>Load terms (including fuel terms)</p>
+</div><h2 id="mass-limits">Mass limits</h2><div class=container>
+<p>Structural limitations</p>
+<p>Performance limitations</p>
+<p>Baggage compartment limitations</p>
+</div><h2 id="mass-calculations">Mass calculations</h2><div class=container>
+<p>Maximum masses for take-off and landing</p>
+<p>Use of standard masses for passengers, baggage and crew</p>
+</div><h2 id="fundamentals-of-cg-calculations">Fundamentals of CG calculations</h2><div class=container>
+<p>Definition of centre of gravity</p>
+<p>Conditions of equilibrium (balance of forces and balance of moments)</p>
+<p>Basic calculations of CG</p>
+</div><h2 id="mass-and-balance-details-of-aircraft">Mass and balance details of aircraft</h2><div class=container>
+<h3 id="contents-of-mass-and-balance-documentation">Contents of mass and balance documentation</h3><div class=container>
+<p>Datum and moment arm</p>
+<p>CG position as distance from datum</p>
+</div><h3 id="extraction-of-basic-mass-and-balance-data-from-aircraft-documentation">Extraction of basic mass and balance data from aircraft documentation</h3><div class=container>
+<p>BEM</p>
+<p>CG position or moment at BEM</p>
+<p>Deviations from standard configuration</p>
+</div></div><h2 id="determination-of-cg-position">Determination of CG position</h2><div class=container>
+<h3 id="methods">Methods</h3><div class=container>
+<p>Arithmetic method</p>
+<p>Graphic method</p>
+</div><h3 id="load-and-trim-sheet">Load and trim sheet</h3><div class=container>
+<p>General considerations</p>
+<p>Load sheet and CG envelope for light aeroplanes and for helicopters</p>
+</div></div><h2 id="performance-aeroplanes">PERFORMANCE: AEROPLANES</h2><div class=container>
+<h3 id="introduction">Introduction</h3><div class=container>
+<p>Performance classes</p>
+<p>Stages of flight</p>
+<p>Effect of aeroplane mass, wind, altitude, runway slope and runway conditions</p>
+<p>Gradients</p>
+</div><h3 id="se-aeroplanes">SE aeroplanes</h3><div class=container>
+<p>Definitions of terms and speeds</p>
+</div><h3 id="take-off-and-landing-performance">Take-off and landing performance</h3><div class=container>
+<p>Use of aeroplane flight manual data</p>
+</div><h3 id="climb-and-cruise-performance">Climb and cruise performance</h3><div class=container>
+<p>Use of aeroplane flight data</p>
+<p>Effect of density altitude and aeroplane mass</p>
+<p>Endurance and the effects of the different recommended power or thrust settings</p>
+<p>Still air range with various power or thrust settings</p>
+</div></div><h2 id="flight-planning-and-flight-monitoring-flight-planning-for-vfr-flights">FLIGHT PLANNING AND FLIGHT MONITORING: Flight planning for VFR flights</h2><div class=container>
+<h3 id="vfr-navigation-plan">VFR navigation plan</h3><div class=container>
+<p>Routes, airfields, heights and altitudes from VFR charts</p>
+<p>Courses and distances from VFR charts</p>
+<p>Aerodrome charts and aerodrome directory</p>
+<p>Communications and radio navigation planning data</p>
+<p>Completion of navigation plan</p>
+</div><h3 id="fuel-planning">Fuel planning</h3><div class=container>
+<p>General knowledge</p>
+</div><h3 id="pre-flight-calculation-of-fuel-required">Pre-flight calculation of fuel required</h3><div class=container>
+<p>Calculation of extra fuel</p>
+<p>Completion of the fuel section of the navigation plan (fuel log) and calculation of total fuel</p>
+</div><h3 id="pre-flight-preparation">Pre-flight preparation</h3><div class=container>
+<h4 id="aip-and-notam-briefing">AIP and NOTAM briefing</h4><div class=container>
+<p>Ground facilities and services</p>
+<p>Departure, destination and alternate aerodromes</p>
+<p>Airway routings and airspace structure</p>
+</div><h4 id="meteorological-briefing">Meteorological briefing</h4><div class=container>
+<p>Extraction and analysis of relevant data from meteorological documents</p>
+</div></div><h3 id="icao-flight-plan-ats-flight-plan">ICAO flight plan (ATS flight plan)</h3><div class=container>
+<h4 id="individual-flight-plan">Individual flight plan</h4><div class=container>
+<p>Format of flight plan</p>
+<p>Completion of the flight plan</p>
+<p>Submission of the flight plan</p>
+</div></div><h3 id="flight-monitoring-and-in-flight-replanning">Flight monitoring and in-flight replanning</h3><div class=container>
+<p>Monitoring of track and time</p>
+<p>In-flight fuel management</p>
+<p>In-flight re-planning in case of deviation from planned data</p>
+</div></div></div><h1 id="aircraft-general-knowledge">AIRCRAFT GENERAL KNOWLEDGE</h1><div class=container>
+<h2 id="airframe-and-systems-electrics-powerplant-and-emergency-equipment">AIRFRAME AND SYSTEMS, ELECTRICS, POWERPLANT AND EMERGENCY EQUIPMENT</h2><div class=container>
+<h3 id="system-design-loads-stresses-maintenance">System design, loads, stresses, maintenance</h3><div class=container>
+<p>Loads and combination loadings applied to an aircraft’s structure</p>
+</div><h3 id="airframe">Airframe</h3><div class=container>
+<h4 id="wings-tail-surfaces-and-control-surfaces">Wings, tail surfaces and control surfaces</h4><div class=container>
+<p>Design and constructions</p>
+<p>Structural components and materials</p>
+<p>Stresses</p>
+<p>Structural limitations</p>
+</div><h4 id="fuselage-doors-floor-wind-screen-and-windows">Fuselage, doors, floor, wind-screen and windows</h4><div class=container>
+<p>Design and constructions</p>
+<p>Structural components and materials</p>
+<p>Stresses</p>
+<p>Structural limitations</p>
+</div></div><h3 id="hydraulics">Hydraulics</h3><div class=container>
+<h4 id="hydromechanics-basic-principles">Hydromechanics: basic principles</h4><div class=container>
+</div><h4 id="hydraulic-systems">Hydraulic systems</h4><div class=container>
+<p>Hydraulic fluids: types and characteristics, limitations</p>
+<p>System components: design, operation, degraded modes of operation, indications and warnings</p>
+</div></div><h3 id="landing-gear-wheels-tyres-and-brakes">Landing gear, wheels, tyres and brakes</h3><div class=container>
+<h4 id="landing-gear">Landing gear</h4><div class=container>
+<p>Types and materials</p>
+</div><h4 id="nose-wheel-steering-design-and-operation">Nose wheel steering: design and operation</h4><div class=container>
+</div><h4 id="brakes">Brakes</h4><div class=container>
+<p>Types and materials</p>
+<p>System components: design, operation, indications and warnings</p>
+</div><h4 id="wheels-and-tyres">Wheels and tyres</h4><div class=container>
+<p>Types and operational limitations</p>
+</div></div><h3 id="flight-controls">Flight controls</h3><div class=container>
+<p>Mechanical or powered</p>
+<p>Control systems and mechanical</p>
+<p>System components: design, operation, indications and warnings, degraded modes of operation and jamming</p>
+</div><h3 id="secondary-flight-controls">Secondary flight controls</h3><div class=container>
+<p>System components: design, operation, degraded modes of operation, indications and warnings</p>
+</div><h3 id="anti-icing-systems">Anti-icing systems</h3><div class=container>
+<p>Types and operation (pitot and windshield)</p>
+</div><h3 id="fuel-system">Fuel system</h3><div class=container>
+<h4 id="piston-engine">Piston engine</h4><div class=container>
+<p>System components: design, operation, degraded modes of operation, indications and warnings</p>
+</div></div><h3 id="electrics">Electrics</h3><div class=container>
+<h4 id="electrics-general-and-definitions">Electrics: general and definitions</h4><div class=container>
+<p>Direct current: voltage, current, resistance, conductivity, Ohm’s law, power and work</p>
+<p>Alternating current: voltage, current, amplitude, phase, frequency and resistance</p>
+<p>Circuits: series and parallel</p>
+<p>Magnetic field: effects in an electrical circuit</p>
+</div><h4 id="batteries">Batteries</h4><div class=container>
+<p>Types, characteristics and limitations</p>
+<p>Battery chargers, characteristics and limitations</p>
+</div><h4 id="static-electricity-general">Static electricity: general</h4><div class=container>
+<p>Basic principles</p>
+<p>Static dischargers</p>
+<p>Protection against interference</p>
+<p>Lightning effects</p>
+</div><h4 id="generation-production-distribution-and-use">Generation: production, distribution and use</h4><div class=container>
+<p>DC generation: types, design, operation, degraded modes of operation, indications and warnings</p>
+<p>AC generation: types, design, operation, degraded modes of operation, indications and warnings</p>
+</div><h4 id="electric-components">Electric components</h4><div class=container>
+<p>Basic elements: basic principles of switches, circuit-breakers and relays</p>
+</div><h4 id="distribution">Distribution</h4><div class=container>
+<p>General:</p>
+<ol>
+<li>bus bar, common earth and priority;</li>
+<li>AC and DC comparison.</li>
+</ol>
+</div></div><h3 id="piston-engines">Piston engines</h3><div class=container>
+<h4 id="general_2">General</h4><div class=container>
+<p>Types of internal combustion engine: basic principles and definitions</p>
+<p>Engine: design, operation, components and materials</p>
+</div><h4 id="fuel">Fuel</h4><div class=container>
+<p>Types, grades, characteristics and limitations</p>
+<p>Alternate fuel: characteristics and limitations</p>
+</div><h4 id="carburettor-or-injection-system">Carburettor or injection system</h4><div class=container>
+<p>Carburettor: design, operation, degraded modes of operation, indications and warnings</p>
+<p>Injection: design, operation, degraded modes of operation, indications and warnings</p>
+<p>Icing</p>
+</div><h4 id="air-cooling-systems">Air cooling systems</h4><div class=container>
+<p>Design, operation, degraded modes of operation, indications and warnings</p>
+</div><h4 id="lubrication-systems">Lubrication systems</h4><div class=container>
+<p>Lubricants: types, characteristics and limitations</p>
+<p>Design, operation, degraded modes of operation, indications and warnings</p>
+</div><h4 id="ignition-circuits">Ignition circuits</h4><div class=container>
+<p>Design, operation, degraded modes of operation</p>
+</div><h4 id="mixture">Mixture</h4><div class=container>
+<p>Definition, characteristic mixtures, control instruments, associated control levers and indications</p>
+</div></div><h3 id="propellers_1">Propellers</h3><div class=container>
+<p>Definitions and general:</p>
+<ol>
+<li>aerodynamic parameters;</li>
+<li>types;</li>
+<li>operating modes.</li>
+</ol>
+<p>Constant speed propeller: design, operation and system components</p>
+<p>Propeller handling: associated control levers, degraded modes of operation, indications and warnings</p>
+</div><h3 id="performance-and-engine-handling">Performance and engine handling</h3><div class=container>
+<p>Performance: influence of engine parameters, influence of atmospheric conditions, limitations and power augmentation systems</p>
+<p>Engine handling: power and mixture settings during various flight phases and operational limitations</p>
+</div></div><h2 id="instrumentation">INSTRUMENTATION</h2><div class=container>
+<h3 id="instrument-and-indication-systems">Instrument and indication systems</h3><div class=container>
+<h4 id="pressure-gauge">Pressure gauge</h4><div class=container>
+<p>Different types, design, operation, characteristics and accuracy</p>
+</div><h4 id="temperature-sensing">Temperature sensing</h4><div class=container>
+<p>Different types, design, operation, characteristics and accuracy</p>
+</div><h4 id="fuel-gauge">Fuel gauge</h4><div class=container>
+<p>Different types, design, operation, characteristics and accuracy</p>
+</div><h4 id="flow-meter">Flow meter</h4><div class=container>
+<p>Different types, design, operation, characteristics and accuracy</p>
+</div><h4 id="position-transmitter">Position transmitter</h4><div class=container>
+<p>Different types, design, operation, characteristics and accuracy</p>
+</div><h4 id="torque-meter">Torque meter</h4><div class=container>
+<p>Design, operation, characteristics and accuracy</p>
+</div><h4 id="tachometer">Tachometer</h4><div class=container>
+<p>Design, operation, characteristics and accuracy</p>
+</div></div><h3 id="measurement-of-aerodynamic-parameters">Measurement of aerodynamic parameters</h3><div class=container>
+<h4 id="pressure-measurement">Pressure measurement</h4><div class=container>
+<p>Static pressure, dynamic pressure, density and definitions</p>
+<p>Design, operation, errors and accuracy</p>
+</div><h4 id="temperature-measurement-aeroplane">Temperature measurement: aeroplane</h4><div class=container>
+<p>Design, operation, errors and accuracy</p>
+<p>Displays</p>
+</div><h4 id="altimeter">Altimeter</h4><div class=container>
+<p>Standard atmosphere</p>
+<p>The different barometric references (QNH, QFE and 1013.25)</p>
+<p>Height, indicated altitude, true altitude, pressure altitude and density altitude</p>
+<p>Design, operation, errors and accuracy</p>
+<p>Displays</p>
+</div><h4 id="vertical-speed-indicator">Vertical speed indicator</h4><div class=container>
+<p>Design, operation, errors and accuracy</p>
+<p>Displays</p>
+</div><h4 id="air-speed-indicator">Air speed indicator</h4><div class=container>
+<p>The different speeds IAS, CAS, TAS: definition, usage and relationships</p>
+<p>Design, operation, errors and accuracy</p>
+<p>Displays</p>
+</div></div><h3 id="magnetism-direct-reading-compass">Magnetism: direct reading compass</h3><div class=container>
+<h4 id="earth-magnetic-field">Earth magnetic field</h4><div class=container>
+</div><h4 id="direct-reading-compass">Direct reading compass</h4><div class=container>
+<p>Design, operation, data processing, accuracy and deviation</p>
+<p>Turning and acceleration errors</p>
+</div></div><h3 id="gyroscopic-instruments">Gyroscopic instruments</h3><div class=container>
+<h4 id="gyroscope-basic-principles">Gyroscope: basic principles</h4><div class=container>
+<p>Definitions and design</p>
+<p>Fundamental properties</p>
+<p>Drifts</p>
+</div><h4 id="turn-and-bank-indicator">Turn and bank indicator</h4><div class=container>
+<p>Design, operation and errors</p>
+</div><h4 id="attitude-indicator">Attitude indicator</h4><div class=container>
+<p>Design, operation, errors and accuracy</p>
+</div><h4 id="directional-gyroscope">Directional gyroscope</h4><div class=container>
+<p>Design, operation, errors and accuracy</p>
+</div></div><h3 id="communication-systems">Communication systems</h3><div class=container>
+<h4 id="transmission-modes-vhf-hf-and-satcom">Transmission modes: VHF, HF and SATCOM</h4><div class=container>
+<p>Principles, bandwidth, operational limitations and use</p>
+</div><h4 id="voice-communication">Voice communication</h4><div class=container>
+<p>Definitions, general and applications</p>
+</div><h4 id="alerting-systems-and-proximity-systems">Alerting systems and proximity systems</h4><div class=container>
+</div><h4 id="flight-warning-systems">Flight warning systems</h4><div class=container>
+<p>Design, operation, indications and alarms</p>
+</div></div><h3 id="integrated-instruments-electronic-displays">Integrated instruments: electronic displays</h3><div class=container>
+<h4 id="display-units">Display units</h4><div class=container>
+<p>Design, different technologies and limitations</p>
+</div></div></div></div><h1 id="navigation">NAVIGATION</h1><div class=container>
+<h2 id="general-navigation">GENERAL NAVIGATION</h2><div class=container>
+<h3 id="basics-of-navigation">Basics of navigation</h3><div class=container>
+<h4 id="the-solar-system">The solar system</h4><div class=container>
+<p>Seasonal and apparent movements of the sun</p>
+</div><h4 id="the-earth">The earth</h4><div class=container>
+<p>Great circle, small circle and rhumb line</p>
+<p>Latitude and difference of latitude</p>
+<p>Longitude and difference of longitude</p>
+<p>Use of latitude and longitude co-ordinates to locate any specific position</p>
+</div><h4 id="time-and-time-conversions">Time and time conversions</h4><div class=container>
+<p>Apparent time</p>
+<p>UTC</p>
+<p>LMT</p>
+<p>Standard times</p>
+<p>Dateline</p>
+<p>Definition of sunrise, sunset and civil twilight</p>
+</div><h4 id="directions">Directions</h4><div class=container>
+<p>True north, magnetic north and compass north</p>
+<p>Compass deviation</p>
+<p>Magnetic poles, isogonals, relationship between true and magnetic</p>
+</div><h4 id="distance">Distance</h4><div class=container>
+<p>Units of distance and height used in navigation: nautical miles, statute miles, kilometres, metres and ft</p>
+<p>Conversion from one unit to another</p>
+<p>Relationship between nautical miles and minutes of latitude and minutes of longitude</p>
+</div></div><h3 id="magnetism-and-compasses">Magnetism and compasses</h3><div class=container>
+<h4 id="general-principles">General principles</h4><div class=container>
+<p>Terrestrial magnetism</p>
+<p>Resolution of the earth’s total magnetic force into vertical and horizontal components</p>
+<p>Variation-annual change</p>
+</div><h4 id="aircraft-magnetism">Aircraft magnetism</h4><div class=container>
+<p>The resulting magnetic fields</p>
+<p>Keeping magnetic materials clear of the compass</p>
+</div></div><h3 id="charts">Charts</h3><div class=container>
+<h4 id="general-properties-of-miscellaneous-types-of-projections">General properties of miscellaneous types of projections</h4><div class=container>
+<p>Direct Mercator</p>
+<p>Lambert conformal conic</p>
+</div><h4 id="the-use-of-current-aeronautical-charts">The use of current aeronautical charts</h4><div class=container>
+<p>Plotting positions</p>
+<p>Methods of indicating scale and relief (ICAO topographical chart)</p>
+<p>Conventional signs</p>
+<p>Measuring tracks and distances</p>
+<p>Plotting bearings and distances</p>
+</div></div><h3 id="dr-navigation">DR navigation</h3><div class=container>
+<h4 id="basis-of-dr">Basis of DR</h4><div class=container>
+<p>Track</p>
+<p>Heading (compass, magnetic and true)</p>
+<p>Wind velocity</p>
+<p>Air speed (IAS, CAS and TAS)</p>
+<p>Groundspeed</p>
+<p>ETA</p>
+<p>Drift and wind correction angle</p>
+<p>DR position fix</p>
+</div><h4 id="use-of-the-navigational-computer">Use of the navigational computer</h4><div class=container>
+<p>Speed</p>
+<p>Time</p>
+<p>Distance</p>
+<p>Fuel consumption</p>
+<p>Conversions</p>
+<p>Air speed</p>
+<p>Wind velocity</p>
+<p>True altitude</p>
+</div><h4 id="the-triangle-of-velocities">The triangle of velocities</h4><div class=container>
+<p>Heading</p>
+<p>Ground speed</p>
+<p>Wind velocity</p>
+<p>Track and drift angle</p>
+</div><h4 id="measurement-of-dr-elements">Measurement of DR elements</h4><div class=container>
+<p>Calculation of altitude</p>
+<p>Determination of appropriate speed</p>
+</div></div><h3 id="in-flight-navigation">In-flight navigation</h3><div class=container>
+<h4 id="use-of-visual-observations-and-application-to-in-flight-navigation">Use of visual observations and application to in-flight navigation</h4><div class=container>
+<p>Navigation in cruising flight, use of fixes to revise navigation data</p>
+<p>Ground speed revision</p>
+<p>Off-track corrections</p>
+<p>Calculation of wind speed and direction</p>
+<p>ETA revisions</p>
+<p>Flight log</p>
+</div></div></div><h2 id="radio-navigation">RADIO NAVIGATION</h2><div class=container>
+<h3 id="basic-radio-propagation-theory">Basic radio propagation theory</h3><div class=container>
+<h4 id="antennas">Antennas</h4><div class=container>
+<p>Characteristics</p>
+</div><h4 id="wave-propagation">Wave propagation</h4><div class=container>
+<p>Propagation with the frequency bands</p>
+</div></div><h3 id="radio-aids">Radio aids</h3><div class=container>
+<h4 id="ground-df">Ground DF</h4><div class=container>
+<p>Principles</p>
+<p>Presentation and interpretation</p>
+<p>Coverage</p>
+<p>Range</p>
+<p>Errors and accuracy</p>
+<p>Factors affecting range and accuracy</p>
+</div><h4 id="ndbadf">NDB/ADF</h4><div class=container>
+<p>Principles</p>
+<p>Presentation and interpretation</p>
+<p>Coverage</p>
+<p>Range</p>
+<p>Errors and accuracy</p>
+<p>Factors affecting range and accuracy</p>
+</div><h4 id="vor">VOR</h4><div class=container>
+<p>Principles</p>
+<p>Presentation and interpretation</p>
+<p>Coverage</p>
+<p>Range</p>
+<p>Errors and accuracy</p>
+<p>Factors affecting range and accuracy</p>
+</div><h4 id="dme">DME</h4><div class=container>
+<p>Principles</p>
+<p>Presentation and interpretation</p>
+<p>Coverage</p>
+<p>Range</p>
+<p>Errors and accuracy</p>
+<p>Factors affecting range and accuracy</p>
+</div></div><h3 id="radar">Radar</h3><div class=container>
+<h4 id="ground-radar">Ground radar</h4><div class=container>
+<p>Principles</p>
+<p>Presentation and interpretation</p>
+<p>Coverage</p>
+<p>Range</p>
+<p>Errors and accuracy</p>
+<p>Factors affecting range and accuracy</p>
+</div><h4 id="secondary-surveillance-radar-and-transponder">Secondary surveillance radar and transponder</h4><div class=container>
+<p>Principles</p>
+<p>Presentation and interpretation</p>
+<p>Modes and codes</p>
+</div></div><h3 id="gnss">GNSS</h3><div class=container>
+<h4 id="gps-glonass-or-galileo">GPS, GLONASS OR GALILEO</h4><div class=container>
+</article>
+</main>
+<footer>
+<p>edited on 2023-05-28T20:08:47Z by <a href=mailto:frank@abelbeck.info>Frank Abelbeck</a></p>
+</footer>
+</body>
+</html>
