@@ -50,3 +50,4 @@ zu Fragen darzustellen sind (hier: Meldepunkte).
       QA catalogue
     * removed official questions until permission
       is granted 
+ * **2023-07-13** added updated QA catalogue (no answer yet from BNetzA :shrugs:)

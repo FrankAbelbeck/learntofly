@@ -1,0 +1,2090 @@
+<!DOCTYPE html>
+<html lang=de><!--
+    HTML5 BZF Trainer 2023-03-23 (C) Frank Abelbeck <frank@abelbeck.info>
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+    Dieses Programm ist Freie Software: Sie können es unter den Bedingungen
+    der GNU General Public License, wie von der Free Software Foundation,
+    Version 3 der Lizenz oder (nach Ihrer Wahl) jeder neueren
+    veröffentlichten Version, weiter verteilen und/oder modifizieren.
+
+    Dieses Programm wird in der Hoffnung bereitgestellt, dass es nützlich sein wird, jedoch
+    OHNE JEDE GEWÄHR,; sogar ohne die implizite
+    Gewähr der MARKTFÄHIGKEIT oder EIGNUNG FÜR EINEN BESTIMMTEN ZWECK.
+    Siehe die GNU General Public License für weitere Einzelheiten.
+
+    Sie sollten eine Kopie der GNU General Public License zusammen mit diesem
+    Programm erhalten haben. Wenn nicht, siehe <https://www.gnu.org/licenses/>.
+
+based on official questions, available at
+http://www.bundesnetzagentur.de/Flugfunkzeugnisse
+version 2022-02-01, most recently downloaded on 2023-02-22
+
+Changelog:
+   20230323: initial version
+      - late evening hack parallel to Hellboy II
+   20230326: enhanced version
+      - better GUI
+      - support for question-related images
+      - disclaimer for Copyright Frank Abelbeck/Bundesnetzagentur
+      - fixed shuffling algo
+   20230327: optimised version
+      - simplified shuffle algo
+   20230713: updated question catalogue
+-->
+<head>
+	<meta charset=utf8>
+	<meta name=viewport content="width=device-width, initial-scale=1.0">
+	<script>
+lstQA = [
+	[
+		"Welche zwischenstaatliche Organisation hat für den weltweiten Flugfunkdienst besondere Bedeutung?",
+		"ITU",
+		"IATA",
+		"UNESCO",
+		"NATO",
+	],
+	[
+		"Was ist die rechtliche Grundlage für das Errichten und Betreiben von Funkanlagen in der Bundesrepublik Deutschland?",
+		"Das Telekommunikationsgesetz (TKG)",
+		"Das Luftverkehrsgesetz",
+		"Das Internationale Zivile Luftfahrtabkommen",
+		"Die Verordnung über die Flugsicherungsausrüstung der Luftfahrzeuge",
+	],
+	[
+		"Wer ist in der Bundesrepublik Deutschland für Frequenzzuteilungen zum Betrieb von Boden- und Luftfunkstellen zuständig?",
+		"Die Bundesnetzagentur",
+		"Der Bundesminister des Innern",
+		"Die Luftfahrtbehörden der Länder",
+		"Das Flugsicherungsunternehmen (DFS)",
+	],
+	[
+		"Wer benötigt zur Durchführung des Sprechfunkverkehrs ein Flugfunkzeugnis?",
+		"Der Luftsportgeräteführer im Luftraum D",
+		"Der Flugschüler an Bord eines Ausbildungsluftfahrzeuges in der Platzrunde eines unkontrollierten Flugplatzes",
+		"Der Betreiber einer Bodenfunkstelle, die ausschließlich der Übermittlung von Flugbetriebsmeldungen dient",
+		"Der Flugschüler an Bord eines Ausbildungsluftfahrzeuges in der Platzrunde eines kontrollierten Flugplatzes",
+	],
+	[
+		"Wer benötigt zur Durchführung des Sprechfunkverkehrs kein Flugfunkzeugnis?",
+		'Betreiber einer Funkstelle mit dem Rufzeichen "RÜCKHOLER"',
+		"Fluglotse",
+		"Flugleiter an einem Segelfluggelände",
+		"Luftsportgeräteführer im Luftraum C",
+	],
+	[
+		"Wer benötigt zur Durchführung des Sprechfunkverkehrs kein Flugfunkzeugnis?",
+		"Flugschüler in der Platzrunde von Flugplätzen mit / ohne Flugverkehrskontrolle",
+		"Fluglotse",
+		"Flugleiter an einem Landeplatz",
+		"Beauftragte für Luftaufsicht",
+	],
+	[
+		'Wozu berechtigt das "Beschränkt Gültige Sprechfunkzeugnis II für den Flugfunkdienst" (BZF II)? Zur Ausübung des Sprechfunkverkehrs ...',
+		"in deutscher Sprache innerhalb der Bundesrepublik Deutschland",
+		"bei VFR-Flügen in englischer Sprache",
+		"bei IFR-Flügen",
+		"in deutscher und englischer Sprache bei allen deutschen Bodenfunkstellen",
+	],
+	[
+		'Wozu berechtigt das "Beschränkt Gültige Sprechfunkzeugnis II für den Flugfunkdienst" (BZF II)? Zur Ausübung des Sprechfunkverkehrs bei ...',
+		"VFR-Flügen innerhalb der Bundesrepublik Deutschland in deutscher Sprache",
+		"VFR-Flügen innerhalb der Bundesrepublik Deutschland in englischer Sprache",
+		"IFR-Flügen",
+		"VFR-Flügen in einer der ICAO-Sprachen",
+	],
+	[
+		"Welches Flugfunkzeugnis wird benötigt, um den Sprechfunkverkehr in deutscher und englischer Sprache nach Sichtflugregeln durchführen zu dürfen?",
+		"BZF I",
+		"BZF II",
+		"Kein Flugfunkzeugnis, da es sich um einen VFR-Flug handelt",
+		"Kein Flugfunkzeugnis, wenn der Fluglehrer einen schriftlichen Flugauftrag erteilt hat",
+	],
+	[
+		"Was ist eine Luftfunkstelle? Eine Funkstelle ...",
+		"des beweglichen Flugfunkdienstes an Bord eines Luftfahrzeuges",
+		"an Bord eines Flugzeugträgers",
+		"des beweglichen Flugfunkdienstes an einem internationalen Verkehrsflughafen",
+		"des beweglichen Flugfunkdienstes an einem Landeplatz",
+	],
+	[
+		"Was ist eine Bodenfunkstelle?",
+		"ine ortsfeste Funkstelle im beweglichen Flugfunkdienst. In bestimmten Fällen an Bord eines Seefahrzeugs oder auf einer Plattform auf See",
+		"Eine Funkstelle des festen Flugfernmeldedienstes",
+		"Jede Funkstelle zur Aussendung von Funksprüchen",
+		"Eine Funkstelle des Flugfernmeldedienstes an Land oder an Bord eines Schiffes für den Austausch von Funkmeldungen",
+	],
+	[
+		'Was bedeutet der Begriff "BLINDSENDUNG"?',
+		"Das Übermitteln einer Meldung an die Flugverkehrsdienststelle, wenn eine Sprechfunkverbindung nicht hergestellt werden kann.",
+		"Eine Übermittlung von meteorologischen und flugbetrieblichen Informationen für Flugzeuge über der hohen See oder Wüstengebieten außerhalb der Funküberdeckung von UKW-Bodenfunkstellen",
+		"Eine Übermittlung von Informationen für die Luftfahrt, die nicht an einen bestimmten Empfänger gerichtet ist",
+		"Ein Funkspruch, dessen Erhalt vom Empfänger wiederholt werden muss",
+	],
+	[
+		'Was bedeutet der Begriff "ALLGEMEINER ANRUF"?',
+		"Funkstellen des beweglichen Flugfunkdienstes können gleichzeitig alle Funkstellen, die auf einer Frequenz hörbereit sind, anrufen",
+		"Die Übermittlung von Meldungen über Wettererscheinungen, welche die Sicherheit des Flugbetriebes betreffen können, die an eine oder mehrere bestimmte Stellen gerichtet ist",
+		"Eine Übermittlung, deren Empfang bestätigt werden muss",
+		"Eine Meldung mittels Sprechfunk von einer Bodenfunkstelle an eine bestimmte Luftfunkstelle",
+	],
+	[
+		'Was bedeutet der Begriff "ROLLHALT"?',
+		"Ein bezeichneter Ort zum Schutz einer Piste, einer Hindernisbegrenzungsfläche, an dem rollende Luftfahrzeuge und Fahrzeuge anhalten und warten müssen",
+		"Eine nicht markierte Position auf dem Abstellplatz für die Allgemeine Luftfahrt",
+		"Eine markierte Position auf einer Startbahn, wo der Startlauf begonnen wird",
+		"Jeder markierte Abstellplatz auf dem Vorfeld eines Verkehrsflughafens",
+	],
+	[
+		'Welche Abkürzung wird für den Begriff "KONTROLLZONE" verwendet?',
+		"CTR",
+		"CZ",
+		"CTZ",
+		"CTA",
+	],
+	[
+		'Welche Bedeutung hat die Abkürzung "IMC"?',
+		"Instrumentenwetterbedingungen",
+		"Sichtwetterbedingungen",
+		"Instrumentenflug",
+		"Sichtflug",
+	],
+	[
+		'Welche Bedeutung hat die Abkürzung "FIR"?',
+		"Fluginformationsgebiet",
+		"Fluginformations-Radar",
+		"Fluginformation erbeten",
+		"Fluginformation erhalten",
+	],
+	[
+		'Was bedeutet die Abkürzung "H24"?',
+		"Ununterbrochener Betrieb bei Tag und Nacht",
+		"Sonnenuntergang bis Sonnenaufgang",
+		"Keine festgelegte Betriebszeit",
+		"Höhe 2400 Fuss",
+	],
+	[
+		'Was bedeutet die Abkürzung "HX"?',
+		"Keine festgelegte Betriebszeit",
+		"Höhe nicht festgelegt",
+		"Sonnenaufgang bis Sonnenuntergang",
+		"Ununterbrochener Betrieb bei Tag und Nacht",
+	],
+	[
+		'Was bedeutet die Abkürzung "HJ"?',
+		"Sonnenaufgang bis Sonnenuntergang",
+		"Keine festgelegte Betriebszeit",
+		"Sonnenuntergang bis Sonnenaufgang",
+		"Ununterbrochener Betrieb bei Tag und Nacht",
+	],
+	[
+		'Welche Bedeutung hat die Abkürzung "AIS"?',
+		"Flugberatungsdienst",
+		"Flughafeninformationssystem",
+		"Allgemeine Informationsstelle",
+		"Allwetter-Informationssystem",
+	],
+	[
+		'Welche Bedeutung hat die Abkürzung "SAR"?',
+		"Such- und Rettungsdienst",
+		'"STOPP AM ROLLHALT"',
+		"Sekundär-Anflugradar",
+		"Standardanflugroute",
+	],
+	[
+		'Welche Abkürzung wird für den Begriff "KOORDINIERTE WELTZEIT" verwendet?',
+		"UTC",
+		"GMT",
+		"Z-Zeit",
+		"CUT",
+	],
+	[
+		'Welche Bedeutung hat die Abkürzung "ATIS"?',
+		"Automatische Ausstrahlung von Lande- und Startinformationen (AUTOMATIC TERMINAL INFORMATION SERVICE)",
+		"Flugverkehrsinformationsdienst (AIR TRAFFIC INFORMATION SERVICE)",
+		"Flughafengebäude Informationsdienst (AIRPORT TERMINAL INFORMATION SERVICE)",
+		"Automatisches Informationssystem (AUTOMATIC INFORMATION SYSTEM)",
+	],
+	[
+		'Was bedeutet die Q-Gruppe "QFE"?',
+		"Der Luftdruck in Flugplatzhöhe oder an der Start- und Landebahnschwelle",
+		"Der Luftdruck bezogen auf einen Punkt auf der Erdoberfläche",
+		"Der Luftdruck bezogen auf das höchste feste Hindernis eines Flugplatzes",
+		"Die Höhenmesser-Skalaeinstellung, die nach der Landung die Platzhöhe anzeigt",
+	],
+	[
+		'Was bedeutet die Q-Gruppe "QNH"?',
+		"Skaleneinstellung am Höhenmesser, damit bei der Landung die Flugplatzhöhe angezeigt wird",
+		"Der Luftdruck in Flugplatzhöhe oder an der Landebahnschwelle",
+		"Der am Flughafenbezugspunkt gemessene Luftdruck",
+		"Der Luftdruck bezogen auf das höchste Hindernis auf einem Flughafen",
+	],
+	[
+		"Wenn Sie auf dem Höhenmesser die Höhe über NN ablesen wollen, welcher Luftdruckwert muss dann auf dem Höhenmesser eingestellt sein?",
+		"QNH",
+		"QFE",
+		"QUJ",
+		"QDM",
+	],
+	[
+		"Wenn Sie auf dem Höhenmesser die Höhe über dem Flugplatz ablesen wollen, welcher Luftdruckwert muss dann auf dem Höhenmesser eingestellt sein?",
+		"QFE",
+		"QDR",
+		"QNH",
+		"QTE",
+	],
+	[
+		'Was bedeutet die Q-Gruppe "QDM"?',
+		"Missweisender Kurs zur Station",
+		"Rechtweisende Peilung von der Station",
+		"Missweisende Peilung von der Station",
+		"Rechtweisender Steuerkurs zur Station (kein Wind)",
+	],
+	[
+		'Wie heißt die Q-Gruppe für "MISSWEISENDER KURS ZUR STATION"?',
+		"QDM",
+		"QNE",
+		"QDR",
+		"QTE",
+	],
+	[
+		'Was bedeutet die Q-Gruppe "QDR"?',
+		"Missweisende Peilung von der Station",
+		"Missweisender Steuerkurs zur Station (kein Wind)",
+		"Rechtweisende Peilung / Funkstandlinie von der Station",
+		"Rechtweisender Steuerkurs zur Station",
+	],
+	[
+		'Wie heißt die Q-Gruppe für "MISSWEISENDE PEILUNG VON DER STATION"?',
+		"QDR",
+		"QDM",
+		"QTE",
+		"QFE",
+	],
+	[
+		"Was sind Peilfunkmeldungen? Meldungen, die ...",
+		"zur Übermittlung von Peilwerten zur navigatorischen Unterstützung dienen",
+		"den Ausfall von Funknavigationsanlagen an Bord eines Luftfahrzeuges betreffen",
+		"der Übermittlung von QNH-Werten dienen",
+		"den Ausfall von Funknavigationsanlagen am Boden betreffen",
+	],
+	[
+		"Welche Meldungsart steht in der Rangfolge vor den Flugsicherheitsmeldungen?",
+		"Peilfunkmeldung",
+		"Staatstelegramm",
+		"Wettermeldung",
+		"Flugbetriebsmeldung",
+	],
+	[
+		"Meldungen, die bei der Durchführung der Flugverkehrskontrolle übermittelt werden, sind ...",
+		"Flugsicherheitsmeldungen",
+		"Peilfunkmeldungen",
+		"Flugbetriebsmeldungen",
+		"Dringlichkeitsmeldungen",
+	],
+	[
+		"Eine Meldung, welche die Sicherheit eines Luftfahrzeugs, eines anderen Fahrzeugs oder einer Person an Bord betrifft, ist eine ...",
+		"Dringlichkeitsmeldung",
+		"Flugbetriebsmeldung",
+		"Notmeldung",
+		"Flugsicherheitsmeldung",
+	],
+	[
+		"Eine Meldung betreffend dringend benötigter Luftfahrzeugteile ist eine ...",
+		"Flugbetriebsmeldung",
+		"Dringlichkeitsmeldung",
+		"Flugsicherheitsmeldung",
+		"Flugverkehrskontrollmeldung",
+	],
+	[
+		"Welche der aufgeführten Meldungen sind im beweglichen Flugfunkdienst zulässig?",
+		"Peilfunkmeldungen",
+		"Verwaltungsmeldungen der Luftfahrtbehörden",
+		"Meldungen von Luftfahrzeughaltern",
+		"Fernschreibmeldungen",
+	],
+	[
+		'Die Meldung eines Piloten an den Kontrollturm "MEINE VORAUSSICHTLICHE ANKUNFTSZEIT IST 1206, BESTELLEN SIE MIR BITTE EIN TAXI" ist ...',
+		"eine unerlaubte Meldung im beweglichen Flugfunkdienst",
+		"eine Dringlichkeitsmeldung",
+		"eine Flugsicherheitsmeldung",
+		"eine Flugbetriebsmeldung",
+	],
+	[
+		'Die Meldung eines Piloten an den Flugverkehrskontrolldienst "ERBITTE RADAR-FÜHRUNG ZUM UMFLIEGEN DES GEWITTERS" ist eine ...',
+		"Flugsicherheitsmeldung",
+		"Wettermeldung",
+		"Dringlichkeitsmeldung",
+		"Peilfunkmeldung",
+	],
+	[
+		'Die Freigabe "PISTE 05, START FREI" ist eine ...',
+		"Flugsicherheitsmeldung",
+		"unerlaubte Meldung",
+		"Dringlichkeitsmeldung",
+		"Flugbetriebsmeldung",
+	],
+	[
+		'Die Priorität der Meldung "ERBITTE QDM" ist ...',
+		'höher als "START FREI"',
+		'niedriger als "ERBITTE QNH"',
+		'niedriger als "STEIGEN SIE AUF FLUGFLÄCHE 85"',
+		'gleichwertig mit "PISTE 32, LANDUNG FREI"',
+	],
+	[
+		'Die Priorität der Anweisung "ROLLEN SIE ZUM ROLLHALT PISTE 12 ÜBER C" ist ...',
+		'gleichwertig mit "ROLLEN SIE ZUM ABFLUGPUNKT PISTE 05, DORT HALTEN"',
+		'niedriger als "LANDUNG FREI"',
+		'höher als "SENDEN SIE FÜR PEILUNG"',
+		'höher als "BEACHTEN SIE BAUARBEITEN LINKS DER ROLLBAHN G"',
+	],
+	[
+		"Wie wird die Uhrzeit im Flugfunkdienst übermittelt, wenn Verwechslungen ausgeschlossen sind?",
+		"In Minuten, zweistellig",
+		"In Stunden und Minuten",
+		"In Minuten und Sekunden",
+		"Nach Belieben",
+	],
+	[
+		"Zahlen sind grundsätzlich in einzelnen Ziffern zu übermitteln. Ausgenommen von dieser Regelung sind …",
+		"Richtungsangaben nach Uhrzeigerstellung bei Verkehrshinweisen",
+		"die Bezeichnung von Pisten",
+		"Windrichtungen",
+		"Steuerkursen",
+	],
+	[
+		"Wie wird das Rufzeichen DIJYF richtig buchstabiert?",
+		"DELTA INDIA JULIETT YANKEE FOXTROT",
+		"DELTA YULIETT INDIA JANKEE FOXTROT",
+		"DELTA INDIA JULIETT YANKEE FOX",
+		"DELTA INDIA JANKEE YULIETT FOXTROT",
+	],
+	[
+		"Wie wird die Zahl 3500 richtig übermittelt?",
+		"DREI TAUSEND FÜNF HUNDERT",
+		"DREI FÜNEFF HUNDERT",
+		"DREI FÜNF NULL NULL",
+		"DREI TAUSEND FÜNF NULL NULL",
+	],
+	[
+		'Wie übermittelt man "QNH 1001" richtig?',
+		"QNH eins null null eins",
+		"QNH ein tausend eins",
+		"QNH eins zero zero eins",
+		"QNH eintausend und eins",
+	],
+	[
+		"Wie wird die VHF-Frequenz 120,275 MHz übermittelt?",
+		"eins zwo null Komma zwo sieben fünf",
+		"eins zwanzig Komma zwo sieben",
+		"eins zwei null Komma zwo sieben",
+		"eins zwo null zwo sieben füneff",
+	],
+	[
+		"Wie übermittelt man die Zeit 1318, wenn man einen Irrtum oder eine Verwechslung ausschließen will?",
+		"eins drei eins acht",
+		"dreizehn eins acht",
+		"dreizehn achtzehn",
+		"eins acht nach dreizehn Uhr",
+	],
+	[
+		"Wie lautet das Rufzeichen einer Bodenfunkstelle an einem kontrollierten Flugplatz für die Bewegungslenkung auf dem Rollfeld?",
+		"ROLLKONTROLLE",
+		"INFORMATION",
+		"RADAR",
+		"TURM",
+	],
+	[
+		"Wie lautet das Rufzeichen einer Bodenfunkstelle an einem kontrollierten Flugplatz für die Bewegungslenkung in der Platzrunde?",
+		"TURM",
+		"RÜCKHOLER",
+		"VORFELD",
+		"INFORMATION",
+	],
+	[
+		"Wie werden die Rufzeichen von deutschen Bodenfunkstellen bei einem unkontrollierten Landeplatz gebildet? Aus dem Ortsnamen des Landeplatzes in Verbindung mit dem Begriff:",
+		"RADIO",
+		"LUFTAUFSICHT",
+		"TURM",
+		"FLUGLEITUNG",
+	],
+	[
+		"Wie werden Rufzeichen von deutschen Bodenfunkstellen bei Segelfluggeländen gebildet? Aus dem Namen des Segelfluggeländes in Verbindung mit dem Begriff:",
+		"SEGELFLUG",
+		"RADIO",
+		"BODEN",
+		"INFORMATION",
+	],
+	[
+		"Das Rufzeichen für den Fluginformationsdienst durch das Flugsicherungsunternehmen lautet:",
+		"INFORMATION",
+		"RADIO",
+		"INFO",
+		"FLUGINFORMATION",
+	],
+	[
+		'Was erhält man von einer Bodenfunkstelle mit dem Rufzeichen "INFORMATION"?',
+		"Flugplatzwetter",
+		"Rollanweisungen",
+		"Landefreigaben",
+		"Startfreigaben",
+	],
+	[
+		"Wann darf bei der Abwicklung des Sprechfunkverkehrs das Rufzeichen der Bodenfunkstelle weggelassen werden?",
+		"Nach Herstellen der Funkverbindung",
+		"Wenn sich das Luftfahrzeug in der Platzrunde befindet",
+		"Bei jedem Funkanruf",
+		"Wenn eine Verwechslung mit anderen Luftfunkstellen ausgeschlossen ist",
+	],
+	[
+		"Wie werden Rufzeichen deutscher Luftfunkstellen gebildet? Aus ...",
+		"den Zeichen des Eintragungszeichen des Luftfahrzeugs",
+		"der Musterbezeichnung des Luftfahrzeuges und den drei letzten Stellen des Eintragungszeichens",
+		"der Flugnummer in Verbindung mit dem Eintragungszeichen",
+		'dem Buchstaben "D" und drei weiteren Buchstaben',
+	],
+	[
+		"Ein Luftfahrzeug darf den Typ seines Rufzeichens im Sprechfunkverkehr während des Fluges nicht ändern, ausgenommen vorübergehend …",
+		"auf Anweisung einer Flugverkehrskontrollstelle im Interesse der Sicherheit",
+		"für Motorsegler beim Wechsel vom Motor- zum Segelflug",
+		"auf Antrag des Piloten",
+		"wenn der IFR-Flugplan aufgehoben und der Flug nach VFR fortgesetzt wird",
+	],
+	[
+		"Wie wird das abgekürzte Rufzeichen einer Luftfunkstelle gebildet? Aus ...",
+		"dem ersten Zeichen des Eintragungszeichens und mindestens den zwei letzten Zeichen des Rufzeichens",
+		"den drei letzten Stellen des Rufzeichens",
+		"den beiden letzten Stellen des Eintragungszeichens",
+		"der Bezeichnung des Luftfahrzeugmusters in Verbindung mit der letzten Stelle des Rufzeichens",
+	],
+	[
+		"Wann darf eine Luftfunkstelle ihr abgekürztes Rufzeichen verwenden?",
+		"Nachdem die Bodenfunkstelle es bereits verwendet hat",
+		"Nur bei Flügen in der Platzrunde",
+		"Bei jedem Funkanruf",
+		"Nach Herstellung der Sprechfunkverbindung mit der Bodenfunkstelle",
+	],
+	[
+		"Mit welchem Flugverkehrsdienst kann man während des Fluges im Luftraum C Sprechfunkverbindung aufnehmen? Mit dem/der ...",
+		"Flugverkehrskontrolldienst",
+		"Flugnavigationsdienst",
+		"Flugfernmeldedienst",
+		"Flugberatungsdienst",
+	],
+	[
+		"Mit welchem Flugverkehrsdienst kann man während des Fluges Sprechfunkverbindung aufnehmen? Mit dem …",
+		"Fluginformationsdienst",
+		"Flugfernmeldedienst",
+		"Flugnavigationsdienst",
+		"Flugberatungsdienst",
+	],
+	[
+		"Welche Redewendung ist anzuwenden, wenn bei einem Anruf das Rufzeichen der rufenden Funkstelle nicht verstanden wurde?",
+		"WIEDERHOLEN SIE IHR RUFZEICHEN",
+		"MONITOR IHR RUFZEICHEN",
+		"ÜBERPRÜFEN SIE IHR RUFZEICHEN",
+		"BESTÄTIGEN SIE IHR RUFZEICHEN",
+	],
+	[
+		"Eine Meldung wird von einem Pilot nicht vollständig wiederholt, obwohl es die Art der Meldung erfordert. Mit welcher Redewendung wird er zur Wiederholung aufgefordert?",
+		"WIEDERHOLEN SIE WÖRTLICH",
+		"KOMMEN",
+		"BESTÄTIGEN SIE",
+		"LESEN SIE ZURÜCK",
+	],
+	[
+		'Wie lautet die Redewendung für "JA"?',
+		"POSITIV",
+		"VERSTANDEN",
+		"RICHTIG",
+		"DAS IST RICHTIG",
+	],
+	[
+		'Wie lautet die Redewendung für "ERLAUBNIS WIRD NICHT ERTEILT"?',
+		"NEGATIV",
+		"FALSCH",
+		"NICHT RICHTIG",
+		"NEIN",
+	],
+	[
+		'Wie lautet die Redewendung für "ICH HABE IHRE LETZTE MELDUNG VOLLSTÄNDIG ERHALTEN"?',
+		"VERSTANDEN",
+		"POSITIV",
+		"WIRD AUSGEFÜHRT",
+		"WILCO",
+	],
+	[
+		"Der Inhalt einer klar verständlichen Meldung erscheint Ihnen zweifelhaft. Welche Redewendung wenden Sie an, um die Zweifel auszuräumen?",
+		"BESTÄTIGEN SIE",
+		"WIEDERHOLEN SIE WÖRTLICH",
+		"ÜBERMITTELN SIE NOCHMALS",
+		"BERICHTIGUNG",
+	],
+	[
+		"Der Höhenmesser ist auf den Druckwert 1013,2 hPa eingestellt und zeigt 7500 Fuss an. Die Bodenfunkstelle fragt nach der augenblicklichen Höhe des Luftfahrzeuges. Wie muss die Antwort des Piloten lauten?",
+		"FL 75",
+		"7500 ft",
+		"7500 ft AGL",
+		"7500 ft AMSL",
+	],
+	[
+		'Welche Redewendung soll angewandt werden um auszudrücken: "BEI DER ÜBERMITTLUNG IST EIN FEHLER UNTERLAUFEN, ES MUSS RICHTIG HEIßEN ..."',
+		"QNH 1003 BERICHTIGUNG QNH 1002",
+		"QNH 1003 TRENNUNG TRENNUNG 1002",
+		"QNH 1003 NEGATIV QNH 1002",
+		"QNH 1003 ICH WIEDERHOLE 1002",
+	],
+	[
+		'Welche Redewendung wird angewandt um auszudrücken: "GENEHMIGUNG, UNTER FESTGESETZTEN BEDINGUNGEN ZU VERFAHREN"?',
+		"FREI",
+		"POSITIV",
+		"GENEHMIGT",
+		"KORREKT",
+	],
+	[
+		"Mit welcher Redewendung wird ein Pilot angewiesen, mit seinem SSR-Antwortgerät (Transponder) einen bestimmten Modus / Code zu senden?",
+		"SQUAWK",
+		"SENDEN SIE MITTELS TRANSPONDER",
+		"TRANSPOND",
+		"RESPOND MODE …. / CODE ….",
+	],
+	[
+		'Die Redewendung "WILCO" bedeutet:',
+		"Ich habe Ihre Nachricht verstanden und werde entsprechend handeln",
+		"Warten Sie, ich werde Sie rufen",
+		"Ich habe Ihre letzte Meldung vollständig erhalten",
+		"Ich wiederhole zur Klarstellung oder Betonung",
+	],
+	[
+		'Die Redewendung "MONITOR" bedeutet:',
+		"Hören Sie (Frequenz / Kanal) ab",
+		"Betrachten Sie diese Übermittlung als nicht gesendet",
+		"Stellen Sie Funkverbindung her mit (Station)",
+		"Teilen Sie mit, dass die Meldung empfangen und verstanden wurde",
+	],
+	[
+		'Wie bestätigt ein Pilot die Anweisung des Kontrollturmes: "STARTEN SIE DURCH PISTE BLOCKIERT!"?',
+		"STARTE DURCH",
+		"VERSTANDEN",
+		"WILCO",
+		"POSITIV",
+	],
+	[
+		'Mit welcher Sprechgruppe bestätigt ein Pilot die Anweisung "DEKMG HALTEN SIE POSITION STARTFREIGABE AUFGEHOBEN, ICH WIEDERHOLE STARTFREIGABE AUFGEHOBEN"?',
+		"DEKMG HALTE",
+		"DEKMG VERSTANDEN",
+		"DEKMG",
+		"DEKMG POSITIV",
+	],
+	[
+		"DEHOL erhält Startfreigabe am Abflugpunkt der Piste 24. Wie bestätigt der Pilot die Freigabe?",
+		"DEHOL PISTE 24 START FREI",
+		"DEHOL START FREI",
+		"DEHOL WILCO",
+		"DEHOL ICH STARTE",
+	],
+	[
+		"DEKUL hat seine Startvorbereitungen beendet. Mit welcher Sprechgruppe teilt er dies dem TURM mit?",
+		"DEKUL ABFLUGBEREIT",
+		"DEKUL START FREI",
+		"DEKUL STARTBEREIT",
+		"DEKUL STARTET",
+	],
+	[
+		'Was bedeutet die Anweisung einer Flugverkehrskontrollstelle "(RUFZEICHEN) SQUAWK 1352"?',
+		"Schalten Sie den Transponder auf Mode/Code 1352",
+		"Zählen Sie 1-3-5-2- für Funkpeilung",
+		"Erbitte Testsendung auf Frequenz 135,200 MHz",
+		"Schalten Sie um auf Frequenz 135,200",
+	],
+	[
+		'Von der Radarkontrolle erhalten Sie folgenden Verkehrshinweis: "UNBEKANNTES FLUGZIEL ZEHN UHR ENTFERNUNG 4 MEILEN ". Wo befindet sich das Flugziel, wenn Sie aus der Flugzeugkanzel sehen?',
+		"Links voraus",
+		"Querab rechts",
+		"Rechts voraus",
+		"In Flugrichtung voraus",
+	],
+	[
+		"Wann ist ein Einleitungsanruf abzusetzen?",
+		"Beim Herstellen der Sprechfunkverbindung",
+		"Nur in Notfällen",
+		"Wenn eine Meldung nicht verstanden wurde",
+		"Bei jedem Funkkontakt",
+	],
+	[
+		"Welches der folgenden Beispiele ist ein Einleitungsanruf?",
+		"AACHEN RADIO DELID",
+		"SAARBRÜCKEN TURM HIER DIAMK",
+		"HAMBURG TURM VON DER DEMIL KOMMEN",
+		"2468 FÜR WASSERKUPPE SEGELFLUG WIE HÖREN SIE MICH?",
+	],
+	[
+		'Muss ein "ALLGEMEINER ANRUF" bestätigt werden?',
+		"Nein",
+		"Ja, nur von dem zuerst gerufenen Piloten",
+		"Ja, von allen Piloten in beliebiger Reihenfolge",
+		"Ja, von allen Piloten in der Reihenfolge des Anrufs",
+	],
+	[
+		'Welcher der folgenden Funkanrufe ist ein "ALLGEMEINER ANRUF"?',
+		"AN ALLE HAMBURG TURM ... ENDE",
+		"DEKOF, DIEBS, DKARL NÜRNBERG ROLLKONTROLLE",
+		"D8765 BERLIN INFORMATION",
+		"LUFTHANSA 123, LUFTHANSA 456",
+	],
+	[
+		'Welcher der folgenden Anrufe ist ein "MEHRFACHANRUF"?',
+		"DEABC, DGIAL, DHHIA RUFEN SIE LEIPZIG TURM (FREQUENZ)",
+		"DIENO DELLW",
+		"AN ALLE DRESDEN TURM",
+		"DEAMM ERFURT ROLLKONTROLLE",
+	],
+	[
+		'Muss ein "MEHRFACHANRUF" bestätigt werden?',
+		"Ja, in der von der rufenden Funkstelle benutzten Reihenfolge",
+		"Ja, in beliebiger Reihenfolge",
+		"Nein",
+		"Ja, nur von der zuerst gerufenen Funkstelle",
+	],
+	[
+		"Ein Pilot empfängt einen Funkanruf, ist sich aber nicht sicher, ob er gerufen wurde. Wie verhält er sich richtig? Er ...",
+		"wartet ab, bis der Anruf wiederholt wird",
+		"nennt das eigene Rufzeichen und wartet dann ab",
+		'nennt das eigene Rufzeichen mit der Sprechgruppe "WIEDERHOLEN SIE IHR RUFZEICHEN"',
+		'antwortet mit der Sprechgruppe "WIEDERHOLEN SIE"',
+	],
+	[
+		"Was ist vor Aufnahme des Sprechfunkverkehrs zu beachten?",
+		"Nach Wahl der richtigen Frequenz sicherstellen, dass kein laufender Funkverkehr gestört wird",
+		"Es muss eine Funkprobe stattgefunden haben",
+		"Das Luftfahrzeug muss sich in der Luft befinden",
+		"Die Entfernung zwischen Boden- und Luftfunkstelle darf nicht weniger als 30 NM betragen",
+	],
+	[
+		"Vor Einflug in den Luftraum C unter FL 100 in der Umgebung von Verkehrsflughäfen muss Sprechfunkverbindung mit der zuständigen Flugverkehrskontrollstelle spätestens aufgenommen werden:",
+		"5 Minuten vor Einflug in diesen Luftraum",
+		"Beim Einflug in diesen Luftraum",
+		"Unmittelbar nach dem Start",
+		"Oberhalb von 3500 ft AGL",
+	],
+	[
+		"Der Sprechfunkverkehr bei VFR-Flügen in und oberhalb Flugfläche 100 wird durchgeführt in ...",
+		"englischer Sprache",
+		"deutscher Sprache",
+		"einer der ICAO-Sprachen",
+		"deutscher oder englischer Sprache",
+	],
+	[
+		"DGIGA erhält die Anweisung, HAMBURG TURM auf Frequenz 121,280 MHz zu rufen. Wie lautet die richtige Bestätigung des Piloten?",
+		"DGIGA rufe 121,280",
+		"DGIGA wechsele Frequenz",
+		"DGIGA werde TURM rufen DGIGA",
+		"HAMBURG TURM DGIGA",
+	],
+	[
+		"Dauernde Hörbereitschaft ist aufrechtzuerhalten bei VFR-Flügen im Luftraum:",
+		"C und D",
+		"nur D",
+		"E",
+		"E und D",
+	],
+	[
+		"Ein Pilot führt ein Luftfahrzeug nach Sichtflugregeln in der Platzrunde eines Flugplatzes mit Flugverkehrskontrolle. Wozu ist er grundsätzlich verpflichtet?",
+		"Ständige Hörbereitschaft auf der Frequenz der Flugplatzkontrollstelle zu halten",
+		"In jedem Teil der Platzrunde eine Standortmeldung abzusetzen",
+		"Eine Wetterberatung einzuholen",
+		"In jedem Fall vor Beginn des Fluges einen Flugplan abzugeben",
+	],
+	[
+		"Bei welchen Flügen muss keine ständige Hörbereitschaft aufrechtgehalten werden? Bei VFR-Flügen ...",
+		"bei Nacht im Luftraum G (außerhalb RMZ)",
+		"bei Nacht im Luftraum C (außerhalb der Umgebung des Flugplatzes)",
+		"bei Nacht im Luftraum D (außerhalb der Umgebung des Flugplatzes)",
+		"bei Nacht im Luftraum E (außerhalb der Umgebung des Flugplatzes)",
+	],
+	[
+		"Bei welchen Flügen nach Sichtflugregeln muss der Pilot ständige Hörbereitschaft auf der zugewiesenen Frequenz halten? Bei Flügen ...",
+		"im Luftraum C",
+		"im Luftraum F",
+		"im Luftraum E (außerhalb RMZ)",
+		"im Luftraum G (außerhalb RMZ)",
+	],
+	[
+		"Wer ein Luftfahrzeug auf einem Flugplatz mit Flugverkehrskontrolle oder in dessen Umgebung führt, ist u.a. verpflichtet, durch Funk oder Zeichen die vorherige Genehmigung für alle Bewegungen einzuholen, durch die das ...",
+		"Rollen, Starten und Landen eingeleitet werden oder damit in Zusammenhang stehen",
+		"Starten und Landen eingeleitet werden",
+		"Rollen, Starten und Landen eingeleitet werden",
+		"Starten und Landen eingeleitet werden oder damit in Zusammenhang stehen",
+	],
+	[
+		"Wer ein Luftfahrzeug nach Sichtflugregeln auf einem Flugplatz mit Flugverkehrskontrolle oder in dessen Umgebung führt, ist verpflichtet ...",
+		"dauernde Hörbereitschaft auf der vorgesehenen Funkfrequenz zu halten oder, falls dies nicht möglich ist, auf Anweisungen durch Licht- und Bodensignale sowie Zeichen zu achten",
+		"in jedem Teil der Platzrunde eine Standortmeldung abzusetzen",
+		"in jedem Fall vor Beginn des Fluges einen Flugplan abzugeben",
+		"eine Wetter- und Flugberatung einzuholen",
+	],
+	[
+		'Was bedeutet bei einem Funktest der Hinweis "HÖRE SIE ZWO"? Der Funktest ist ...',
+		"zeitweise verständlich",
+		"schwer verständlich",
+		"verständlich",
+		"sehr gut verständlich",
+	],
+	[
+		'Was bedeutet bei einem Funktest der Hinweis "HÖRE SIE DREI"? Der Funktest ist ...',
+		"schwer verständlich",
+		"zeitweise verständlich",
+		"verständlich",
+		"sehr gut verständlich",
+	],
+	[
+		'Was bedeutet bei einem Funktest der Hinweis "HÖRE SIE VIER"? Der Funktest ist ...',
+		"verständlich",
+		"schwer verständlich",
+		"unverständlich",
+		"sehr gut verständlich",
+	],
+	[
+		'Was bedeutet bei einem Funktest der Hinweis "HÖRE SIE FÜNF"? Der Funktest ist ...',
+		"sehr gut verständlich",
+		"unverständlich",
+		"zeitweise verständlich",
+		"schlecht verständlich",
+	],
+	[
+		'Ein Funktest ist "verständlich". Wie wird die Verständlichkeit im Sprechfunkverkehr ausgedrückt?',
+		"Höre Sie vier",
+		"Höre Sie drei",
+		"Höre Sie laut und deutlich",
+		"Höre Sie",
+	],
+	[
+		'Ein Funktest ist "schwer verständlich". Wie wird die Verständlichkeit im Sprechfunkverkehr ausgedrückt?',
+		"Höre Sie drei",
+		"Höre Sie",
+		"Höre Sie zwo",
+		"Höre Sie KOMMEN",
+	],
+	[
+		"Was muss bei einer Testübermittlung u.a. angegeben werden?",
+		'Die Wörter "RADIO CHECK"',
+		'Die Wörter "TRANSMISSION CHECK"',
+		'Die Wörter "TEST CHECK"',
+		'Die Wörter "CHECK CHECK"',
+	],
+	[
+		"Welche Meldung muss ein Pilot wiederholen?",
+		"START FREI",
+		"ACHTEN SIE AUF ENTGEGENKOMMENDEN HUBSCHRAUBER",
+		"BAUARBEITEN LINKS DER ROLLBAHN",
+		"SCHWERE GEWITTER IM RHEINTAL BEI MANNHEIM",
+	],
+	[
+		"Welche Meldungen müssen wiederholt werden?",
+		"Höhenmessereinstellungen",
+		"Verkehrshinweise",
+		"Wettermeldungen",
+		"Rollbahnzustand",
+	],
+	[
+		"Welche Meldungen müssen wiederholt werden?",
+		"Die Frequenz bei Frequenzwechsel",
+		"Hinweise auf Bauarbeiten an der Start-/Landebahn",
+		"Wetterinformationen",
+		"Windrichtung und -stärke",
+	],
+	[
+		"Wie wird der Empfang einer Flugverkehrskontrollfreigabe bestätigt? Durch ...",
+		"Wiederholung von sicherheitsrelevanten Teilen der Freigabe",
+		"zweimaliges Drücken der Mikrofontaste",
+		"Nennung des eigenen, abgekürzten Rufzeichens",
+		"dreimaliges Drücken der Mikrofontaste",
+	],
+	[
+		'DESEL erhält die folgende Freigabe/Anweisung: "DEL NACH DEM ABHEBEN STEIGEN SIE GERADEAUS AUF FLUGHÖHE 3000 FUSS, MACHEN SIE DANN EINE RECHTSKURVE, WIND 250 GRAD, 7 KNOTEN, PISTE 22, START FREI". Wie lautet die richtige Bestätigung seitens DESEL?',
+		"DEL GERADEAUS STEIGEN AUF FLUGHÖHE 3000 FUSS, DANN RECHTSKURVE, PISTE 22, START FREI",
+		"DEL START FREI, PISTE 22, WIND 250 GRAD, 7 KNOTEN",
+		"DEL WILCO, PISTE 22, START FREI",
+		"DEL AUF 3000 FUSS STEIGEN, START FREI",
+	],
+	[
+		"Welche Teile der nachfolgenden Anweisungen oder Informationen müssen bestätigt werden?",
+		"Freigaben, Rollanweisungen, Betriebspiste, QNH, SSR-Codes, Höhenanweisungen, Steuerkurs- und Geschwindigkeitsanweisungen, Frequenz bei Frequenzwechsel",
+		"Betriebsstart-/Landebahn, Bodensicht, Taupunkt, Startfreigabe, Frequenz bei Frequenzwechsel",
+		"Freigaben, Windrichtung/-geschwindigkeit, Steuerkursanweisungen, QNH, Frequenz bei Frequenzwechsel",
+		"Anweisungen über Steuerkurs, Flughöhe, Geschwindigkeit, Höhenmessereinstellung, Flugsicht, Windrichtung, Startfreigabe und Frequenz bei Frequenzwechsel",
+	],
+	[
+		"Bei welchen VFR-Flügen ist in der Regel die Übermittlung von Standortmeldungen erforderlich? Bei ...",
+		"Einflügen in den Luftraum D",
+		"allen Flügen im Luftraum E",
+		"Flügen während der Nacht im Luftraum G",
+		"Flügen über den Wolken im Luftraum E",
+	],
+	[
+		'Bei einem VFR-Flug zu einem Flughafen mit Flugverkehrskontrolle gelten die im "Luftfahrthandbuch VFR" festgelegten Verfahren. Standortmeldungen über den Pflichtmeldepunkten müssen ...',
+		"unabhängig von der erteilten Freigabe in jedem Fall abgesetzt werden, sofern nicht ausdrücklich darauf verzichtet wird",
+		"nur abgesetzt werden, wenn es sich um einen Sonderflug nach Sichtflugregeln handelt",
+		"unabhängig von der erteilten Freigabe nur dann abgesetzt werden, wenn die Platzkontrollstelle dazu auffordert",
+		"nicht abgesetzt werden. Durch die Anweisung, in die Platzrunde einzufliegen, wird auf jede weitere Standortmeldung über Pflichtmeldepunkten verzichtet",
+	],
+	[
+		"Wann hat ein Pilot bei einem VFR-Flug während des Tages der zuständigen Flugverkehrskontrollstelle eine Standortmeldung zu übermitteln?",
+		"Beim Überflug von Pflichtmeldepunkten",
+		"Beim Verlassen des Luftraumes D",
+		"Nur beim Überflug von Funknavigationsanlagen (z.B. VOR, NDB)",
+		"Beim Einflug in die Lufträume E und F",
+	],
+	[
+		"Eine Standortmeldung besteht normalerweise aus Funkrufzeichen des Luftfahrzeuges, Standort, Überflugzeit und Flughöhe. Welche Angabe kann unter bestimmten Voraussetzungen bei einem VFR-Flug entfallen?",
+		"Die Zeitangabe, wenn die Meldung zum Zeitpunkt des Überfluges erfolgt",
+		"Der Standort, wenn dieser auf der Sichtflugkarte veröffentlicht ist",
+		"Die Flughöhe, wenn diese nicht höher als 3500 ft AGL ist",
+		"Das Funkrufzeichen, wenn es sich um einen nichtgewerblichen Flug handelt",
+	],
+	[
+		"Welche Angaben enthält eine Standortmeldung bei Flügen in der Platzrunde?",
+		"Funkrufzeichen des Luftfahrzeuges, Standort",
+		"Funkrufzeichen des Luftfahrzeuges, Standort, Zeit",
+		"Funkrufzeichen des Luftfahrzeuges, Standort, Höhe",
+		"Funkrufzeichen des Luftfahrzeuges, Standort, Höhe, Zeit",
+	],
+	[
+		"Welche Bedeutung hat das abgebildete Symbol auf der Sichtflugkarte?",
+		"Pflichtmeldepunkt",
+		"Luftfahrthindernis",
+		"Funknavigationsanlage",
+		"Meldepunkt auf Anforderung (Bedarfsmeldepunkt)",
+		"data:image/png;base64, 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",
+	],
+	[
+		"Welche Bedeutung hat das abgebildete Symbol auf der Sichtflugkarte?",
+		"Meldepunkt auf Anforderung (Bedarfsmeldepunkt)",
+		"Pflichtmeldepunkt",
+		"Militärflugplatz",
+		"Beleuchtetes Hindernis",
+		"data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAAPgAAAEKCAYAAAA//JitAAAAAXNSR0IArs4c6QAAAARzQklUCAgICHwIZIgAACAASURBVHic7V1psDVFeX5mO+sFZRGMgqCyiGxGQdR8ElxjhSBlikCiiag/klSlKpVKpVKVX/mRX6nK8isLqcQyS8WESKUUDETQwpItgMgeBdkMCCIifN+9555z5sxMfky97/d2n+4+fZZ7z73z9fPnnnump6dnTvf0uz5vVFVVhYCAgEYiXvcAAgICdg5hgQcENBjpugewbiyjochzoygyfl6kT31Mtv7oe9M9uI7ZMO+4fce5Ci1w2bHt1HX2Oo74Bb4o9IW4yonhmpy+i8jUzvUiCGgmgogeENBghB18QURRZN1pXTtwWZb8OUmSme1d58fx3no/76RDRt63LnUEKcSOI36BLzo5qqpSFphJ59UnfFVVKIqC/6cFrkNfuLJvOdHnVRFWvRBkfybbgcQyL6NZfYcFbsfe2gICAgJWirDAAwIajCNeRN8JN5n8Tm9jE1VdOqbe57xj2ynMc41lxxPE8MVwxC/wRWGbsLMMQD4L3KaDA3bDnEsftvnoV/ESkH3Y7s2lQ/u6/faaQXG/IDy1gIAGI+zgC0IXv13Wc/28eT7r/clj0iKfpuv/KVepFrjckDt1zSZi/bNizVjGTWb6X1/oejvpGjOJ3vr3LvHWd4HPCnVdFFEUeYfELiJi71To7JGEIKIHBDQYe3YH36+ily5qS+MZoN4XHauqCsPhkL8fj8fKOXJ3P/roo/mz3BUXeV7LBo/o45bn6BKFSUKZJ4DF5bHwiSh0nSM/24KP9iv27AJfBKvOIJqnP5MIWlWVMmHkhJZRaWVZ4tVXX+XPr7zyitJPr9fja9ACj6IIWZYZx7kK95XvAqdxA+DxAMDGxobS1rZwpJqhQ3oMfKz1LtheFnp0YNMWeBDRAwIajLDAAwIajEaJ6KvCstFtUrfe3t7mY2VZ4kc/+hF/fv755wHUYuoTTzzB5xw8eJDPieMYJ554IgCg1Wrh5JNPVo7JviVWZUE2PQv6Ls9z3HHHHfwd6eNRFLFaQeM89dRT+fNb3vIWPibF+lVb+31cl9IT0EQ0aoEv+kP5Rnf56n55ngOoF91LL73E308mE14QeZ7j1ltv5c+33XYbX1++FJIkwfnnnw8A6Pf7uPzyy/lYu93mc3RddhG/uK/eTc9oNBrhC1/4AoD6Xn/wgx9wu263y5+zLMNll13Gn3/1V3+Vr3f88ccbx2yLZPMlrfA14OlZgU1Dc+8sICCgWTv4otDFW992o9GIv//JT37Cnx9//HEAtej9/e9/n9sXRYH//d//5c//93//x5+lWK9ja2sLQL3rmKzOupi5apFTHxONtSgKvPzyy9xGuvd019PDDz/Mn0nyiKIIxx13HH9/1lln8TlxHOPNb34z/+8S5Rfhn5Pn7leXrA+iI50X3STeSpFNioayXVmWPLknkwnuu+8+ALUP+9prr+XvSSSnPmix6teR4raeWUZi7MbGBr7+9a/z9695zWv4HP2ebPejt5vlfjKRTEwmEwDAwYMHceGFFxqvqfdBaod8jlEU4bWvfS2A2r7wW7/1W3xOlmX45Cc/yf9Lt5vNx+7SuY9UFpggogcENBhhgQcENBhBB4c7ko1Ey7Is8cwzz/CxoijwP//zP3zsscceA1CL5c899xy3IXHW1r/psw7SbcfjMfe3m7qjTQfXvyfvgUms19UbArnWJpMJHnjgAf4+TVP0+33+/PM///MAVL2dIC329Fs2Xbf2xRG/wKMocoaTHjp0CEC9uL71rW9xu+FwiL/4i78AoIaamvqXfUvYFrj+whkMBgBqHZkWu4ktZjcgF69uu6DFWlUVGyAJpDfrej89XwD4yle+opxz0003AagX8F/91V8BqJ/Bueeey22iKEKn0+H/pc3kSNGzXQgiekBAg7ErO/gsUWneKhw2668r6kq/juxL7jZFUeDpp5/mz9/+9renPgO1OCozqXx2U1fUFO2GpnugY61Wi3c8GeFmuo7tWcyydtv6k21++tOfAqh3X1IZZMCInmQj+9DH5goykW63b37zm9xeBtSkaYqLL76Yj73xjW80jtu1m9vm0iLEHa5rLJswswj2tIjucnX4sn3MWnhSDAfqSUWuqNFohGuuuQbAdJZXVVWsc+qQ19FTOk3ZSrIvkxgv3UoUGZckCU4//XTj9W33aurfp/iCrsI8++yzAIDNzU1lEUox3Ab9mDxHivxVVbFqMhgM8Dd/8zd8X+QeBIBOp8MZdmma4oQTTpjqW78HfTw2PjyX+3QR8X8dNoEgogcENBh7egd3Qb4NbZTDujhIu41M+iiKAg8++CC3yfOc/8/znHd3PVJLv5aNfEHf5We9+XWjH3A4iqvT6fAY0jRVdhhXIMeyxiZb4EySJIoEIH8HV563HJfNui7/l8QZURRNPVOK40+ShNWmJEnwnve8h8+RMe90XI7DdK++Yr1v/sI6jH6NWOA23UbXC8nllec57rnnHgD1ov/Xf/1XPke6a2QIKjD9A8noKkm+IPVSqacDqthoipgDVLeP7Lvb7fI9pGmqTHQZyqljmbJGJpWBrpWmqXLfMlrNpr7QedROeiz031QeM7nWAGB7exv/8A//wPdw4403Aqif1Z//+Z8DqBezFOsB9XnbIuFcJaRM49Tb6d+tY4EHET0goMEICzwgoMHYVyK6T3kfXXza3NwEUIved999N4BaRJefKfKMrkF6rm711kU2m17oqiBq0v2iKEKr1eLPr3vd65RrUlZVp9NhXTJJkh3T72a5h4jMoaoqvP71r+fP5D6rKpW0AoBR1zZZzvVr6ecAcEYHks1kNBrh5ptvBlCrBLq1/13vehdfY95nNyvIaBGdfqewZxe4/uD1yWBz7+jGN3IrbW9v45//+Z8B1BOEDDNlWeLHP/6x0ofUkynLC5jW7+laZVlaU0513ZgWsj5u0ud191eWZUzykKYps6FI0kX63zS2VSOKIhxzzDEA6hcOpXhKwoeyLKfIG2SUG2XU6YZLfQHYXGi6sZMi2aqqUgg2KNIwyzL88Ic/VNqfffbZ/L/tObqy8GR7n3brQhDRAwIajD27g8/z9pNRYOT+AmrxmyKgxuMxJ4sURcHRa1VVTeUXu7jOfMYoxXDasalfCsTQecpOOeUU/iyJDpIk4V07jmMe66pj0V2SkO5yk+rEgQMHuP2LL74IoH5mL7zwAp+j888RIYb0Uui7NGB3Per3agtUkSoQcd4B9W9Cce5pmuLDH/4wtzvqqKNggsnK7wOf6MCdxJ5d4IA/cQFNjDzP8dBDD/H3w+EQf/u3f8ttHnnkEeP5UgzXf0Q56fQJaPM1y0UtCxUkSYJzzjkHQC0WXnXVVQDqSUYLBZh2k0lR1caaoo9rmQk0K6xSugd/8zd/k8+RmXdSJJb2j/F4jP/8z/8EoGbbyfP1MbjmgT5Wk7hdVRXuvPNO5Xyyu/R6PU5eiePYusBN4/DBunXwIKIHBDQYe3oHd0GmLJLIJ9lJ6X9ZMcS2K7nKC0noO7YU7cnQkyQJzjjjDL7GmWeeqVyTjFJpmuKkk07ic1yMohK+Bp1leMrk+a6+9WOkmsgKLED9G5122mkA6t38Qx/6EID6uZM6Ind5Oia9G9JyLiUcGVgEwBgbL8dG4yfvSp7nLK63Wi3ONY+iSLkH/b4l9oIxzYY9y8lmsgTLqDRyS41GI/zLv/wLgFok/9M//VOlD1uOsozA8l0cukWc3EXStSW5xLIswyc+8Qml35/5mZ8x3o8cs+4GslneXbBFXemwZeIt8oLwzaqSJZuIeHJ7ext//Md/zO3yPMctt9zC59DvrRM+yN9VukUB9UUgc8b1yDg61u/3WX2QNhK9na/qqM+tdZRFCiJ6QECDERZ4QECDsXYdfB4RkMRtyT0+Go1w//33A6jFOj0IwseF4qOD63nI0vIdxzFHdKVpynp2kiRKCR8br7k+Hpeoa7sfHbuhec2yts9CFEVskW+1Wrjooov42GQy4d9S8smbrO0+STf6vJBjoPOHwyFXm8myTNHBdfXKBtdzX4dFfe0L3AXdEEb6lSRlGA6HzOWl//h6H9LoIl1Prog5QhRFCltIt9vFH/zBH/A1pL4m9T3deCbHZ+Nfd+lqvgvcBNfLY9EJ50rVJbh0VrJdlGWJT3/60/z9ZDLhaLPRaIS/+7u/4++J7JL6lr8XvTDk96Z5IV2Z1G40GuGv//qvAdS/73nnncdtkiThBT6PG3LdZZGCiB4Q0GDs+g5uEmFsYo20JssyQKPRSCFlkHRH+hvTZkWWO4++Cx177LEA1AizJEm4igdQB8dQVQ7dZWbbveTubIq1t43HJNrN2kHmFQdX4U5ztZnVfxSp7KhlWeINb3gDgPo3fve73w2gnhM6h96jjz7K/0tru5wLuuhukjziOFbcZ8QZANQ7PklpMh4fmHbB+czxI0ZEt/3wultrNBqxj3s4HOKGG27gdlK/kj+kfsx0Xd1lkiQJ3vSmN3FfV1xxBQA1pBGoJwP5sel/0zX0+5NRc/pYTOfoLy2fqqG7NZn0F9ustrOOSxtHVVUc9VcUBb9M8zxXsu2GwyG72sqy5Iw2QI0i1OeFLCFFKIqCQ2eTJMG///u/87FOp4N3vvOdAKYj3nQ1bC/5y4OIHhDQYKx9B5eQb7iiKJS48vF4zCL6eDz2YjT1gb5ztFotvPe97wVQv5kpEk1/a7ve0j5v6nmSOyR8cuJ9scodxXU/wGIccVKdod9oMpkoyTjj8VjZ6b/zne8ox/S+CDLQSYr19H0cx0rqaavV4sSlVqvFBtc4jhWDnev+Qj64QJ7nzK8F1D/W7bffDkDNBgNUsVen+JUwidE6l3a328XVV1/Nx2SoqY3rW4e06rpEWNsCs52jvzxcE8bXersTGWmuKETf6+j57qSP67nm4/GYMwhHo5EirtNnQPVsAIej3HQ1jr4vyxJPPfWUMh5KXOr1euwiTZJkitDRFB0YONkCAgJWjrDAAwIajJWK6IvodDKSTEaoDYdDrtgJ1LoX8XzpYpqs/KEHqUixWpIlkIW11Wrhkksu4TatVot17UXFqp0UxXz79glA8cW8VvlVXMMFmUSSZRlHDuZ5zplqk8mEo9J0+msARqqoKIqsFFJxHCuJS3fccQdfXya/xHHM6oR+X4tY132Tfmx9r1wHN93QrIR9gmRgGQ6H/BmYruApI5aoxI0JUo8jXT2OY2ZJ6Xa7+J3f+R1lzNIN49KHbfDJGlqU7M/Xp+0zsWR/82STmfrbLR0ziiJ2mQH1+D7ykY8AqF/0ZDPZ3t7mDSHPc17sdI7kVpf8fvJ7/bcnH/lgMMAXvvAFALVuL41+aZp6hbTq8ElRXgRBRA8IaDDm3sEXFcNdUWTEajocDrmqiIxQ06+tv9Xk/7poKqmNSZRqtVp4//vfD6De1fWEEFuBwP0EX3Fw3ZRC88KVvy9dmZ1Oh6PfxuMxvvvd73J7nVLKNH9M1yH1ryxLlg6Gw6ES8dZut/m6QJ1jrvdNY/W932XaLSSiuyaFLaJLinxST55MJuzf3traskaoyQfuIoKwhaZKyuFut4vf/u3f5vFTaCrBNzF/ry4Im7hsWty+ovxegu33j6KIs/rKssSnPvUpALVILUs/TyYTJeJNzk0Z9qzPPzlviWAyiiJce+21/H2/38eVV17Jx6Qq6aNru7CIDh9E9ICABmMtgS7SkDEej3Hvvffy9/KY/maSO6uN7VQGNMh48SzLOEKt3W4rlthFd6j9JrbPg53Ka172mc2STKRFnOZCHMf82wO1+kdqYVEUePLJJ7kfW9UUqbrpY5BVXMbjMVdUabVaXLQCgBIJqXMQ7JSUtNACn9ftomdNyUD/ra0tFnEmk4nCqeWqCiJzfWWooaT0TdMUP/dzPwegXtSf/exnuZ1ebVKOb9Y9uNrtZ8yyqJuO7Rbk2Hz1V/qNy7LEZz7zGf5+OByyiD4ajdg1K+cSMK1ukhdGVwNJXKdz/vIv/xJAHfFGJYzjOObx6AlO8v70z8siiOgBAQ1GWOABAQ3G0lZ032P0vSRuAGoLJ4lLZVk6xS8TbTJwWKRJ05Q5yYFaxKcqklmWKXq3qySRxF6zIPtgFdbx/eY+A6Yt3dK6LhOSoijigJjRaMRelLIsFRuQPkdsJCEyICaOYw68qqqKMyKzLGMvDo3BdR+mz4v8Dit1k9kesNQ5hsMhZ4XR/5Lg3kaaB6g8apJji4wfethpu91mlwVw2Mihj9PlV9+v8E0/3W/3qrsA9ZeZqQKtbpspy5JDWgeDAb70pS8BqG1AlJlmMrhJH7lc4LLvqqo44nIwGOC//uu/ANSu2UsvvXRqbDpc5B+u38p2LIjoAQENxkrdZPrbVVo+6c04HA6ZAheoXRa2SDT9LWcSyyVlcbfbxdve9jZuk2XZ0tUklrEa+8Zx7wRs43ZZb1d5zqrv0ycKTJ9/LnIMUteSJGGpbzQacQXaqqqmElTkXJISpJ7gJMtqUc30Xq/H0XNRFCkJKbZ70iNAXbDt9Ct3k5mSM6TevbW1hW984xvKwGzVM/WqnzKphM5J05SrQ/Z6PU48IOhsG4R5CQhM8IkWWxdsST/6ZJTPXp4jEzD0BW6LHFwmGssFVxSYnjBjUguB6c2CSBOrquJko62tLa5CWhSFlYJbhqpSW9NY8zxnzv5er8fVbV0JKfrL08d95vodgogeENBghAUeENBgLK2Du/KI6dhkMuFg/9FoZK0yIcVwXf+Q4koURcyD1Wq18I53vANAHaaqF4C3ZbGtAj5J+OuO/NLFOqnm6NblJkDet/y9XSI+zb+iKPDWt74VQC1ek0hNIKu6Hk1nK0cFHJ5zk8mE9fEsyxROQRlWu2ospYO7UveAwze+vb2N6667DoDKzELtKV68KAqOETYtcHqoSZLwD9HpdPDLv/zLAGodSaZ+6jqnyXe56AJ03fdOhR36IorMfOVVVeGVV15R2slsJ1d/64avfm/Tx20ZaACU+mgU2ry9vY3rr7+e20i3mbQbAdML3LT4x+Mx7rvvPgD1nL3sssuUcet++nnu24UgogcENBhLiei6GASowQD0xivLkgPti6KYelvJc2T0kf7WJTGm1WpxhFq73WZ+NZurwfTZFi3UNMjkHqkqAbWoKMsvyUi//Yh5XHYm1S2KIpYMh8Mhzj//fG5TFAWXyzJ5Fmx9y92daJy73e4U95vN4r/rkWwuH6i8cenymkwmzD2e57mSNgeoTBl6GRh5XVrIvV4PV111FYB6UbtcDjZR1XYPTYP050pVCahfmORiNPlmCesW0W0EFib4RPBJe44U3+M4Zr7z0Wik1DyT8Rsud5wuyksdnFxmGxsbU7YQm/q47PwMInpAQIOxNCeb/paU4g69iTqdDt73vvcBqHfwQ4cO8TlFUbDxAVCT4vXCgSRC9no9RbRcNlpt1Vi3wUoXEYnQYDgcsiUXqH+XZ599FsDibKC7gVVIWSZpk2CSSqMowumnn87fb29vswRpinKTfUl6bhkxR/XOe72eMmfjON6xOuJLJ5voA5OiC91ct9vF5z73OQD1opW0xIPBgEnroijCiSeeCKAW12ny0THS4/v9vlJuyJWgMgvziH8+mCX+73aoap7nuOuuuwDUC1y+TDudDmc7tVotrp4psW7xnOC7yG2h0q7zTdZ2GcIK1JTJ9AIsikIhedA3GEnPLSvVUrJJlmVKhKVNldTvZxEEET0goMEICzwgoMHYddLFJElw8skn8//j8Rgf//jH+X9JDCHFyTRN2cLZ6XSUiCWXWGzTbXaD0MDk6rMlgawSMl9+MBhwRFae51PkBGQp7nQ6SraeS+1psufBlHAD1GI3iex5nuPll1/m9tKmFMcxZzQmScJRlmma4rTTTuPvdS7+nUJU7dCvpes9Us/Ro8souqooCk7XG4/HCt90q9ViLvM4jpVyMTaXBWDObrONbafhE9Zrgs+LQE+TJB3x4MGD/GIEpvVFsmtsbGzga1/7GvdF2Vame7Atgv0OfW7Ke5P1zQaDAf7wD/8QQD1nv/e973G7VqvF5J5ZlimblwwLJoPdTiOI6AEBDcZaeNGVfNU4VuhoiR9rMpngggsu4HZpmvJbz2b53isWX1/YVAvbfdiSV/SdRxINbG5uOumpSJSPoggPP/wwgPpZSx7xADUhJI5jpkMuy5It5UC9a5N7LUkSJTpQus92C7u+wHW/dVVVCleazKqRJHUAZmbc6Fk+s8ax2/ANlXXxptnEeqk/y8SG7e1tIxMO9UH642g0wn//938DqJ8zTWDTeHZLpVkHXElDtMGUZYmrr74awDRJiXTnAlh7+G9zf6mAgIDd28F9RVAfo82sHc/Wdp5khJ3ATlqfZbUYWaV1PB7z/enF6cuyxPPPP89je+KJJwDUkVaSPnjdu9Beg0zvrKpKmbNyDu8FlXHtC1zXpxcpq+pKKqB287wU1oFFcoCpXVmWSrXMzc1NzmWWuctpmuKcc87hdnmeMxlmWZbMR7axscGiuynLbK89u93GIkQZ63ItBhE9IKDBCAs8IKDB2BURXRdPXMnyrnzzebFOTjQbTKqFa5x68I5UYegcGdgC1Pq4tOySVbfVauFnf/Zn+Xtpba+qw+WgiqJgDu8kSZTkILqeaTxNwCLUxKucs6vGWvzgPg/BNwNIQv9x5j1/N2CL7nPptbZyUDKslwxkQB1pRYQCcRyzX7bX6+GKK67gdltbW1xaR/rOx+Mxh7dmWYbzzjtPGf9em8SrwqzMQt/wZtvzWceca9brNyAgQEG66rfxIhFmq8qbXjfRwqrga/EnV9ZoNFLKQY3HY7Z8Z1nGYnmn05myiFNM/2QyYc6wqqo4vrrT6UwV4WuaWG7CPOvCt+06JJ+VMrro3/ssKpd4ushEmsU4s27MegGass90Pyt9T77vzc1NpRyUJLnsdrsslidJokRZyYi14XDIbrKqqnDrrbcCqMk1fv/3f18Z05HqFzeVuzItWqlGEVw6/E6i+a/igIAjGCs3su1GtNiioo4tqm0vGNx8n4+sXEmW7q2tLSUnGTicmtjr9XDccccBqO9TSgNZlrGIvr29rcT6UwpvnueKhT6OYyWfv0lYVCz3OW9dHp2FaJNdrgTTZzrP1p/tHB/MOsckSq3TEjzvi04+b5k1JkvrDAYDrggD1ItQVlw99dRT+ZgkckiShEX0zc1Nhbv+6aef5vOpMixQR8PJ7KkmY5F5butjlqdkpxBE9ICABiMs8ICABmPtySa+59iwiG6zVyLcFnkmRNAwHA5ZRJcZY0AtRpNY3u12rZS8kmyjKArmEsvzHE899RR/T9TKQM1NRhz3ABT634C9haqq1hPJZoMtE8x0fF73l973Ogxrq7A3vPrqqwBqwxpxqJVlqRjPWq0WLrroIv4sa8Hpoa6ysuaHPvQhAPVLhMgf8jznaDeg1sk/9alPKdcK2LsIInpAQIOxdGUTG2YlUOhtVwEbX9mqr7MqzBuTXxQFXnrpJQD1Dr65ucltZMmnbrfL7q80TWcG0gD1syHr+GAw4GCWKIr4OoDKghvHsRI40zSsQkWcl3dv1Vh5JJuNP2xerKKkkMsdtp/CLaVrjNxXg8GAF7tMKAHq6DPJqWZKUKH/ZRsqyXzo0CFeuFVV8XWAWkQnFhid436/Yx4VyuX+srlmdxtRFAURPSCgyQgLPCCgwWAR3STO2nKuZcK/y/LtUzZI72OV2Gs6twuuEF86JovIj0YjbpMkCd7+9rfz/9I15tIR9WNkiW+323j3u9/N17zjjju4zXg85jG0Wi1ceOGFPH7bb++T5ecrEu8kZo1hkayxdduhFB1cEgsA5rI0s27SxPaxW4wX+60Ygu0FaHtpjsdjfPnLXwZQP2c6v9Vq4WMf+xifk2UZG8nmWXjkTkuSBL/+678OoNb1v/nNb3Kboih4DP1+n8tCm/ozwXdi79Ym4IKPcRKYfqZ0zLZh+m6mrmfga9gLInpAQIPBO7jLGl5Vh3nByrLkYAtTlRKSAqIoUlw3kn9s3aL7uuCy6tvutSxLJnMYDAaKy4oqVPb7fS5OD5gLLsox2CD501/72tcCqKUDSREcRRFTNI/HY/6s/96ua9hE2P0aXWiD63yX5GLjLHStUdt3qdSBXK4jEyEfoGYnVVXF7B9RFCkuFNlOlk7VsZf91quAjbDQdq95njOZw3A45AqXcRzjlFNOAVAvcMl3rsNHDJYv6ziOcdJJJwGo/e3HH3+8Mn5ifun3+3j22Wf5nLPOOmvm9W1ZVaaX3zoql/q8AF2wuXf1Z+3LwSehPw+fyM4gogcENBjOQBdpLCCr7Wg04hhoQBUH5Q4exzEnPERRxNS7SZIou80iVSL2M2YZSuQzBGox+Lvf/S5/lpFnZ555JoBaIpISkgu+YrAszUPXAWqrOgXbSNrlLMs4WWWe6ywytr0G17hJYquqw4Ueq6pi1lv6nyTkqqrw8ssv8zGpNslinPq6sUkEygK30Q6XZcn8X4cOHcKf/dmfcRvdgkjiRRzHOOOMMwDUi/od73gHgFqne/3rX6+cTwPdrz+wL6QY7NK1pAtsa2uLRfSyLPkZJUmCD37wgwDqZ2rjSVvEgxFFhytpdjodTkIBajsAJZ+UZYnrrrsOQP2Sueqqq4z9uazJew2+aqFUbW22I/myLoqCIwDLsmSKampHdq2iKPD444/zMZovWZbhyiuv5O/jOEa/3585ziCiBwQ0GGGBBwQ0GAvp4NLKJ8VMXQeXWUdPPvkkgFrkk5UwkyRha/BeIWJYJ3QdbHNzU9HjyBXV6/U4+ytN05W4GE3PPo5jRaUaDAasUsVxzGMdjUZMRhFF0xVJZ7nD9qLHxBXc4jte4q7P8xy33347ALOITjp5VVV47rnn+BpkW2m32yzGA/W68RmPssBdETmkg29tbfEiNj0AaSCS7jTSP7rdrvJ9mqasn7sGeqRAuqGA+nnL2AJabP1+H+985zv5+0Vhc+nQXEjTVAmDkLQa3QAAIABJREFU3dzcxAknnMBjpYm6sbGBgwcPcp9ygftEge2FF7tOcOnro3dlk8l18/nPfx6AeYHLz9IGQ3p2t9vFr/zKr/D3aZri7LPP5v9tLu4gogcENBhWEV0Xl6laJZnzqY0O+SaR4jt9zrKMRTn632ZN3k852z7QLefyTU/PdTQa4YEHHuA2w+GQz5GUxb1ej+mSViH1uCLsJOVTWZbsNptMJixOjsdjPProozxO2uVN/S8SU72OZJNVSBX0u+Z5ziK2/L0Jtvsj6a0syyl1WEaH2mANVZViWlmWvCjl4gSmxXrTjydF9yRJWJQDahfPXhDPdgvSfkELVOpgW1tbuP7665X20vd9wQUXAKh1slXHD5gyy6TeT9cl99z29jZuvvnmqc+dTgcHDhyY+9p7ST2bx6Xo6oM2xuFwiBdeeIG/16PVKJ5Efw7UbjKZKAu8KApnSDKhWVtkQECAAm8rum9eqy1dlHaEJEmUHaHVau2pN/dOw3SvZVny231ra0vxMlRVxW/qdrvNXGtZlnmJsLPETh8xT4ltjmMWv7e3tzmvIEkSPPPMMwBq9UEXQWexr+4VD8q8seizAl2kiL3IdWWSlyxPpau2XlZ0nwHoA9UtgLZJR+Z+PZItSZLG6doumO61LEsORx0MBqzXEkgUl1xrPplFOma5p2x9yDGnacoRiltbWzjmmGO4729/+9s8XnIPUb+y7pnp+qZkp3W/+H3H49r8pIjt6muWjaIoCqU8la7a2ogzjpyVFRBwBCIs8ICABiP11Xt83Bw6X5u0FEoRQjry9Ww0UxBEk2CykI7HY3zve98DMB0pmCQJUyJ3u13WeXURT1edbHx6vq4gmzgaRZEyBhpbURS45557ANS/qQzW0e0uvnxte5UbYB5bgdTB5XkunVwnUaG/MgPNRQohr2PVwW0TQepKpja2MFYadFmWykD1NMe9YGjZKeiRUtKFcuuttwKodTVpoIrjGBdffDGA2sh27LHHGvv2WaircEVFUcR6d6/XwyWXXAKgNrjRPZRlqfjysyxTeNulC8411nXD167hake6t9TB9XgI/V5Nz6coCiVUVW6Scqz6eJq3RQYEBDBSlxhkcpPpu7RuhbVxr9FbKU1TxWXiS1TQBOgiGgX8yDJERVEozzRNU07GybLMewf2FW8XEYNljvIb3/hGAFCksqIo8PDDD/P/7XYbv/RLv8TX0Gm+Vjm2VcJ3bC5IN5crtl0GM8k1JL+Xkp2LzspLRLedVJalciHp/pA+W0DVryncUY/A0gfaRL1bQj7HH/3oRwDqBU5ca2VZKs+t1WoxR7lOGOGyi9iO+bazQS7QJElw/vnnA4Dio83zHDfeeCP/3+/38bu/+7t8Punws+5ht6GrUBKuxWlbbDK81CWS633LqDY6L4qiKdejDYody9oqICBg38MpopvEbT0wxcYAKY9FUcQGpTRNFQlANziYrr+TcEUiyc/ztDMZFwl0bDKZMB3ycDjk5xPHMc477zxu3+v1eMeL43ihnW0nzyEJrigKTkKpqmoq5/+JJ57gzzZDoQ65e60D+rw0ic6A21god3C5M9PvberbNH/iOJ6q8uoj8VjdZFJcieOYB5ckiTJQPUJHWtjl4pftpKiRpumUW2i34Rue6HJFmdxfwPT90LXG4zFzreV5zjpsu93GZZddxu1brRaOO+4449hs3ox5eMWWzSUn7rZWq8XcbePxGF/84he5XVEUuPPOO7kdVTGdBWn3Wce80H9vUk30l73r+Us3GampuicJUNVZOX9ktRlJBDIajYy/f4hkCwg4ghAWeEBAg+GdTUZ682Qy8abZsekIUj/bC26yVbiRfDO7iKdOJpVMJhPFHSKTcVzPx1dM3EmQaJllGd7whjcAqFUwqZJFUcSRet1uVxFPXXTP645eW/T3lhx6EiR6mxJrZtmh4jhWKsz0ej2vyLjUZCiiQUiXjiRdlDq4nhYo+zJxgFdVpWRLtdtt5WZ3202mTyTXS8sUQqjD9OPJY8RHt7m5iYceeoi/lwtccqD51HEzjWU3nqNke0mSBOeeey6A2u0n58VkMuEKpf1+n19yURRZub1dz3G34Ht9PfTW5BoD1AWuxwJIo5ucCzLm4K1vfSu3abfbxjgVQJ2nQUQPCGgwvER0QBXFTFxrJph2xrIslR3cRa+7bhFtUdgs79I1tr29zVJRFEVsKe/3+9bEDP0a8k3vCp7YSUj3DlUkzbKMPxMkpTK5zNI0ZbHe5Ibca1gkeo127aIonOvGJMVGUaRQnb3mNa/hNjIa1LVOUt9FJP2dtrDVqc6FKE/nTCYTJYxRF9HWvcB9xXVXRp2J0QOo1Zuvf/3rAGpXElHqSm74Xq+HE088UbmWa5HbxrmOBU5hq1tbW1ydFKjnzCOPPAKg1s/vuusuALWY+b73vU9pJ7FO+4xLdZuVYCIXtWmBm15m0k0mf28S3ZMkUUpE62HLNrtYENEDAhoMRUR3vfXJmKJbR20JKjbjHQAlImfdYrjpnl27s/zeZ5eUxqbxeMxGtslkwmJWlmUcBdbpdKaenQ/31rognwHdT1mWzP4KqBVSoyjiXPFutzs1n/YyfKVLmRpNHqPBYDCTl80EU1UbAFOMqjajq1c+uIxYkmGreoSRPullOyl2yIicPM/Xbi1dFK4oQDou83a3t7dZVK2qikNQu90uUxGnaTpFguGzwG1hxjsJfY5QElGn01EqjW5ubuJLX/oSgHpOPPjggwBq9Uy+ACX/+l6HS20i1aIsSzz77LMA6t9eqram8/TPuvdJcs0nSWJU0YKIHhBwBCEs8ICABsOaTaa7YciKnue5Yh2X0PVFaRWVbfUgiHUnm7jgGy0mj0nLqXQJbm5ussgexzFznHc6HRa/kiRx6mom3nnT2NYBOQbd1UfidxRFTHRRFAXrqJJvfV2Y9Qxt3oopsVhUBHr66acB1HYIWzCKSw0ju0a73Z56pj46vaKD6xNWhslJHZx812VZKgYz/UalAUXq4zJqZzQaKe18yrHsFch7kvqQrONG0WpAbWihMM0sy7g6aKfTUTjLbD5SfTK53GS7DX1c0tV36NAh1s/LssSLL74IoNbByeiYJIkSortumOIKXNGLJkwmE+aKl+HIAKYi2WSGpfSDk52m3+9713tT3GfGkQUEBDQC3m4yWXpIvo1feukl6zk28VaP6KGAjyiKlAid/WpdJxFUVtwE1Dj+drvNrrFWqzWztA+wt91IejSdvJ9Op8P3WhQF7r77bv58//33c3tJdAHY8+13A/r9mKIFbTCVG9IJGnT11da3JHxwuZ4lFDeZaxHJTmTpIRIVJpMJ6xiui+j/63o6uc3iOFbC8XYDsyaOz8TSQ1OpxMxgMOCKm3SMbBn9fp9dY3EcKzxlPhzn+vXXvfilmiJFS6CepEQGMRwOeYHneY6vfOUrAOoIviuvvFLpc7fdZjYVlf732XDkYi2KgjdA6VKuqmqKRtnkXpYutyzLFrJP7c8tMiAgwAthgQcENBhOHVyKXPRZhlWOx2PWofTzbaZ/U2gribRpmrLraC/CpYPJKpKktgyHQ9bHCaSC9Pt99kbo7kXX9W2RgjZXzU7CZtXXEccx3vKWtwCoI7rI3RNFEbvJxuPxvgpbdYEy57a3t/me9OekJ9aYEkfiOGaVzlad1QRJVsnZZK7wuapSa1ST7jgYDFiHona2TCrTDVC7p556CkD98iAO8P0AGXpIvv3hcMiukdFoxC4hoL7vc845B0Ctc0p7g2+8uXymLnbb3TJQyutKF6duv3nve98LoI4FIBuOTB3e2NhQ4iP2gl1BwjUeXVenEkOHDh1il6m+NlwvZNK7pXu63+87w5FNL/uqqoKIHhDQZCxUXZTeKrOCUnzEt6o6TOG0F5INFnkeMlBhOBzihRdeADCdSCMpp3V+eBLlZSARQYqukiRCQufZduXprxKS+15KIZJ3TSYoSctwURQK159MzFmHi9Tl+QHsgUW6h4gs55ubm9aKJja+fN0VJlU6Xyu6VId5hfpO7CiKOPFcRrGZ4NOnrGMlXSt7BT6kCjKibzAY4LHHHgNQ35t8CSZJwrpUu93ml4J8QUSRSrqoZxSRfqePzVZtcjdB91qWJUeo0VhOPvlk/kwvsMlkwi+m0WikvBTWHQPhG7aqtyvLklXOwWBgfdHKOAH5++mbIjHedLtdLwKMKIpU8oiZZwQEBOxb8FKfFakj49Ipks0UlDErAcOUkEIier/fV0RN/S3nE3s7L0wGj3mDW6qq4l17e3ubRbSyLBXxuixLDurJsgw33HADH6P7jqJois9M53WjdlKlkTt4FEVWcc73WbmSbOT3pvhqPd8AOEzNNRqNlOdDKIoC9957r9LXm970Jv5/HWy7PhKoaT5///vfB1Cra1L0donY1E4m5rRaLZx22mkAzOqrXFM2yiYrbbJ+EzJkjviZdQJGOq5fSH8RSLFFiuhHHXUUi2l62Kp8CMBqs85sFk39hWJ7PuPxmGmBR6OREt2nT8wf/OAH3Pef/MmfGK+v35spolAX3fUSUtKt4vqNZ5EG6N4Q/Zi8rswYI342QH2xSSuzvH6e57j22mv5+16vh49//OPYTdg2J1M7m0U8z3Pccccd/FmK8vSbuNS9qqp4A+12uzhw4ACA6ZqA+u+ik4QQgogeENBghAUeENBgLJR8TeJJmqZ43etex9/Lovam9rKdPCYJEn7yk58AUHX9WVjEteWbqeTSRaUVXYqn0hugi/nyur4uFN3VZhrXsjYJ/Xxb6V6dCES6ZKROqPMESI+BvG8Z1KFfR4r/e4EIxBRtWFWVwjG4tbXFLk+9JJV0i7rIOuR1KOrPdP8+lXYWWuCyCAIZAYBa5yCSOcBMiKAPRn4ej8esoyZJouhx8rrA/GQH+sSSflmfBWFa3DQBJ5MJxwaMRiMcc8wx3MbmJtEjmyT0H9N2376RUa7vTfeu922bjDLCUUbzASqxpnTv6eMkl5muYwKqb38dmWX6nDUt8MlkwiyxQO0ao01Ot124DMhyPspnRMQZphetrZyxUkTB52YDAgL2J5biR0qSBOeffz7/PxqNcNttt021c4noEpPJRCEAuPDCC9XBWiyFPhFzNswT4KPDVBhuMpngox/9qLV/aS01iei6GC+vo0OKsHoRSFtQhG9Os83rAdi9GZJ2SI9yNAXoRNFhrj+ZkALUOzb1sVtBO7PcpSYptCxLLkcF1M+A1BNbfy4XnORE6Pf7Uzu9bTw2lWqhBU6TpNVq4fLLL+fvNzc3cc011xgHI8V13aVDGI1G+PKXvwygvrlPf/rTynES53x8tIvC9RD1h0eTO01TdmdUVYV3vetd3Ebn3vIJIdUXoS2RQLrJfMv+uKqVyr5dLyL5jCRRhR6eKs+Ri9/G2iPHLBf/bsIVa2FSiSaTCb7xjW9wu/F4zHYkXTW1hXZLET1JEo5e6/V6VnuOPj75e4XqogEBRwiWsqInSaJEXSVJorzRSVSZZeGV31F+cJ7nzNVGbSRtrIRPAIyvMU2PTPIVD+XbWacrklhkB7e9qV3VKm3PwWcHl9cx9S3FQX3XNV2nqirFSGZLK11VdOJOQN89ZQy9NChOJhOr6mUSqQn0e7VaLZx99tkAZueAz02b7APdNSIt3YcOHcKxxx7LFyfCOd3aqv94cjJQksLGxoby4OI4nqq6SZA36spwM016fSyLhK0CahlkW9LMon379OXCKq/jClv1KXtsG5spvHW3F7nvJlCWJasjW1tbiudILxNMkKKzySJPL8B+v49f/MVfBOB2l+oqmm3cQUQPCGgwwgIPCGgw5hbRXUEZrVYL5557LoBah5YBALOC9wlkYR+NRrjvvvv4e+mKAmB1ofiIwa7AAFNbU1+m4JJZ59vGM8/564bNxeNy/fg+g1VmjC363HyiGmWC1GAwUGxFZVkqori0uehUyYQ4jlm92djY4EApnQvddk+uMS9dJ0jP+Lr00ksB1Dd+yy23TLU3DVK6gSjtsSxLXHfdddym1+tx34CaVbWIrub7wnFhVp0w00tgkdJMLtfNTsNlFF305WXr04fQYJ2g+x2Px7jxxhsBTBvZqqpS5qYtVkHXr4nko9/vK2myNmOpPu+tkYuzbysgIGC/YqEd3LWjkFV9MBgoLjNJSSRhe+uXZYnnn3+e/+/1etZEFN883kWwTJTcXnP1rAu6+L7Ib7QXnqWkxn7mmWcA1LuyHkUoJTjpcbLdQ5IkvGv3ej0lLt3Urwm2ebrSUp5JknB9qUOHDrEuIbPM9OQFfUAEPQSw3+/zQ02SROH4ki64RfRiHb6JLEpQv0FEWlR9sI1nr2Gecc2bHLQXQQt8NBoxNXZZlkqUHnBYbZXuYcA+X9I0xQUXXMDnmmILZqm2NgQRPSCgwVh6B9cd9vT26na7XAFlMpkoRdj0SDHbG0i2y/McDzzwAF+DamsvErPsK/q4xmbDbu5QqzAULnt9XxVmr0ohNpgSbog7cHNzUylooM9nW0UfKXpLHoVOp4NTTz0VgD2HYNF7WCpU1SQSE7lemqb4wAc+AKDOsCFCPVfChd6XfFCj0QjXX389gFpP+cQnPsFjsfGPmf433cM8x3ywjN5uG4vrGuvEvK6b/bTQpW6d5zkeeughALV9icTysiyn7AtyfptCdJMkwemnn87fd7tdruiz6ucTRPSAgAYjLPCAgAZjKR3cpKOSiBHHMVdA2d7eVizdOmxZMUpeaxxzFdJer8f6UJIkOO644xYauw8WEYVXKaLPe73dvO4811lWpdht0oeqqtgtC6hkJuPxWEn00D0oJvKFqjpMaRXHMXubgFqMl5VmTX25xurCQtlkrgvQzWZZxmlvm5ubrCfLMj96P3p/Un+pqsNVSLvdLocKZlmGs846i9vpkT+7vdh07Cedc17YfLuzMtD2wzMpioL5AYF6Dn/+85/n/2U4qs40ZCoZDBxOMc2yTOF8T5KEXcqAagOypUL7hFtHURRE9ICAJmNpN5lNpKiqirml2u023vOe9wCorZE33XSTco7PLit3i7Isceedd3LfVHs6juMpJtZ5r2O67rxYRx7zXrGqm7DK8c3j9fC9ppxX5M4dj8cKv6AsQwSoQSa6GG0itJCEJRsbG8ybQH2Z5qYr+s33mS6tg+siu3QR0GLL85z51ba2tvC1r31NOceWtKH3TQ+uKAr80z/9E4BaH/+FX/iF+mbSdGqBu34I/Rqz7s/nmC9pwLLwdQeuA64ElVVgkYxBn/GUZYknnngCQO0K+/u//3vlmImpxTSvTIw+URQxYcnGxgZOOeUUr7G5+OB9nmkQ0QMCGoywwAMCGoyFCB98yRKk6EIVSbvdruLWKssSL7zwAv8v88v1LB1TLnRZlhwl12q18Pa3v11pQ3m2NPaAIwc+5A3A4dLL4/EY99xzD4Ba55ZEDnrikMzz9nFttVotfPCDHwRQr4Hdcp8upIPbdGb5v3wRRFHEpPZbW1t485vfzO1l6ZcoijjUtaoq5QEDapwu6SZFUeA//uM/ANQPThZLSJKE9R7fTLOAvQ+fxeGyhci5IN22m5ub+Ld/+zcA9bwihl+CzBKT9dh1PdnEdtvtdvF7v/d7PDafjMpVIIjoAQENxtJuMt9MLNp9O52OUvlDikXynFk7ruRkozdwnue4++67uU273eYgfnkO4JZCAvYWZklePlxw+g4pyRseffRRALXlnHZtk5htiyqzZSfKrLGNjQ22ru+WpwVYsvCB65j+cOnm2u02rrrqKj4mxSIZzjfruhTlVlWHy7dGUYQvfvGL3GZjYwOf+cxn+H/yywdxfX/DFU3pmwlI82w4HOLmm28GUOvikuPcFeOhsKZYItniOGai0H6/r9ie9L53YpMJkWwBAQ3H0ju4bzCBbCfLHckot8lkgm9961vG8wHVmCF3emqnl1Lq9/tKUXpbvwH7GzZR3MUDJ0X0F198EQCmKqvokBFmtusDh41x7XYbF110EYBaNfUpsbVqLFW6aJaoa+KMiqIIJ510Ev+f5zmuvvpqALWF/dZbb+VzdLFFWjFlOVrS75MkUfrudDr8ItD1nrDIjxyYQlhpged5ztFretVbfY7IjEiZbKL3T4Sg/X4fv/Ebv8F9yQW+WxTRQUQPCGgwwgIPCGgwli5dZPvfFd2jB9NTwfPBYIATTjiB+yGqZTrHFOAfRRHn0kqdB6hFeln105YNtJtokmqwLoJJlw5syzbTvydxu91uM59Anud47LHHuJ+DBw8q50ixWs4lGX0pKZB7vR6L66bErHmxyNxZyg9uWtxyEeoJ6nxRjSua6pltbW3hjDPOAFDrQ5JRQ/YhdSidNJ50HqB+INI1JnWs4PveP1jUrel6idOLP01TfPSjHwVQMw/dddddAGojnD7/JLmn3GBkEY5Op4Nf+7VfA1C/ECR76jpe7mGWBwQ0GCvlZNP/t4lVekQQvWlbrRaTN+R5rlDmlGWplC6ipJIsy3DgwAEAtbilV4UIAS1HLnwiz5Ik4YSk0WiEt73tbQBqCfKHP/yhch650aLocDWdLMuUyMx2u81chGmarl0lW5qTzVRV0wTpVtAfvHRzffaznwVQ6+MPPvggt8nznHXyVquFj33sY/z5c5/7HI9NJttLhIW+fzErtNPk/pyV9Uj/x3HMOvh4PMZHPvIRAHWEmyydVRQFu9NkCGq321UiM9M0ZS5C+SJYV/RkENEDAhqMpfPB9benK0XP9Fn/n3bgJEmU1M88zznmvN1u4/zzz69vIE2VIH6b+C/HFkT3Iw++iUtEpZTnOS655BJuMx6POeItTVMundXpdJR63nEcK/3J6+6LSDYAVtFHF9lNgf8uUUW6vMqyxCc/+Uk+Nh6P+bx2u43LL7+cj8kINz0aST5IFzd7wP6FizfPB2RRr6qKsw/LslR407a2tnD77bcDqOffFVdcAaBWL2mxu67rokDeSQQRPSCgwQgLPCCgwdgxwgf92CKc5ETfBKh6d5ZlSh8U9KLn6S4bORSwN+Cy+5j+X6R/Anl0qqrC0Ucfzd+3222m586yjPO8kyRxjsfGd75biKo5Z/6s5iY3hX6OK4rMlalm021kmp+tVrjNbRJCVRfHbj07XX91pRHbzveFnH+S478sS4VYREao2eazPu5loycXmTtBRA8IaDCWFtF9sJO7VhRFS1skXbQ/rjewLTrPl0ra1G6e3cYVyGHrbxV0Rz4Rir67lct9aqty45vI5AsZV267ThzHSuKSL9YtsS0VyTar3TI3N8/5Psnzvj56akuQbjeZNSTbzXL9yessI9a63I2uBbWI/cPFkmJTdaRI60MLrN+PPF/24Vp4umvU9rK36cm6KimvqfdFiUu+2E1yRRuCiB4Q0GDsioi+XxFF0wT1EocOHQJQW/G/853vTB2P43gqyoly301RdwSbqCojo+aJxrNFU+nHfHYbVy62y0osGUmJbquqKq7mCUyL5LIqjUwxnjUmE1xS2rp32Z1EWOCwi5NVVU1lpxGKosCPf/xjAHUeMVWilCJjlmVKxF2WZZxppLv0CDbCAv0cPWrQB7p4vajOa9PVTWVzqR2J39IaPZlMlBejdIsmScJRjXrfOpaxoq/ChrOXEUT0gIAGIyzwgIAGI4joBtjcLtLKK4smDodDrohRVYers6RpigceeIDPkVFPUh+P45jpnqMoUkRVlx3ApVubxO1ZBB02+EQrSjG8qioMBgNlbPSsiqLAww8/zJ8feeQRHovM5W+1Wvx8kiTBaaedZrw3eX+ucbsyGH362q844he4yWgkF7IMXZTfj8djXrzb29tMTlFVhytPxnGMV155Ren/pptuAlAvfionm6YpLr30Uj5HVl8Fpt1zdB3f+zPp8PK4qT8fF6C+gIbDIYB6QcsSQHmec3mg8XiMG264AUC9wJ9++mluJ19snU6Hn4MMDXWN1XfctnvQ+2oCgogeENBgHPE7+CxIEVTS6A6HQzz++OMA1Fx1QBWXyZUmzwPqnZqqWiZJwpJCFEVc05z+lwEWkoaXitnJPHr6XzJ9uqzE0jpNqoWM4Kuq6Trt5CWQondVVSyt6Dt4URS4//77+fOrr77K51BfURQpNberqmKKpHa77QyikZhX9Ha5K5uAsMANsPlxJU/71tYWbrvtNgCqbi4XR1mWip9XD3197rnn+PMtt9zCn6VIHkUR11uL45hJCCTjTRzHOOecc5RzZAknqsRKbSVI762qisswSzWjLEtlnNKPPR6P8dWvfpXbPf/88/xZLnD95Sgrw8oaczIibTgc4s477+Qxynbyfuh+qT95TT3U1ISmZxkGET0goMEIO7gBpgQK3SC0vb3Nu5JumXbFQ9uCSSSkRBBFEYvIURSxFBHHMVugdWNeFEU4/vjj+X9JaaXvWJReq4vi0iIuCwDIXbcoCrzwwgv8Pakjeny4vK4rd1qPRaeAmNFopFBmS/WD+if4JJ403bAmERa4ATKBgiZMnue49957uc1wOGQSPkC1tpus3oRZ/GG6tV6KxMDhSQ+AbQCmfqUYK7nopJ7rOibvRy+rK19SMtJPPjcpUrvcVZJOW54jxfxer4dnnnmG28vwXz1ZRC5wV/Sbb6LOfkdz7ywgICAs8ICAJiOI6DMgLeIyOms0GinioE7vQ9DFRF3PJCzLH6efo+vAtuub9FfddaQHkkiR1lbQ0ZW1Zkuo0a8j7R+kg2dZ5lWSSEfTreU2hAU+A3KSkf8WqF1EcqLRRNcNWZIjTuqZszKc5Dmz2pmMZyb3k4lUwac//SUl9WZpH7Dx3LmiyuQ5unGSnu9kMuE6da1Wa2qBSzvCLF5+0/9NRhDRAwIajLCDeyKOY5x66qn8/3g8ZmtuWZZKdJZ0N+mVVgi+iR4usdO10/vylNn4yFz8atKFJuGKIjP1rX+v7760M7daLWYxdXkoXPBJmKHrNglhgWvQf2CadFmW4aKLLuLvR6OoVyauAAADdklEQVQRV5+UGVJlWSqMJVJUlv3pYqttousRWaZ2JiIHm56q9y1dTFIUt+nMehirDa6SVvKakq1GJ9cg9abb7eL0008HMJvcwdfl1bSFbEMQ0QMCGoywwAMCGowgos8AiXJJkihZXpPJBO9///sB1GI5JXcURcFJEjLbiiCt6Db9XBd9fTKpdOu4FGVtUVumqDnbGGzXMlVsNZFUmMYgM+WSJMF5552ntKF88Ha7zZlzcRw7iR99vne1a5roPnfpoiMJ+oS3xTCXZcmx4KPRCNdccw0ANdtKbycJElw6s67Hy4UjdXD9ZUHx2nrfumGOxgCo7i9bqVt9PEcddRR/b3Ot6eOj/uI4Zt260+ngj/7oj5TzL774YuN9u2Bz9bmyyZocttqsuwkICFBwxIvoqxBgoihi900cx1wFtSiKKZFY7uAUnVWWJR577LGpNgRTlpdpDBK2SDa9ndxp5Q4uz9et+FTCR37Wx6ITUFB2m85FR/ntrVZL4UE3Ve0MmB9HvIi+itu3ifImPzGlmBZFgSeffBJALdb/4z/+I39PTC+AyiMufexSf3bp0oCd7xxQ/cpygcvMMn2BS4YZEtHl+XEc48wzz+Tv0zTFgQMH+PMHPvAB7ksuar0ElUm/NyG8COwIInpAQINxxIvoq4CtpJBpZ5F0RSS2TiYTDqKpqgonn3wyt5e7flVV+OlPf8qfJcGCpEQCVMOYFLdl7Lg+Rp0KiY4fffTR/L9efonopOgYfU9t6HuiPU6ShNlTZ1UVWbZqaEAQ0ZcS0W2lh3wivHRRnkRi3YItCRck71lRFJyAUZYlfyaQblxVh7nWdF453YouxW1a1HEc44wzzuDvkyTBueeey/d/wgkncF8SeoKK/F+qDFIt0O0LPpxqersAFUFEDwhoMMICDwhoMIIOvsvQCRXpr9RF9aAXGbxBOq+e9CH1Z5m4IUX8qqoUOmXpDpPJHcDhPHbd0h1FEYvyMuOL+qPvXeWFfEXqIHovj6CDr1gHn3Ut6X4yGbVc/dpccHq/+j2ZiBEJ8sViIps0Yd5yu7YIQL2Nzb0X3GSLI4joAQENRhDRdxmrKjbvikgD7AkmQTw+snDEi+gBAU1GENEDAhqMsMADAhqMsMADAhqMsMADAhqMsMADAhqMsMADAhqMsMADAhqMsMADAhqMsMADAhqM/wcK9BJF8JiDhgAAAABJRU5ErkJggg==",
+	],
+	[
+		"Wann kann, anstelle der Landemeldung, die voraussichtliche Landezeit mittels Sprechfunk der zuständigen Flugverkehrskontrollstelle übermittelt werden?",
+		"Wenn sich das Luftfahrzeug in der Platzrunde befindet und die Landung sichergestellt erscheint",
+		"Wenn der Verkehr in der Platzrunde beobachtet wird",
+		"Auf Anforderung der Flugleitung des Landeplatzes, wenn die Landung sichergestellt erscheint",
+		"Nach Zustimmung der Flugleitung des Landeplatzes",
+	],
+	[
+		"Bei Flugplanabgabe und Abflug von einem unkontrollierten Flugplatz kann die Startmeldung mittels Sprechfunk übermittelt werden. An wen erfolgt sie in diesem Fall?",
+		"An die zuständige Flugverkehrskontrollstelle oder an den zuständigen FIS zur Weiterleitung an den AIS-C",
+		"An den Funknavigationsdienst zur Weiterleitung an den AIS-C",
+		"An den Flugberatungsdienst",
+		"An die Bodenfunkstelle des Zielflugplatzes",
+	],
+	[
+		"Welche Angaben muss eine Startmeldung enthalten, wenn sie über Sprechfunk übermittelt wird?",
+		"Luftfahrzeugkennung, Startflugplatz, Startzeit, Zielflugplatz",
+		"Luftfahrzeugkennung, Startflugplatz, Startzeit",
+		"Luftfahrzeugkennung, Startflugplatz, Zielflugplatz",
+		"Luftfahrzeugkennung, Startzeit, Zielflugplatz",
+	],
+	[
+		'Wenn die Bewölkung über Sprechfunk mit "LOCKERE BEWÖLKUNG (SCATTERED)" angegeben wird, dann beträgt der Bedeckungsgrad:',
+		"3 bis 4 Achtel",
+		"8 Achtel",
+		"5 bis 7 Achtel",
+		"1 bis 2 Achtel",
+	],
+	[
+		'Wenn die Bewölkung über Sprechfunk mit "DURCHBROCHEN BEWÖLKT (BROKEN)" angegeben wird, dann beträgt der Bedeckungsgrad:',
+		"5 bis 7 Achtel",
+		"1 bis 2 Achtel",
+		"8 Achtel",
+		"3 bis 4 Achtel",
+	],
+	[
+		'Wenn die Bewölkung über Sprechfunk mit "BEDECKT (OVERCAST)" angegeben wird, dann beträgt der Bedeckungsgrad:',
+		"8 Achtel",
+		"5 bis 7 Achtel",
+		"3 bis 4 Achtel",
+		"1 bis 2 Achtel",
+	],
+	[
+		'Was bedeutet bei der Routinewettermeldung die Angabe "3 bis 4 ACHTEL"? Der Bedeckungsgrad beträgt …',
+		"LOCKERE BEWÖLKUNG (SCATTERED)",
+		"BEDECKT (OVERCAST)",
+		"DURCHBROCHEN BEWÖLKT (BROKEN)",
+		"KEINE MARKANTEN WOLKEN (NO SIGNIFICANT CLOUDS)",
+	],
+	[
+		'Was bedeutet bei der Routinewettermeldung die Angabe "5 bis 7 ACHTEL"? Der Bedeckungsgrad beträgt …',
+		"DURCHBROCHEN BEWÖLKT (BROKEN)",
+		"GERING BEWÖLKT (FEW)",
+		"BEDECKT (OVERCAST)",
+		"LOCKERE BEWÖLKUNG (SCATTERED)",
+	],
+	[
+		'Was bedeutet bei der Routinewettermeldung die Angabe "1 bis 2 ACHTEL"? Der Bedeckungsgrad beträgt …',
+		"GERING BEWÖLKT (FEW)",
+		"DURCHBROCHEN BEWÖLKT (BROKEN)",
+		"LOCKERE BEWÖLKUNG (SCATTERED)",
+		"KEINE MARKANTEN WOLKEN (NO SIGNIFICANT CLOUDS)",
+	],
+	[
+		'Wenn die Angabe "CAVOK" in einer Routinewettermeldung (METAR) steht, dann betragen die Werte für Sicht und Wolken:',
+		"Sicht 10 km oder mehr, keine Bewölkung unter 5000 ft AGL",
+		"Sicht 5000 m oder mehr, keine Bewölkung unter 5000 ft AGL",
+		"Sicht 10 km oder mehr, keine Bewölkung unter 1500 ft AGL",
+		"Sicht 5000 m oder mehr, keine Bewölkung unter 1500 ft AGL",
+	],
+	[
+		"Wie sind die Werte für Flugsicht, Bodensicht und Pistensichtweite zu übermitteln?",
+		"Weniger als 5 km in Metern, darüber in Kilometern",
+		"In Fuss und NM",
+		"Bis 1500 m in Metern, darüber in Kilometern",
+		"Nur in NM",
+	],
+	[
+		"Welche Übermittlung der Bodensicht ist richtig?",
+		'"SICHT DREI TAUSEND METER"',
+		'"SICHT ETWA NEUN TAUSEND FUSS"',
+		'"SICHT DREI KILOMETER"',
+		'"SICHT EINS KOMMA ACHT SEEMEILEN"',
+	],
+	[
+		"Was versteht man unter VOLMET?",
+		"Die Wetterrundsendungen für Flughafenwettermeldungen",
+		"Den Fluginformationsdienst",
+		"Das Funkrufzeichen für eine Dienststelle des Deutschen Wetterdienstes (DWD)",
+		"Das Rufzeichen des Flugverkehrsberatungsdienstes",
+	],
+	[
+		"Ein Pilot hat während des Fluges die Möglichkeit das Flugplatzwetter einzuholen über ...",
+		"ATIS",
+		"GAFOR",
+		"AIS-C",
+		"UHF",
+	],
+	[
+		"ATIS-Aussendungen dienen unter anderem der Unterrichtung von Piloten. Welche Angaben enthalten sie?",
+		"Lande- und Startinformationen zur sicheren Durchführung von Flügen nach VFR und IFR",
+		"Wetterinformationen für Überlandflüge unter VMC",
+		"Wetterinformationen für mehrere Flughäfen",
+		"Die rechtweisende Peilung zum Zielflugplatz",
+	],
+	[
+		"Wie werden SIGMET-Meldungen in der Zeit von 0700 (0600 während der gesetzlichen Sommerzeit) bis SS+30 verbreitet?",
+		"Als Flugrundfunksendung (broadcast) auf den Frequenzen des Fluginformationsdienstes zu jeder halben und vollen Stunde",
+		"Als Flugrundfunksendung (broadcast) auf den für VOLMET veröffentlichten Frequenzen",
+		"Auf Anforderung des Luftfahrzeugführers",
+		"Als Flugrundfunksendung (broadcast) auf den Frequenzen der Flugverkehrskontrolle",
+	],
+	[
+		"SIGMET-Meldungen dienen der Sicherheit des Flugbetriebs der Allgemeinen Luftfahrt. Welche Angaben enthalten sie?",
+		"Besondere Wettererscheinungen, z.B. Gewitter, Turbulenzen, Vereisung",
+		"Angabe der Wolkenuntergrenze in Lufträumen der Klassen F und G",
+		"Routinewettermeldungen",
+		"Meteorologische Angaben in Kartenform, erhältlich bei Flugwetterwarten",
+	],
+	[
+		"Welche Angaben soll eine Notmeldung enthalten?",
+		"Art der Notlage, Absicht des verantwortlichen Piloten, aktueller Standort, Flughöhe und Kurs",
+		"Art der Notlage, Ursache der Notlage, Bitte um Frequenzwechsel auf 121,500 MHz",
+		"Absichten des Piloten, Geschwindigkeit",
+		"Absichten des Luftfahrzeugführers, TAS, Standort, Sinkflugrate",
+	],
+	[
+		"Das Notsignal MAYDAY bedeutet, dass ...",
+		"eine schwere und/oder unmittelbare Gefahr droht und sofortige Hilfe erforderlich ist",
+		"ein Luftfahrzeugführer eine außerplanmäßige Landung durchgeführt hat oder durchführen wird",
+		"sich ein Luftfahrzeug in einer schwierigen Lage befindet",
+		"sich ein schwerkranker Passagier an Bord eines Luftfahrzeuges befindet",
+	],
+	[
+		"Ein Notanruf soll übermittelt werden ...",
+		"auf der benutzten Frequenz oder einer Notfrequenz",
+		"nur auf einer FIS-Frequenz",
+		"immer auf der Notfrequenz 121,500 MHz",
+		"auf einer SAR-Frequenz",
+	],
+	[
+		"Wie wird ein Notanruf eingeleitet?",
+		"MAYDAY, vorzugsweise dreimaliges Aussenden",
+		"MAYDAY NOTFALL MAYDAY",
+		"PAN PAN, vorzugsweise dreimaliges Aussenden",
+		"NOTFALL, vorzugsweise dreimaliges Aussenden",
+	],
+	[
+		"Welches der folgenden Signale ist ein Notsignal?",
+		"Das durch Sprechfunk übermittelte Wort MAYDAY",
+		"Das Abfeuern von grünen und roten Leuchtkugeln",
+		"Das durch Sprechfunk übermittelte Wort PAN PAN",
+		"Das wiederholte Ein- und Ausschalten der Landescheinwerfer oder der Positionslichter",
+	],
+	[
+		"Wie wird ein Dringlichkeitsanruf eingeleitet?",
+		"PAN PAN, vorzugsweise dreimaliges Aussenden",
+		"ACHTUNG, ICH HABE EINE DRINGENDE MELDUNG",
+		"DRINGLICHKEIT DRINGLICHKEIT",
+		"MAYDAY‚ vorzugsweise dreimaliges Aussenden",
+	],
+	[
+		"Das durch Sprechfunk übermittelte Signal PAN PAN bedeutet, dass ein Luftfahrzeug",
+		"sich in einer schwierigen Lage befindet",
+		"versehentlich in ein Gebiet mit Flugbeschränkungen eingeflogen ist",
+		"entführt worden ist",
+		"in schwerer und unmittelbarer Gefahr ist und sofortige Hilfe benötigt",
+	],
+	[
+		"Welcher Transpondercode soll in einer Notlage gesendet werden?",
+		"A 7700",
+		"A 7500",
+		"A 7600",
+		"A 7000",
+	],
+	[
+		"Was zeigt ein Luftfahrzeug der Bodenfunkstelle an, wenn es den Transpondercode A 7700 sendet?",
+		"Das Luftfahrzeug befindet sich in einer Notlage",
+		"Das Luftfahrzeug hat Funkausfall",
+		"Das Luftfahrzeug wird entführt",
+		"Das Luftfahrzeug fliegt in den Luftraum E ein",
+	],
+	[
+		"Bei Funkausfall vor Erhalt bzw. Bestätigung der Einflugfreigabe in eine Kontrollzone hat der Pilot ...",
+		"den Transpondercode Mode A 7600 zu schalten, sofern möglich; auf dem nächstgelegenen geeigneten Flugplatz zu landen; und der zuständigen Flugverkehrskontrollstelle schnellstmöglich die Landezeit zu übermitteln",
+		"den Transpondercode Mode A 7600 zu schalten, sofern möglich; und ein geeignetes Notlandegelände zu erkunden",
+		"den Transpondercode Mode A 7600 zu schalten, sofern möglich; und durch Vollkreise nach links und rechts auf sich aufmerksam zu machen",
+		"den Transpondercode Mode A 7600 zu schalten, sofern möglich; und nach einer Umkehrkurve von 180° zum Startflugplatz zurück zu kehren",
+	],
+	[
+		"Was ist ein besonderes Merkmal der Blindsendung?",
+		"Die Meldung ist zweimal zu übermitteln",
+		"Am Ende der Blindsendung wird das Rufzeichen des Luftfahrzeuges wiederholt",
+		"Die Meldung ist dreimal zu übermitteln",
+		"Am Ende der Blindsendung wird das Rufzeichen der Bodenfunkstelle wiederholt",
+	],
+	[
+		"Was ist ein besonderes Merkmal der Blindsendung?",
+		"Angabe des Zeitpunkts der nächsten beabsichtigten Übermittlung",
+		"Der Meldung wird dreimal die Redewendung BLINDSENDUNG vorangestellt",
+		"Am Ende der Blindsendung wird das Rufzeichen der Luftfunkstelle wiederholt",
+		"Am Ende einer Blindsendung wird das Rufzeichen der Bodenfunkstelle wiederholt",
+	],
+	[
+		"Welchen Transpondercode soll ein Luftfahrzeugführer bei Funkausfall senden?",
+		"A 7600",
+		"A 7700",
+		"A 7500",
+		"A 7000",
+	],
+	[
+		"Was zeigt ein Luftfahrzeug der Bodenfunkstelle an, wenn es den Transpondercode A 7600 sendet?",
+		"Funkausfall",
+		"Erbitte Landeanweisungen",
+		"Notlage",
+		"Fliege in den Luftraum C ein",
+	],
+	[
+		"Beobachtet ein Pilot ein auf ihn gerichtetes Lichtsignal, so hat er die vorgeschriebenen Maßnahmen zu treffen. Was hat er dabei grundsätzlich zu beachten?",
+		"Anweisungen über Funk haben Vorrang vor Signalen und Zeichen, ausgenommen rote Feuerwerkskörper",
+		"Auch akustische Signale können gegeben werden",
+		"Signale und Zeichen haben Vorrang vor Anweisungen über Funk",
+		"Bodensignale haben Vorrang vor Lichtsignalen",
+	],
+	[
+		"Funkanweisungen haben Vorrang vor Licht- und Bodensignalen sowie Zeichen. Dies gilt nicht gegenüber ...",
+		"roten Feuerwerkskörpern",
+		"grünen Dauersignalen",
+		"roten Dauersignalen",
+		"roten Blinksignalen",
+	],
+	[
+		"Ein Pilot hat vorrangig zu befolgen:",
+		"Funkanweisungen",
+		"Lichtsignale",
+		"Bodensignale",
+		"Leuchtgeschosse, die in Abständen von ca. 10 Sekunden abgefeuert werden und sich in rote und grüne Lichter und Sterne zerlegen",
+	],
+	[
+		"In welchem Frequenzbereich wird der Sprechfunkverkehr im zivilen beweglichen Flugfunkdienst abgewickelt?",
+		"117,975 MHz – 137,000 MHz",
+		"108,000 kHz – 136,000 kHz",
+		"108,000 MHz – 117,975 MHz",
+		"200 - 490 kHz",
+	],
+	[
+		"Welcher Kanalabstand (Frequenzbereich 117,975 MHz - 137,000 MHz) wird im Flugfunkdienst im unteren Luftraum betrieben?",
+		"25 kHz + 8,33 kHz",
+		"25 MHz",
+		"25 MHz + 8,33 MHz",
+		"8,33 kHz",
+	],
+	[
+		"In welcher Betriebsart wird der Sprechfunkverkehr im Flugfunkdienst durchgeführt?",
+		"Wechselsprechverkehr",
+		"Duplexverkehr",
+		"Wechsel- und Gegensprechverkehr",
+		"Gegensprechverkehr",
+	],
+	[
+		"Welche Bezeichnung hat die Frequenz 121,500 MHz?",
+		"Internationale Notfrequenz",
+		"Schul- und Übungsfrequenz",
+		"Bord-Bord-Frequenz",
+		"Informationsfrequenz",
+	],
+	[
+		'Welche der angegebenen Frequenzen entspricht der einer deutschen Bodenfunkstelle mit dem Rufzeichen "TURM"?',
+		"118,305 MHz",
+		"121,500 MHz",
+		"109,550 MHz",
+		"200 kHz",
+	],
+	[
+		"Welche Frequenz wird im Kanalabstand von 8,33 kHz betrieben?",
+		"134,555 MHz",
+		"121,500 MHz",
+		"109,550 MHz",
+		"200 kHz",
+	],
+	[
+		"Wodurch kann eine Sprechfunkfrequenz blockiert werden?",
+		"Klemmen der Sprechtaste",
+		"Zu lautes Sprechen",
+		"Zu leises Sprechen",
+		"Ein- und Ausschalten der Sprechfunkanlage",
+	],
+	[
+		"Wie breiten sich Ultrakurzwellen (UKW) aus?",
+		'Ähnlich wie das Licht, d.h. "quasi optisch"',
+		"Wie Kurzwellen, wobei aber atmosphärische Störungen keinen Einfluss auf sie haben",
+		"Sie breiten sich als Bodenwellen entlang der Erdoberfläche aus und dringen somit z.B. auch in Täler ein, so dass sie von topographischen Hindernissen nicht beeinflusst werden",
+		"Sie werden von der Ionosphäre in ca. 100 km Höhe reflektiert und gelangen als sogenannte Raumwellen zur Erdoberfläche zurück",
+	],
+	[
+		"Welche Phänomene können beim Flugfunk die Empfangsqualität der UKW beeinflussen?",
+		"Die Flughöhe des Luftfahrzeuges und topographische Verhältnisse",
+		"Der Tag-/Nachteffekt",
+		"Die Ionosphäre",
+		"Atmosphärische Störungen, wie sie besonders bei Gewittern auftreten",
+	],
+	[
+		"In welcher der folgenden Situationen kann die Funkverbindung zwischen Luftfahrzeug und TURM auf Frequenz 118,250 MHz als problemlos erwartet werden?",
+		"Das Flugzeug befindet sich in ausreichend großer Höhe und nahe der Bodenfunkstelle",
+		'Das Luftfahrzeug befindet sich im Tiefflug in einem Tal, nahe der Bodenstation im "Funkschatten"',
+		'Das Flugzeug befindet sich in geringer Flughöhe im "Funkschatten" eines Berges, in weiter Entfernung von der Bodenfunkstelle',
+		"Das Flugzeug befindet sich in geringer Höhe sehr weit von der Bodenfunkstelle entfernt",
+	],
+	[
+		"Welches ist die maximal zu erwartende Entfernung für eine einwandfreie UKW-Funkverbindung über flachem Gelände in FL 65?",
+		"Ca. 95 NM",
+		"Ca. 20 NM",
+		"Ca. 10 NM",
+		"Ca. 150 NM",
+	],
+	[
+		"Welche Flugverkehrsdienste gibt es?",
+		"Flugverkehrskontrolldienst, Flugalarmdienst, Fluginformationsdienst, Flugverkehrsberatungsdienst",
+		"FS-Kontrolldienst, Such- und Rettungsdienst, Fernmeldedienst",
+		"Alarm-, Rettungs-, Informations- und Beratungsdienst",
+		"Wetterdienst, Beratungsdienst, Such- und Rettungsdienst (SAR) und Kontrolldienst",
+	],
+	[
+		"Der Fluginformationsdienst hat u. a. folgende Aufgaben:",
+		"Annahme und Weiterleitung von Flugplan- und Flugplanfolgemeldungen",
+		"Wettermeldungen zu verbreiten",
+		"Freigaben zu erteilen",
+		"Den Such- und Rettungsdienst (SAR) zu organisieren",
+	],
+	[
+		"Wer ist für die Bewegungslenkung des Luftverkehrs in der Bundesrepublik Deutschland zuständig?",
+		"Die vom Bundesaufsichtsamt für Flugsicherung zugelassenen Flugsicherungsorganisationen",
+		"Das Luftfahrtbundesamt",
+		"Die Landesluftfahrtbehörden",
+		"Die DFS Deutsche Flugsicherung GmbH",
+	],
+	[
+		"Wann steht der FIS dem Piloten zur Verfügung?",
+		"Während des Fluges",
+		"Während des Fluges, jedoch ausschließlich bei Flügen im Luftraum C und E",
+		"Vor Antritt eines Fluges",
+		"Während des Fluges, jedoch ausschließlich bei Flügen im Luftraum G",
+	],
+	[
+		"Zur Flugvorbereitung sind verpflichtet:",
+		"Alle Luftfahrzeugführer",
+		"Nur Luftfahrzeugführer, die Überlandflüge durchführen",
+		"Nur die Luftfahrzeugführer von motorgetriebenen Luftfahrzeugen",
+		"Unerfahrene Luftfahrzeugführer",
+	],
+	[
+		"Eine Wetterberatung ist grundsätzlich einzuholen bei ...",
+		"Flügen, die über die Umgebung des Startflugplatzes hinausführen und vor Flügen nach Instrumentenflugregeln",
+		"zweifelhaften Wetterlagen",
+		"Flügen, für die ein Flugplan zu übermitteln ist",
+		"Flügen zu gewerblichen Zwecken",
+	],
+	[
+		"Worauf beziehen sich grundsätzlich Zeitangaben in der Luftfahrt? Auf ...",
+		"Koordinierte Weltzeit (UTC)",
+		"Ortszeit",
+		"Zonenzeit (Z-Zeit)",
+		"MEZ bzw. MESZ",
+	],
+	[
+		"Welches ist die Maßeinheit für die horizontale Geschwindigkeit in der Luftfahrt?",
+		"Knoten",
+		"Meilen je Minute",
+		"Kilometer je Stunde",
+		"Meter je Minute",
+	],
+	[
+		"Welches ist die Maßeinheit für die vertikale Geschwindigkeit in der Luftfahrt?",
+		"Fuss je Minute",
+		"Fuss je Sekunde",
+		"Knoten",
+		"Meter je Minute",
+	],
+	[
+		"Welches ist die Maßeinheit für Höhenangaben in der Luftfahrt?",
+		"Fuss",
+		"Zoll",
+		"Meter",
+		"Kilometer",
+	],
+	[
+		"Welches ist die Maßeinheit für Entfernungen in der Luftfahrt zum Zwecke der Navigation?",
+		"Seemeile und Zehntel",
+		"Knoten",
+		"Kilometer",
+		"Landmeile",
+	],
+	[
+		"Welches ist die Maßeinheit für den Luftdruck in der Luftfahrt?",
+		"Hektopascal",
+		"Atmosphäre Überdruck",
+		"Millimeter Quecksilber",
+		"Millibar",
+	],
+	[
+		"Welche Mindesthöhe ist bei VFR-Flügen über Städte einzuhalten?",
+		"300 m (1000 ft) über dem höchsten Hindernis und einen Abstand von 600 m um das Luftfahrzeug",
+		"300 m (1000 ft) über dem Grund oder über dem höchsten Hindernis",
+		"600 m (2000 ft) über dem höchsten Hindernis und einen Abstand von 150 m um das Luftfahrzeug",
+		"600 m (2000 ft), wenn keine Hindernisse berührt werden",
+	],
+	[
+		"Welcher Mindestabstand ist bei VFR-Flügen über Boden oder Wasser in einer Höhe von 150 m (500 ft) zum höchsten Hindernis einzuhalten?",
+		"150 m (500 ft) um das Luftfahrzeug",
+		"300 m (1000 ft) um das Luftfahrzeug",
+		"1,5 km zum nächsten Hindernis",
+		"Kein Abstand erforderlich",
+	],
+	[
+		"Ein motorgetriebenes Luftfahrzeug und ein Segelflugzeug nähern sich im Gegenflug. Wer muss ausweichen?",
+		"Beide nach rechts",
+		"Das Segelflugzeug",
+		"Das schneller fliegende Luftfahrzeug",
+		"Das motorgetriebene Luftfahrzeug",
+	],
+	[
+		"Luftfahrzeuge, die Gegenstände schleppen, haben Vorflugrecht vor ...",
+		"motorgetriebenen Luftfahrzeugen",
+		"allen Luftfahrzeugen",
+		"Segelflugzeugen",
+		"Motorseglern mit abgeschaltetem Motor",
+	],
+	[
+		"Ein Pilot beobachtet einen Motorsegler (Motor in Betrieb), der in nahezu gleicher Höhe von links kommt und seinen Flugweg kreuzen wird. Wer muss ausweichen?",
+		"Der Motorsegler dem Flugzeug",
+		"Das Flugzeug dem Motorsegler",
+		"Das Luftfahrzeug mit der höheren Geschwindigkeit",
+		"Beide Luftfahrzeuge müssen die Kurse ändern",
+	],
+	[
+		"Bei Luftfahrzeugen im Endanflug hat ...",
+		"das tiefer fliegende Luftfahrzeug Vorflugrecht",
+		"das höher fliegende Luftfahrzeug Vorflugrecht",
+		"in jedem Fall das mehrsitzige Luftfahrzeug Vorflugrecht",
+		"das tiefer fliegende Luftfahrzeug eine lange Landung zu machen",
+	],
+	[
+		"Wann müssen alle Luftfahrzeuge Positionslichter einschalten?",
+		"Nachts",
+		"Bei Nacht und schlechten Sichtverhältnissen",
+		"Von SS+30 bis SR",
+		"Von SS+30 bis SR+30",
+	],
+	[
+		"Während des Fluges haben alle Luftfahrzeuge, die mit Zusammenstoß-Warnlichtern (anti-collision lights) ausgerüstet sind, die Lichter ...",
+		"am Tag und in der Nacht zu führen",
+		"nur in der Nacht zu führen",
+		"vom Start bis zur Landung in der Nacht bei ungünstigen Sichtverhältnissen zu führen",
+		"von in Betrieb befindlichen Luftfahrzeugen in der Nacht und am Tage bei ungünstigen Sichtverhältnissen zu führen",
+	],
+	[
+		"Ein in der Signalfläche ausgelegtes waagerechtes quadratisches rotes Feld mit zwei gelben Diagonalstreifen bedeutet:",
+		"Landeverbot für längere Zeit",
+		"Der Flugplatz ist für kurze Zeit gesperrt",
+		"Der Flugplatz ist für längere Zeit unbenutzbar",
+		"Start- und Landeverbot für längere Zeit",
+	],
+	[
+		"Eine in der Signalfläche ausgelegte waagerechte weiße Fläche in Form einer Hantel bedeutet:",
+		"Zum Starten, Landen und Rollen dürfen nur Start- und Landebahnen und Rollbahnen benutzt werden",
+		"Zum Starten ist die Rollbahn zu benutzen",
+		"Landeverbot für Luftsportgeräte",
+		"Rollbahn darf zur Zeit nicht benutzt werden",
+	],
+	[
+		'Ein weißes oder orangefarbenes "T" (Lande-T), das bei Nacht entweder beleuchtet oder durch weiße Lichter dargestellt ist, bedeutet:',
+		"Starts und Landungen sind parallel zum Längsbalken des Lande-T in Richtung auf den Querbalken durchzuführen",
+		"Startverbot",
+		"Starts und Landungen nur auf der Piste durchführen",
+		"Neben dem Lande-T aufsetzen",
+	],
+	[
+		"Eine zweistellige Zahl auf einer Tafel, die am Kontrollturm oder in dessen Nähe senkrecht angebracht ist, bedeutet:",
+		"Die Startrichtung, gerundet auf die nächstliegenden 10° der missweisenden Kompassrose",
+		"Die beiden Endziffern des QNH",
+		"Die Landerichtung, abgerundet auf den missweisenden Steuerkurs",
+		"Die Temperatur",
+	],
+	[
+		"Ein in der Signalfläche oder am Ende der Piste waagerecht ausgelegter und nach rechts abgewinkelter Pfeil in auffallender Farbe bedeutet:",
+		"Nach dem Start und vor der Landung sind Richtungsänderungen nur nach rechts erlaubt",
+		"Rollbewegungen nur nach rechts ausführen",
+		"Rechts neben der Bahn starten und landen",
+		"Vorflugrecht von rechts kommender Luftfahrzeuge beachten",
+	],
+	[
+		"Welche Bedeutung hat ein grünes Dauersignal, das auf ein Luftfahrzeug im Flug gerichtet ist?",
+		"Landung freigegeben",
+		"Auf diesem Flugplatz landen und zum Vorfeld rollen",
+		"Platzrunde fortsetzen, anderes Luftfahrzeug hat Vorflug",
+		"Zum Startflugplatz zurückkehren",
+	],
+	[
+		"Welche Bedeutung hat ein rotes Dauersignal, das auf ein Luftfahrzeug im Flug gerichtet ist?",
+		"Anderes Luftfahrzeug hat Vorflug, Platzrunde fortsetzen",
+		"Zwecks Landung zurückkehren (Lande- und Rollfreigaben werden zum gegebenen Zeitpunkt erteilt)",
+		"Nicht landen, Flugplatz unbenutzbar",
+		"Ungeachtet aller früheren Anweisungen und Freigaben zur Zeit nicht landen",
+	],
+	[
+		"Welche Bedeutung hat ein grünes Blinksignal, das auf ein Luftfahrzeug im Flug gerichtet ist?",
+		"Zwecks Landung zurückkehren (Lande- und Rollfreigaben werden zum gegebenen Zeitpunkt erteilt)",
+		"Landung freigegeben",
+		"Platzrunde fortsetzen, anderes Luftfahrzeug hat Vorflug",
+		"Auf diesem Flugplatz landen und zum Vorfeld rollen",
+	],
+	[
+		"Welche Bedeutung hat ein rotes Blinksignal, das auf ein Luftfahrzeug im Flug gerichtet ist?",
+		"Nicht landen, Flugplatz unbenutzbar",
+		"Platzrunde fortsetzen",
+		"Platzrunde verlassen",
+		"Sofort landen",
+	],
+	[
+		"Welche Bedeutung hat ein weißes Blinksignal, das auf ein Luftfahrzeug im Flug gerichtet ist?",
+		"Auf diesem Flugplatz landen und zum Vorfeld rollen (Lande- und Rollfreigaben werden zum gegebenen Zeitpunkt erteilt)",
+		"Auf diesem Flugplatz nicht landen",
+		"Platzrunde verlassen",
+		"Platzrunde fortsetzen",
+	],
+	[
+		"Welche Bedeutung hat ein roter Feuerwerkskörper, der auf ein Luftfahrzeug im Flug gerichtet ist?",
+		"Ungeachtet aller früheren Anweisungen und Freigaben zur Zeit nicht landen",
+		"Gefahr! Platzrunde sofort verlassen",
+		"Flugbeschränkungsgebiet! Gebiet sofort verlassen",
+		"Gefahrengebiet! Gebiet sofort verlassen",
+	],
+	[
+		"Welche Bedeutung hat ein grünes Dauersignal, das auf ein Luftfahrzeug am Boden gerichtet ist?",
+		"Start freigegeben",
+		"Halt!",
+		"Zum Ausgangspunkt auf dem Flugplatz zurückkehren",
+		"Rollerlaubnis erteilt",
+	],
+	[
+		"Welche Bedeutung hat ein rotes Dauersignal, das auf ein Luftfahrzeug am Boden gerichtet ist?",
+		"Halt!",
+		"Benutzte Landefläche freimachen",
+		"Piste verlassen",
+		"Rollbahn verlassen",
+	],
+	[
+		"Welche Bedeutung hat ein grünes Blinksignal, das auf ein Luftfahrzeug am Boden gerichtet ist?",
+		"Rollerlaubnis erteilt",
+		"Start freigegeben",
+		"Piste frei von Hindernissen",
+		"Zum Ausgangspunkt auf dem Flugplatz zurückrollen",
+	],
+	[
+		"Welche Bedeutung hat ein rotes Blinksignal, das auf ein Luftfahrzeug am Boden gerichtet ist?",
+		"Benutzte Landefläche freimachen",
+		"Halt!",
+		"Start freigegeben",
+		"Zum Ausgangspunkt auf dem Flugplatz zurückrollen",
+	],
+	[
+		"Welche Bedeutung hat ein weißes Blinksignal, das auf ein Luftfahrzeug am Boden gerichtet ist?",
+		"Zum Ausgangspunkt auf dem Flughafen zurückkehren",
+		"Start freigegeben",
+		"Ungeachtet aller früheren Anweisungen und Freigaben zur Zeit nicht rollen und nicht starten",
+		"Benutzte Landefläche freimachen",
+	],
+	[
+		"Flugplatzverkehr bezieht sich auf ...",
+		"den gesamten Verkehr auf dem Rollfeld eines Flugplatzes und alle in der Nähe eines Flugplatzes fliegenden Luftfahrzeuge. Ein Luftfahrzeug ist in der Nähe eines Flugplatzes, wenn es sich unter anderem in einer Platzrunde befindet, in diese einfliegt oder sie verlässt",
+		"alle Luftfahrzeuge, die sich in der Platzrunde befinden",
+		"alle Luftfahrzeuge, die sich auf dem Rollfeld befinden",
+		"den gesamten Verkehr auf dem Rollfeld eines Flugplatzes und alle Luftfahrzeuge, die in die Platzrunde einfliegen",
+	],
+	[
+		"Wann befindet sich ein Luftfahrzeug im “Gegenanflug 16“? Wenn es einen Kurs von ...",
+		"340° fliegt und der Flugplatz links vom Luftfahrzeug liegt",
+		"340° fliegt und der Flugplatz rechts vom Luftfahrzeug liegt",
+		"160° fliegt und der Flugplatz links vom Luftfahrzeug liegt",
+		"160° fliegt und der Flugplatz rechts vom Luftfahrzeug liegt",
+	],
+	[
+		"Richtungsänderungen in der Platzrunde sind normalerweise ...",
+		"in Linkskurven auszuführen",
+		"nach Süden auszuführen",
+		"in Rechtskurven auszuführen",
+		"nach Norden auszuführen",
+	],
+	[
+		"Richtungsänderungen beim An- und Abflug sind normalerweise ...",
+		"in Linkskurven auszuführen",
+		"nach Süden auszuführen",
+		"in Rechtskurven auszuführen",
+		"nach Norden auszuführen",
+	],
+	[
+		"Wessen Signale und Zeichen hat der Pilot auf dem Vorfeld und den Abstellflächen eines Flugplatzes mit Flugverkehrskontrolle zu befolgen? Die ...",
+		"des Flugplatzunternehmers",
+		"des Kontrollturmes",
+		"der Landesluftfahrtbehörde",
+		"des Luftfahrtbundesamtes",
+	],
+	[
+		"Ein Pilot befindet sich auf einem VFR-Flug zu einem Flugplatz mit Flugverkehrskontrolle. Mit dem Kontrollturm kann keine Funkverbindung hergestellt werden. Was muss der Pilot beachten?",
+		"Er muss auf einem Flugplatz außerhalb der Kontrollzone landen. Nur aus flugbetrieblichen Gründen darf der Flug in die CTR fortgesetzt werden",
+		"Er muss in jedem Fall zu dem im Flugplan angegebenen Ausweichflugplatz weiterfliegen",
+		"Er darf in keinem Fall in die Kontrollzone einfliegen",
+		"Er muss eine Blindsendung absetzen und den Flug entsprechend der im Luftfahrthandbuch festgelegten VFR-Einflugstrecke fortsetzen",
+	],
+	[
+		"Bei einem Flug nach Sichtflugregeln hat der Pilot eine Freigabe zum Einflug in die Kontrollzone und Landeanweisungen erhalten und bestätigt. Kurze Zeit danach fällt das Sprechfunkgerät aus. Wie hat sich der Pilot zu verhalten?",
+		"Den Flug entsprechend der Flugverkehrskontrollfreigabe fortsetzen",
+		"Auf einem Flugplatz außerhalb der Kontrollzone landen und eine Landemeldung durchgeben",
+		"Den Flug zu dem im Flugplan angegebenen Ausweichflugplatz fortsetzen",
+		"10 Minuten außerhalb der Kontrollzone kreisen und dann den Anflug fortsetzen",
+	],
+	[
+		"Die Flugsicht wird definiert als die ...",
+		"Sicht in Flugrichtung aus dem Cockpit eines im Flug befindlichen Luftfahrzeuges",
+		"maximale Voraussicht aus dem Cockpit eines Luftfahrzeuges am Boden",
+		"Sicht aus dem Cockpit eines Luftfahrzeuges im Flug zum Erdboden",
+		"mittlere Schrägsicht aus dem Cockpit eines Luftfahrzeuges im Flug",
+	],
+	[
+		"Der horizontale Mindestabstand zu Wolken bei einem VFR-Flug im Luftraum D (CTR) beträgt:",
+		"1500 m",
+		"300 m",
+		"1500 ft",
+		"300 ft",
+	],
+	[
+		"Im Luftraum E unterhalb FL 100 sind Flüge nach Sichtflugregeln so durchzuführen, dass ...",
+		"der Pilot eine Flugsicht von mindestens 5 km hat und das Luftfahrzeug von den Wolken in waagerechter Richtung mindestens 1500 m, in senkrechter Richtung mindestens 300 m (1000 ft) Abstand hält",
+		"der Pilot eine Flugsicht von mindestens 8 km hat und das Luftfahrzeug von den Wolken in waagerechter Richtung mindestens 500 m, in senkrechter Richtung mindestens 300 m (1000 ft) Abstand hält",
+		"der Pilot eine Flugsicht von mindestens 5 km hat und das Luftfahrzeug von den Wolken in waagerechter Richtung mindestens 300 m, in senkrechter Richtung mindestens 300 ft Abstand hält",
+		"der Pilot eine Flugsicht von mindestens 8 km hat und das Luftfahrzeug von den Wolken in waagerechter Richtung mindestens 1500 m, in senkrechter Richtung mindestens 300 m (1000 ft) Abstand hält",
+	],
+	[
+		"Bei Flügen nach Sichtflugregeln im Luftraum G in und unter 3000 ft AMSL/1000 ft AGL mit einer Geschwindigkeit von 140 kt IAS oder weniger, müssen folgende Voraussetzungen erfüllt sein:",
+		"Erdsicht, Flugsicht mindestens 1500 m, frei von Wolken",
+		"Bodensicht mindestens 1500 m, Wolken dürfen nicht berührt werden",
+		"Bodensicht mindestens 5 km, Hauptwolkenuntergrenze mindestens 1500 ft",
+		"Flugsicht mindestens 1500 m, Abstand von Wolken in waagerechter Richtung 300 m, in senkrechter Richtung 2000 ft",
+	],
+	[
+		"Ist für einen VFR-Flug im Luftraum G in und unter 3000 ft AMSL/1000 ft AGL ein bestimmter Wolkenabstand vorgeschrieben?",
+		"Nein",
+		"Ja, mindestens 1500 m in waagerechter und mindestens 1000 ft in senkrechter Richtung",
+		"Ja, mindestens 1500 m in waagerechter Richtung",
+		"Ja, mindestens 1,5 NM in waagerechter Richtung",
+	],
+	[
+		"In welchem Luftraum können Sonderflüge nach Sichtflugregeln durchgeführt werden?",
+		"Im Luftraum D (CTR)",
+		"In den Lufträumen C und D",
+		"Im Luftraum E",
+		"Nur in FL 100 und darüber",
+	],
+	[
+		"Wann ist mit der Standard-Höhenmessereinstellung bei Flügen nach den Sichtflugregeln zu fliegen?",
+		"Bei Flügen oberhalb 5000 ft AMSL oder 2000 ft AGL, sofern diese Flughöhe 5000 ft AMSL überschreitet",
+		"Bei Flügen unter 5000 ft AMSL",
+		"Bei Flügen bis zu 5000 ft AGL",
+		"Hierfür gelten unterschiedliche Vorschriften",
+	],
+	[
+		"Bei VFR-Flügen oberhalb einer Höhe von 5000 ft AMSL oder 2000 ft AGL, sofern diese Flughöhe 5000 ft AMSL überschreitet, ist der Höhenmesser einzustellen auf:",
+		"1013,2 hPa",
+		"QFF",
+		"QNH",
+		"QFE",
+	],
+	[
+		"Bei VFR-Flügen bis zu einer Höhe von 5000 ft AMSL oder 2000 ft AGL, sofern diese Flughöhe 5000 ft AMSL überschreitet, ist der Höhenmesser einzustellen auf:",
+		"das QNH des zur Flugstrecke nächstgelegenen Flugplatzes mit Flugverkehrskontrolle",
+		"das QNH des nächstgelegenen Flughafens",
+		"das QFE des nächstgelegenen Flugplatzes mit Flugverkehrskontrolle",
+		"1013,2 hPa",
+	],
+	[
+		"Woraus ergibt sich die Festlegung des Sektors für die Halbkreisflughöhen nach Sichtflugregeln? Aus dem ...",
+		"missweisenden Kurs über Grund",
+		"rechtweisenden Kartenkurs",
+		"Kompasskurs",
+		"rechtweisenden Kurs über Grund",
+	],
+	[
+		"Welche Flugfläche/n ist / sind bei einem VFR-Flug nach Standard-Höhenmessereinstellung bei einem missweisenden Kurs über Grund von 135° einzuhalten?",
+		"55, 75, 95",
+		"65, 85, 105",
+		"50, 70, 90",
+		"60, 80, 100",
+	],
+	[
+		"Welche Fluginformationsgebiete (FIR) unter deutscher Zuständigkeit gibt es im unteren Luftraum?",
+		"Bremen, Langen, München",
+		"Berlin, Hamburg, Frankfurt, München",
+		"Bremen, Berlin, Hannover, Düsseldorf, Stuttgart",
+		"Berlin, Hannover, Maastricht, Rhein, Langen",
+	],
+	[
+		"Eine Zone mit Funkkommunikationspflicht (RMZ) reicht bis zu einer Höhe von:",
+		"1000 ft AGL",
+		"1000 ft AMSL",
+		"3000 ft AMSL",
+		"2500 ft AGL",
+	],
+	[
+		"Eine Zone mit Funkkommunikationspflicht (RMZ) reicht vom Boden bis …",
+		"1000 ft AGL",
+		"1700 ft AGL",
+		"3000 ft AGL",
+		"2500 ft AGL",
+	],
+	[
+		"In Deutschland sind Kontrollzonen klassifiziert ...",
+		"als Luftraum D",
+		"überwiegend als Luftraum D, nur einige als Luftraum C",
+		"um Flughäfen als Luftraum C, die übrigen als Luftraum D",
+		"um Militärflugplätze als Luftraum B, um Flughäfen als Luftraum C, alle übrigen als Luftraum D",
+	],
+	[
+		'Eine mit "HX" gekennzeichnete Kontrollzone kann außerhalb der Betriebszeit ohne Freigabe durchflogen werden, wenn der Pilot ...',
+		"sich vor dem Durchflug von der zuständigen Flugplatzkontrolle (TWR), außerhalb der TWR-Betriebszeiten beim Flugplatzinformationsdienst (INFO), oder beim Fluginformationsdienst (FIS) die Nichtwirksamkeit bestätigen lässt",
+		"eine schriftliche Zustimmung des Flugplatzkommandanten erhalten hat",
+		"sich vor Antritt des Fluges bei der militärischen Flugleitung die Nichtwirksamkeit nochmals bestätigen lässt",
+		"sich über die Nichtwirksamkeit im Luftfahrthandbuch informiert",
+	],
+	[
+		"Welche Luftraumklassen sind kontrollierter Luftraum?",
+		"C, D, E",
+		"C, D, F",
+		"E, F, G",
+		"C, E, F",
+	],
+	[
+		"Der Luftraum E erstreckt sich, soweit nicht anders klassifiziert ...",
+		"ab 1000 ft AGL und 1700 ft AGL, ansonsten ab 2500 ft AGL bis FL 100",
+		"ab 1000 ft und 1700 ft AGL, ansonsten ab 5000 ft AMSL bis FL 200",
+		"von 1000 ft und 1700 ft AGL bis 5000 ft AMSL",
+		"ab 1000 ft und 1700 ft AGL, ansonsten ab 2500 ft AGL bis FL 200",
+	],
+	[
+		'Ein mit "ED-R..." gekennzeichnetes Gebiet ist ein ...',
+		"Gebiet mit Flugbeschränkungen",
+		"Gefahrengebiet",
+		"Sperrgebiet",
+		"Segelflugbeschränkungsgebiet",
+	],
+	[
+		'Ein mit "ED-D..." gekennzeichnetes Gebiet ist ein ...',
+		"Gefahrengebiet",
+		"Gebiet mit Flugbeschränkungen",
+		"Truppenübungsplatz",
+		"Sperrgebiet",
+	],
+	[
+		"Wann müssen Luftfahrzeuge für Überlandflüge nach Sichtflugregeln mit einem UKW-Sende- und Empfangsgerät ausgerüstet sein?",
+		"Stets",
+		"Nur bei Flügen von und zu Flugplätzen ohne Flugverkehrskontrolle",
+		"Nur bei Auslandsflügen",
+		"Nur bei Flügen zu kontrollierten Flugplätzen",
+	],
+	[
+		"VFR-Flüge über geschlossenen Wolkendecken dürfen durchgeführt werden:",
+		"wenn das Luftfahrzeug u.a. mit einem UKW-Sende-/Empfangsgerät und einer VOR-Navigations-Empfangsanlage oder mit einem automatischen Funkpeilgerät (ADF) ausgerüstet ist",
+		"grundsätzlich nicht",
+		"nur mit einer CVFR-Berechtigung",
+		"nur nach Freigabe durch die Flugverkehrskontrolle",
+	],
+	[
+		"Bei VFR-Flügen müssen Luftfahrzeuge mit einem Transponder ausgerüstet sein …",
+		"in den Lufträumen C sowie D (nicht Kontrollzone)",
+		"in den Lufträumen C sowie G",
+		"nicht erforderlich",
+		"in den Lufträumen G sowie D (nicht Kontrollzone)",
+	],
+	[
+		"Welcher Mode/Code muss von motorgetriebenen Luftfahrzeugen bei VFR-Flügen oberhalb 5000 ft AMSL oder oberhalb von 3500 ft AGL, wobei der höhere Wert maßgebend ist, unaufgefordert geschaltet werden?",
+		"A/C 7000",
+		"Der Transponder darf unaufgefordert nicht geschaltet werden",
+		"A/C 7600",
+		"A/C 7700",
+	],
+	[
+		"Beim Sinkflug von FL 85 auf Flughöhe 3500 ft AMSL hat der Pilot eines motorgetriebenen Luftfahrzeuges vor Erreichen der neuen Reiseflughöhe den Höhenmesser und den Transponder wie folgt einzustellen:",
+		"QNH einstellen und den Mode/Code A/C 7000 beibehalten",
+		'QNH 1013,2 hPa einstellen und Transponder auf "STAND-BY" schalten',
+		"QNH einstellen und Mode/Code A/C 7600 beibehalten",
+		"1013,2 hPa einstellen und Mode/Code A/C 7600 einschalten",
+	],
+	[
+		"In Gebieten mit Transponderpflicht (TMZ) müssen Luftfahrzeuge bei VFR-Flügen mit einem ...",
+		"Transponder mit automatischer Höhenübermittlung ausgerüstet sein und den Code 7000 unaufgefordert abstrahlen",
+		"Transponder mit automatischer Höhenübermittlung ausgerüstet sein und den Code 7500 unaufgefordert abstrahlen",
+		"Transponder mit automatischer Höhenübermittlung ausgerüstet sein und den Code 7600 unaufgefordert abstrahlen",
+		"Transponder mit automatischer Höhenübermittlung ausgerüstet sein und den Code 7700 unaufgefordert abstrahlen",
+	],
+	[
+		'Was versteht man unter dem Begriff "EIGENPEILUNG"?',
+		"Standortbestimmung durch bordeigene Navigationsempfangsanlagen",
+		"Terrestrische Navigation",
+		"Standortbestimmung durch bodenseitigen Einsatz von Radar",
+		"Kreuzpeilung mittels Peilfunkstellen",
+	],
+	[
+		"Mit welcher Navigationsfunkanlage kann Fremdpeilung durchgeführt werden? Mit einer ...",
+		"UKW-Peilstelle (VDF)",
+		"VOR/DME-Anlage",
+		"NDB-Anlage",
+		"TACAN-Anlage",
+	],
+	[
+		"Die Kennung eines UKW-Drehfunkfeuers (VOR) besteht in der Regel aus ...",
+		"drei Buchstaben im Morsecode",
+		"einem Blinkzeichen",
+		"einem Rufnamen",
+		"zwei Buchstaben im Morsecode",
+	],
+	[
+		'Ein VOR-Anzeigegerät ist ein "Kommandogerät", wenn mit ...',
+		"FROM-Anzeige von der VOR-Anlage abgeflogen wird",
+		"TO-Anzeige von der VOR-Anlage abgeflogen wird",
+		"OFF-Anzeige die VOR-Anlage angeflogen wird",
+		"FROM-Anzeige die VOR-Anlage angeflogen wird",
+	],
+	[
+		"Wovon ist die Empfangsreichweite eines UKW-Drehfunkfeuers (VOR) abhängig? Von ...",
+		"der Flughöhe des Luftfahrzeuges",
+		"der Art des Luftfahrzeugmusters",
+		"der Geschwindigkeit des Luftfahrzeuges",
+		"dem Kurs des Luftfahrzeuges",
+	],
+	[
+		'Der mit "OBS" gekennzeichnete Knopf am VOR-Anzeigegerät ist der ...',
+		"Kurswähler",
+		"Frequenzwahlschalter",
+		"Lautstärkeregler",
+		"TO/FROM-Umschalter",
+	],
+	[
+		"Auf welche Richtung ist das Radial einer VOR-Station bezogen? Auf ...",
+		"missweisend Nord",
+		"QTE",
+		"die Flugzeuglängsachse",
+		"rechtweisend Nord",
+	],
+	[
+		"UKW-Drehfunkfeuer (VOR) arbeiten im Frequenzbereich von ...",
+		"108 MHz bis 117,975 MHz",
+		"200 MHz bis 1750 MHz",
+		"108 MHz bis 112 MHz",
+		"118 MHz bis 137 MHz",
+	],
+	[
+		'Wann wechselt am VOR-Anzeigegerät die Richtungsanzeige von "TO" auf "FROM"?',
+		"Beim Überfliegen der VOR-Station",
+		"Bei einer Änderung des Steuerkurses um 90°",
+		"Bei einer Änderung des Steuerkurses um 180°",
+		"Beim Betätigen des IDENT-Knopfes",
+	],
+	[
+		'Ein Luftfahrzeug befindet sich im Anflug auf eine VOR-Station. Eingestellt ist 320° bei einer Richtungsanzeige "TO". Der Ablageanzeiger (CDI) wandert nach links aus. Wo befindet sich das Luftfahrzeug?',
+		"Rechts vom Radial",
+		"Links vom Radial",
+		"Auf dem Radial",
+		"Südlich des Radiales",
+	],
+	[
+		"Ein mit einer VOR-Navigations-Empfangsanlage ausgerüstetes Luftfahrzeug will eine VOR-Station auf dem kürzesten Weg anfliegen. Welche Aussage ist richtig? Der Kurswähler wird so lange gedreht, bis die ...",
+		'vertikale Nadel in Mittelstellung ist und der Richtungsanzeiger "TO" anzeigt. Der am Kurswähler angezeigte Zahlenwert gibt den direkten Kurs zur Station an',
+		'vertikale Nadel in Mittelstellung ist und der Richtungsanzeiger "FROM" anzeigt. Der am Kurswähler angezeigte Zahlenwert gibt den direkten Kurs zur Station an',
+		'horizontale Nadel in der Mitte steht und die "OFF-Anzeige" verschwindet. Der am Kurswähler angezeigte Zahlenwert gibt immer den direkten Kurs zur Station an',
+		'vertikale Nadel bei einer "TO-Anzeige" voll links ausschlägt. Der am Kurswähler angezeigte Zahlenwert stellt die kürzeste Verbindung zur Station dar',
+	],
+	[
+		"Wie groß ist die Kursablage pro Punkt (dot) auf dem VOR-Anzeigegerät?",
+		"2°",
+		"10°",
+		"5°",
+		"1°",
+	],
+	[
+		'Auf der ICAO-Luftfahrtkarte 1:500000 finden Sie die Angabe "TRENT 108,45 TRT". Um welche Art von Funknavigationsanlage handelt es sich dabei? Um ein(e) ...',
+		"UKW-Drehfunkfeuer (VOR)",
+		"Peilfunkanlage (VDF)",
+		"Ungerichtetes Funkfeuer (NDB)",
+		"Instrumenten-Landesystem (ILS)",
+	],
+	[
+		"Beim Anflug auf eine VOR-Station erscheint kurz vor der berechneten Überflugzeit die OFF-Flagge. Was ist wahrscheinlich die Ursache?",
+		"Das Flugzeug befindet sich über der Station",
+		"Der VOR-Empfänger ist ausgefallen",
+		"Die VOR-Station ist ausgefallen",
+		"Die TO/FROM-Anzeige ist defekt",
+	],
+	[
+		"Die Richtung eines VOR-Leitstrahls (Radial) entspricht dem ...",
+		"QDR",
+		"QDM",
+		"QTE",
+		"QUJ",
+	],
+	[
+		"Welche Kennung hat ein ungerichtetes Funkfeuer (NDB)?",
+		"Zwei oder drei Buchstaben im Morsecode",
+		"Zwei oder drei Ziffern im Morsecode",
+		"Ziffern und Buchstaben im Morsecode",
+		"Eine Sprachkennung",
+	],
+	[
+		"Ungerichtete Funkfeuer (NDB) haben eine festgelegte Betriebsentfernung von ...",
+		"15 NM bis 100 NM",
+		"höchstens 25 NM",
+		"mindestens 60 NM",
+		"weit über 100 NM",
+	],
+	[
+		"Ungerichtete Funkfeuer (NDB) arbeiten im ...",
+		"LW- und MW-Bereich",
+		"UKW-Bereich",
+		"KW-Bereich",
+		"UHF-Bereich",
+	],
+	[
+		"Mit welcher bordseitigen Navigationsempfangsanlage kann ein NDB empfangen werden? Mit einem ...",
+		"Funkkompass (ADF)",
+		"Marker-Empfänger",
+		"VOR-Empfänger",
+		"ILS-Empfänger",
+	],
+	[
+		"Welcher Winkel wird am Anzeigegerät (RBI) des Funkkompasses (ADF) angezeigt? Der Winkel zwischen ...",
+		"Flugzeuglängsachse und der Richtung zu dem eingestellten NDB",
+		"recht- und missweisend Nord",
+		"geographisch Nord und dem eingestellten NDB",
+		"missweisend Nord und der Flugzeuglängsachse",
+	],
+	[
+		"Der missweisende Steuerkurs eines Luftfahrzeuges beträgt 155°. Die Bezugspeilung ist 025°. Wie groß ist das QDM?",
+		"180°",
+		"360°",
+		"130°",
+		"025°",
+	],
+	[
+		"Welche Ausrüstung an Bord eines Luftfahrzeuges ist erforderlich, um mit Hilfe von Peilfunkstellen navigieren zu können? Ein ...",
+		"UKW-Sprechfunkgerät",
+		"Transponder",
+		"Funkkompass",
+		"VOR-Empfänger",
+	],
+	[
+		"Ein Luftfahrzeug fliegt einen missweisenden Steuerkurs von 090°. Das übermittelte QDR beträgt 180°. Wo liegt die Peilfunkstelle?",
+		"Links vom Flugweg",
+		"Rechts vom Flugweg",
+		"Voraus",
+		"Südlich vom Flugweg",
+	],
+	[
+		"Von einer mit einem UKW-Peiler ausgestatteten Bodenfunkstelle erhält man ein QDM von 225°. Wo befindet sich das Luftfahrzeug?",
+		"Nordöstlich der Station",
+		"Südwestlich der Station",
+		"Südöstlich der Station",
+		"Nordwestlich der Station",
+	],
+	[
+		"Wozu dient Sekundärradar in der Flugsicherung? Zur ...",
+		"Identifizierung von Luftfahrzeugen und Erlangung zusätzlicher Informationen über VFR-Flüge",
+		"frühzeitigen Erkennung von Schlechtwettergebieten",
+		"Erkennung der wahren Eigengeschwindigkeit von Luftfahrzeugen",
+		"Standortbestimmung durch den Piloten",
+	],
+	[
+		"Welche Angaben kann ein Pilot von einer Flugverkehrskontrollstelle mit Radar erhalten? Angaben über ...",
+		"den Standort des Luftfahrzeuges",
+		"die wahre Eigengeschwindigkeit",
+		"die Fluglage des Luftfahrzeuges",
+		"den beabsichtigten Flugweg",
+	],
+	[
+		'Die Abkürzung "GPS" bedeutet in der Luftfahrt:',
+		"Globales Positionsbestimmungssystem",
+		"Geographisches Punktsystem",
+		"Großkreis-Planungsschablone",
+		"GAT-Positionierungssystem",
+	],
+	[
+		'Die Abkürzung "GNSS" bedeutet in der Luftfahrt:',
+		"Globales Satellitennavigationssystem",
+		"Weltweites System zur Vereinheitlichung der terrestrischen Navigation",
+		"Verfahren zur Positionierung von Flugzeugen auf dem Vorfeld",
+		"Bodenabhängiges Funknavigationssystem",
+	],
+	[
+		"Wozu dienen GPS-Empfänger an Bord von Luftfahrzeugen?",
+		"Der Auswertung und Anzeige von Satellitensignalen zu navigatorischen Zwecken (z.B. Position, Kurs, Geschwindigkeit, Entfernung)",
+		"Der Standortbestimmung mittels bordeigenem Radar",
+		"Der Bestimmung des Abstandes zu anderen Luftfahrzeugen",
+		"Der Auswertung von Signalen bodenseitiger Funknavigationsanlagen zur Positions- und Kursbestimmung",
+	]
+];
+intIdxQA = 0;
+
+function fnOnLoad() {
+	intIdxQA = lstQA.length;
+	fnNext();
+}
+
+function fnNext() {
+	if (document.getElementById("btnSubmit").textContent == "Prüfen") {
+		document.getElementById("lblAnswerA").classList.add("reveal");
+		document.getElementById("lblAnswerB").classList.add("reveal");
+		document.getElementById("lblAnswerC").classList.add("reveal");
+		document.getElementById("lblAnswerD").classList.add("reveal");
+		document.getElementById("btnSubmit").textContent = "Weiter";
+		intIdxQA = intIdxQA + 1;
+	} else {
+		document.getElementById("radAnswerA").checked = false;
+		document.getElementById("radAnswerB").checked = false;
+		document.getElementById("radAnswerC").checked = false;
+		document.getElementById("radAnswerD").checked = false;
+		
+		document.getElementById("lblAnswerA").classList.remove("reveal");
+		document.getElementById("lblAnswerB").classList.remove("reveal");
+		document.getElementById("lblAnswerC").classList.remove("reveal");
+		document.getElementById("lblAnswerD").classList.remove("reveal");
+		
+		if ( intIdxQA >= lstQA.length ) {
+			for (let i = lstQA.length - 1; i > 0; i--) {
+				j = Math.floor(Math.random() * (i+1));
+				tmp = lstQA[i];
+				lstQA[i] = lstQA[j];
+				lstQA[j] = tmp;
+			}
+			document.getElementById("prgProgress").setAttribute("max",lstQA.length-1);
+			intIdxQA = 0;
+		}
+		
+		document.getElementById("prgProgress").setAttribute("value",intIdxQA);
+		document.getElementById("prgProgress").innerHtml = intIdxQA + "/" + lstQA.length;
+		
+		document.getElementById("txtQuestion").innerHTML = lstQA[intIdxQA][0];
+		if (lstQA[intIdxQA].length > 5) {
+			document.getElementById("imgQuestion").setAttribute("src",lstQA[intIdxQA][5]);
+			document.getElementById("imgQuestion").setAttribute("class","imgShow");
+		} else {
+			document.getElementById("imgQuestion").removeAttribute("src");
+			document.getElementById("imgQuestion").setAttribute("class","imgHide");
+		}
+		
+		// construct answer index array and shuffle it
+		var lstA = [];
+		for (let i = 0; i < 4; i++) {
+			lstA[i] = 1+i;
+		}
+		for (let i = lstA.length - 1; i > 0; i--) {
+			j = Math.floor(Math.random() * (i+1));
+			tmp = lstA[i];
+			lstA[i] = lstA[j];
+			lstA[j] = tmp;
+		}
+		document.getElementById("lblAnswerA").innerHTML = lstQA[intIdxQA][lstA[0]];
+		document.getElementById("lblAnswerB").innerHTML = lstQA[intIdxQA][lstA[1]];
+		document.getElementById("lblAnswerC").innerHTML = lstQA[intIdxQA][lstA[2]];
+		document.getElementById("lblAnswerD").innerHTML = lstQA[intIdxQA][lstA[3]];
+		
+		document.getElementById("lblAnswerA").setAttribute("class","answer" + (lstA[0] == 1) );
+		document.getElementById("lblAnswerB").setAttribute("class","answer" + (lstA[1] == 1) );
+		document.getElementById("lblAnswerC").setAttribute("class","answer" + (lstA[2] == 1) );
+		document.getElementById("lblAnswerD").setAttribute("class","answer" + (lstA[3] == 1) );
+		
+		document.getElementById("btnSubmit").textContent = "Prüfen";
+	}
+}
+	</script>
+	<style>
+		body {
+			font-family: "ui-sans-serif";
+			background: black;
+			color: lightgrey;
+			text-align: center;
+		}
+		
+		#frmAnswers input[type="radio"]{
+			clip: rect(0 0 0 0);
+			clip-path: inset(50%);
+			height: 1px;
+			overflow: hidden;
+			position: absolute;
+			white-space: nowrap;
+			width: 1px;
+		}
+		
+		.answertrue, .answerfalse {
+			display: block;
+			margin: 0.5em auto;
+			padding: 0.5em;
+			border: 0.25em solid #101010;
+			background-color: #202020;
+			background-image: linear-gradient(#202020, #101010);
+			border-radius: 0.5em;
+		}
+		
+		#frmAnswers input:checked + label {
+			border: 0.25em solid white;
+		}
+		
+		#frmAnswers input:checked + label.answertrue.reveal {
+			border: 0.25em solid green;
+		}
+		
+		#frmAnswers input:checked + label.answerfalse.reveal {
+			border: 0.25em solid red;
+		}		
+		
+		.answertrue.reveal {
+			background: #70d070;
+			color: #004000;
+			border-color: #004000;
+		}
+		
+		.answerfalse.reveal {
+			background: #000000;
+			border-color: #000000;
+			color: #404040;
+			text-decoration: line-through;
+		}
+		
+		button {
+			background-color: #000040;
+			background-image: linear-gradient(#000080,#000040);
+			border: 0.25em solid #000040;
+			color: white;
+			margin: 2em auto;
+			padding: 1em 2em;
+			width: 100%;
+			display: block;
+			border-radius: 0.5em;
+		}
+		
+		footer {
+			font-size: 80%;
+			margin-top: 2em;
+		}
+		
+		footer p {
+			margin: 1em auto;
+		}
+
+		#prgProgress {
+			-webkit-appearance: none;
+			appearance: none;
+			height: 0.25em;
+			width: 100%;
+		}
+
+		#prgProgress[value]::-webkit-progress-bar {
+			background: #202020;
+		}
+		#prgProgress[value]::-webkit-progress-value {
+			background: #00ff00;
+		}
+
+		.imgHide {
+			width: 10%;
+			margin: auto;
+			display:none;
+		}
+		.imgShow {
+			width: 10%;
+			margin: auto;
+			display:block;
+		}
+	</style>
+	<title>BZF-Trainer</title>
+</head>
+
+<body onload="fnOnLoad()">
+	<header>
+		<h2>BZF-Trainer</h2>
+		<h6>(Fragen offiziell gültig ab 01.09.2023)</h6>
+	</header>
+	<main>
+		<div>
+			<progress id="prgProgress" value=10 max=200>10/200</progress>
+			<p id=txtQuestion></p>
+			<img id=imgQuestion>
+		</div>
+		<form id="frmAnswers">
+			<input id=radAnswerA type=radio name=radAnswer value="A">
+			<label id=lblAnswerA for=radAnswerA>A</label>
+			<input id=radAnswerB type=radio name=radAnswer value="B">
+			<label id=lblAnswerB for=radAnswerB>B</label>
+			<input id=radAnswerC type=radio name=radAnswer value="C">
+			<label id=lblAnswerC for=radAnswerC>C</label>
+			<input id=radAnswerD type=radio name=radAnswer value="D">
+			<label id=lblAnswerD for=radAnswerD>D</label>
+		</form>
+		<div>
+			<button id=btnSubmit type=button onclick="fnNext()">Weiter</button>
+		</div>
+	</main>
+	<footer>
+		<p>Software: 2023-03-27 (C) <a href="https://code.abelbeck.info/">Frank Abelbeck</a> &mdash; <a href="https://www.gnu.org/licenses/gpl-3.0-standalone.html">GPL 3.0</a></p>
+		<p>Fragen: 2023 (C) <a href="https://www.bundesnetzagentur.de/DE/Fachthemen/Telekommunikation/Frequenzen/Funkzeugnisse/Flugfunk/start.html">Bundesnetzagentur</a></p>
+		<p>Nur der von der Bundesnetzagentur für Elektrizität, Gas, Telekommunikation, Post und Eisenbahnen herausgegebene 
+Fragen- und Antwortenkatalog in seiner aktuellen Fassung ist verbindlich.</p>
+	</footer>
+</body>
+</html>
